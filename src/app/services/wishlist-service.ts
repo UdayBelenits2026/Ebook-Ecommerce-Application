@@ -11,7 +11,7 @@ import { WishlistItem, WishlistResponse } from '../interface/wishlist-interface'
 export class WishlistService {
   // API
 
-  private readonly baseUrl = 'http://127.0.0.1:8000';
+  private readonly baseUrl = 'https://ebook-ecommerce-backend.onrender.com';
 
   private readonly http = inject(HttpClient);
 

@@ -16,7 +16,7 @@ export class BookDetailsService{
 
 private readonly http=inject(HttpClient);
 
-private readonly api='http://127.0.0.1:8000';
+private readonly api='https://ebook-ecommerce-backend.onrender.com';
 
 getBook(id:number):Observable<ApiResponse<BookDetails>>{
 

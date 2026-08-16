@@ -76,6 +76,7 @@
   <form class="search-box" [class.open]="isSearchOpen()" (submit)="onSearchSubmit($event)">
     <i class="bi bi-search" aria-hidden="true"> </i>
 
+
     <input
       #searchInput
       type="text"
@@ -131,7 +132,7 @@
   <div class="nav-icons" role="navigation" aria-label="Primary actions">
     <!-- MOBILE SEARCH -->
 
-    <button
+    <!-- <button
       class="search-toggle-btn mobile-search-toggle"
       type="button"
       (click)="toggleSearch($event)"
@@ -139,7 +140,7 @@
       [attr.aria-expanded]="isSearchOpen()"
     >
       <i class="bi bi-search"></i>
-    </button>
+    </button> -->
 
     <!-- SEARCH -->
 

@@ -17,7 +17,7 @@ import {
 })
 export class BookService {
 
-  readonly baseUrl = 'http://127.0.0.1:8000';
+  readonly baseUrl = 'https://ebook-ecommerce-backend.onrender.com';
 
   private readonly http = inject(HttpClient);
 

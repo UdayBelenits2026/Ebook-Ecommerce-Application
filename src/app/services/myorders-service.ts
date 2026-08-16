@@ -12,7 +12,7 @@ export class MyordersService {
 
   private readonly http = inject(HttpClient);
 
-  private readonly baseUrl = 'http://127.0.0.1:8000/orders';
+  private readonly baseUrl = 'https://ebook-ecommerce-backend.onrender.com/orders';
 
   /**
    * Get all orders of logged-in customer

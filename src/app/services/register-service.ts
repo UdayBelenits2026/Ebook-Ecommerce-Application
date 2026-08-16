@@ -17,7 +17,7 @@ import {
 })
 export class RegisterService {
 
-  private baseUrl = 'http://127.0.0.1:8000';
+  private baseUrl = 'https://ebook-ecommerce-backend.onrender.com';
 
   constructor(private http: HttpClient) {}
 

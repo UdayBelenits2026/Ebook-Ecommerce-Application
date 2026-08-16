@@ -342,7 +342,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         const data = response?.data;
 
         if (data && data.profile_image) {
-          const apiUrl = 'http://127.0.0.1:8000';
+          const apiUrl = 'https://ebook-ecommerce-backend.onrender.com';
 
           const url = data.profile_image.startsWith('http')
             ? data.profile_image

@@ -16,7 +16,7 @@ export class DashboardService {
   private readonly http = inject(HttpClient);
 
   // Change this according to your backend URL
-  private readonly baseUrl = 'http://127.0.0.1:8000';
+  private readonly baseUrl = 'https://ebook-ecommerce-backend.onrender.com';
 
   constructor() {}
 

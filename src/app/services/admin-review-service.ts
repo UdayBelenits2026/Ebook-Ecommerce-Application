@@ -21,11 +21,11 @@ export class AdminReviewService {
   private readonly http = inject(HttpClient);
 
   private readonly apiUrl =
-    'http://127.0.0.1:8000/admin/reviews';
+    'https://ebook-ecommerce-backend.onrender.com/admin/reviews';
 
   getReviews(): Observable<ApiResponse<Review[]>> {
 
-    const apiRoot = 'http://127.0.0.1:8000';
+    const apiRoot = 'https://ebook-ecommerce-backend.onrender.com';
 
     return this.http.get<ApiResponse<Review[]>>(this.apiUrl).pipe(
       map(res => {

@@ -10,7 +10,7 @@ import { ApiResponse, Address, AddressRequest } from '../interface/address-inter
 export class AddressService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'http://127.0.0.1:8000/addresses';
+  private readonly apiUrl = 'https://ebook-ecommerce-backend.onrender.com/addresses';
 
   // GET ALL ADDRESSES
 

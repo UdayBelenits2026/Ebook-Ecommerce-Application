@@ -14,7 +14,7 @@ export interface CreateBookResponse {
   providedIn: 'root',
 })
 export class AdminBooksService {
-  private readonly API_URL = 'http://127.0.0.1:8000/books';
+  private readonly API_URL = 'https://ebook-ecommerce-backend.onrender.com/books';
   private readonly http = inject(HttpClient);
 
   // Get all books — backend may return either an array or a paginated object { items: [], total }

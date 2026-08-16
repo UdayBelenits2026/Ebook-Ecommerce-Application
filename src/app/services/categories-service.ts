@@ -7,7 +7,7 @@ import { Category, CreateCategoryDto } from '../interface/category-interface';
   providedIn: 'root',
 })
 export class CategoriesService {
-  private readonly apiRoot = 'http://127.0.0.1:8000';
+  private readonly apiRoot = 'https://ebook-ecommerce-backend.onrender.com';
   private readonly baseUrl = `${this.apiRoot}/categories`;
   private readonly http = inject(HttpClient);
 

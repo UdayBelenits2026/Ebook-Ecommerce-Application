@@ -10,7 +10,7 @@ import { ApiResponse, UserProfile, UpdateProfileRequest } from '../interface/mya
 export class MyaccountService {
   private readonly http = inject(HttpClient);
 
-  private readonly baseUrl = 'http://127.0.0.1:8000';
+  private readonly baseUrl = 'https://ebook-ecommerce-backend.onrender.com';
 
   // GET PROFILE
   // GET /users/me

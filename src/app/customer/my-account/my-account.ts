@@ -16,7 +16,7 @@ export class MyAccount implements OnInit {
   private readonly accountService = inject(MyaccountService);
   private readonly cdr = inject(ChangeDetectorRef);
 
-  readonly apiUrl = 'http://127.0.0.1:8000';
+  readonly apiUrl = 'https://ebook-ecommerce-backend.onrender.com';
 
   profile: UserProfile | null = null;
 

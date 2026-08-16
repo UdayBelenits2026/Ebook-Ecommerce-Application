@@ -42,7 +42,7 @@ export class Contactpage implements OnInit {
 
     const payload = this.contactForm.value;
 
-    this.http.post('http://127.0.0.1:8000/contact', payload, {
+    this.http.post('https://ebook-ecommerce-backend.onrender.com/contact', payload, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     }).pipe(
       finalize(() => this.submitting.set(false))

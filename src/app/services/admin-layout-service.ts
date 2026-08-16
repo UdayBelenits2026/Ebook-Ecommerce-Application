@@ -20,7 +20,7 @@ import {
 export class AdminService {
   private readonly http = inject(HttpClient);
 
-  private readonly baseUrl = 'http://127.0.0.1:8000/admin';
+  private readonly baseUrl = 'https://ebook-ecommerce-backend.onrender.com/admin';
 
   constructor() {}
 

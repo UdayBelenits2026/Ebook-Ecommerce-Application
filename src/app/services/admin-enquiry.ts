@@ -12,7 +12,7 @@ import { ApiResponse, ContactMessage } from '../interface/admin-enquiry-interfac
 export class AdminEnquiryService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'http://127.0.0.1:8000/admin';
+  private readonly apiUrl = 'https://ebook-ecommerce-backend.onrender.com/admin';
 
   // GET CONTACT MESSAGES
 

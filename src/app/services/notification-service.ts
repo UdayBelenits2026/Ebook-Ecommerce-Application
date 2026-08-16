@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class NotificationService {
 
-  private baseUrl = 'http://127.0.0.1:8000';
+  private baseUrl = 'https://ebook-ecommerce-backend.onrender.com';
 
   constructor(private http: HttpClient) {}
 

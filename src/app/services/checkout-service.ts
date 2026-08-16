@@ -17,7 +17,7 @@ export class CheckoutService {
   private readonly http = inject(HttpClient);
 
   // BASE URLS
-  private readonly orderUrl = 'http://localhost:8000/orders';
+  private readonly orderUrl = 'https://ebook-ecommerce-backend.onrender.com/orders';
 
   // CASH ON DELIVERY
   // POST /orders/place

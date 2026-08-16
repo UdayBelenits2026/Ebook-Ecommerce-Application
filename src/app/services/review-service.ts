@@ -10,7 +10,7 @@ import { ApiResponse, Review, ReviewSummary, AddReview } from '../interface/revi
 export class ReviewService {
   private readonly http = inject(HttpClient);
 
-  private readonly api = 'http://127.0.0.1:8000/reviews';
+  private readonly api = 'https://ebook-ecommerce-backend.onrender.com/reviews';
 
   // GET REVIEWS
 

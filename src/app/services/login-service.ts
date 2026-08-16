@@ -14,7 +14,7 @@ import {
   providedIn: 'root',
 })
 export class LoginService {
-  base_url = 'http://127.0.0.1:8000';
+  base_url = 'https://ebook-ecommerce-backend.onrender.com';
 
   constructor(private http: HttpClient) {}
 

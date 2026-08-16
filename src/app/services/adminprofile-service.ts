@@ -24,7 +24,7 @@ export class AdminProfileService {
 
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = 'http://127.0.0.1:8000/admin';
+  private readonly apiUrl = 'https://ebook-ecommerce-backend.onrender.com/admin';
 
   getProfile(): Observable<ApiResponse<AdminProfile>> {
 

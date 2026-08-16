@@ -18,11 +18,11 @@ export class AdminUsersService {
 
   private http = inject(HttpClient);
 
-  private api = 'http://127.0.0.1:8000/admin/users';
+  private api = 'https://ebook-ecommerce-backend.onrender.com/admin/users';
 
   getUsers(): Observable<UsersResponse> {
 
-    const apiRoot = 'http://127.0.0.1:8000';
+    const apiRoot = 'https://ebook-ecommerce-backend.onrender.com';
 
     return this.http.get<UsersResponse>(this.api).pipe(
       map(res => {
