@@ -1,0 +1,1563 @@
+/* =========================================================
+   NOT FOUND PAGE
+========================================================= */
+
+.not-found-page {
+
+  min-height: 100vh;
+
+  padding: 16px 48px 45px;
+
+  box-sizing: border-box;
+
+  background:
+    radial-gradient(
+      circle at 0% 0%,
+      rgba(255, 190, 120, .15),
+      transparent 25%
+    ),
+
+    radial-gradient(
+      circle at 100% 10%,
+      rgba(255, 140, 120, .12),
+      transparent 25%
+    ),
+
+    #f7f7f5;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   GAME SECTION
+========================================================= */
+
+.game-section {
+
+  width: 100%;
+
+  margin-bottom: 48px;
+
+  border: 1px solid #ded9e3;
+
+  background: #ffffff;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   GAME HEADER
+========================================================= */
+
+.game-header {
+
+  min-height: 65px;
+
+  padding: 10px 20px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  border-bottom: 1px solid #eeeaf0;
+
+  box-sizing: border-box;
+}
+
+
+.game-title {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+
+.game-title > i {
+
+  width: 38px;
+
+  height: 38px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #eee9fa;
+
+  color: #6255a5;
+
+  font-size: 17px;
+}
+
+
+.game-title h2 {
+
+  margin: 0;
+
+  color: #29242d;
+
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  font-size: 16px;
+
+  font-weight: 750;
+}
+
+
+.game-title p {
+
+  margin: 2px 0 0;
+
+  color: #716b76;
+
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   GAME STATS
+========================================================= */
+
+.game-stats {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  flex-shrink: 0;
+}
+
+
+.game-stat {
+
+  min-width: 65px;
+
+  padding: 5px 10px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 6px;
+
+  background: #f7f5fa;
+
+  box-sizing: border-box;
+}
+
+
+.game-stat span {
+
+  color: #716b76;
+
+  font-size: 9px;
+
+  font-weight: 600;
+}
+
+
+.game-stat strong {
+
+  color: #6255a5;
+
+  font-size: 14px;
+
+  font-weight: 800;
+}
+
+
+/* =========================================================
+   GAME BOARD
+========================================================= */
+
+.game-board {
+
+  position: relative;
+
+  width: 100%;
+
+  height: 220px;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 20% 30%,
+      rgba(98, 85, 165, .04),
+      transparent 20%
+    ),
+
+    radial-gradient(
+      circle at 80% 70%,
+      rgba(98, 85, 165, .04),
+      transparent 20%
+    ),
+
+    #fcfbfd;
+}
+
+
+/* =========================================================
+   START SCREEN
+========================================================= */
+
+.game-start {
+
+  position: absolute;
+
+  inset: 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+}
+
+
+.game-start-icon {
+
+  width: 45px;
+
+  height: 45px;
+
+  margin-bottom: 8px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #eee9fa;
+
+  color: #6255a5;
+
+  font-size: 19px;
+}
+
+
+.game-start h3 {
+
+  margin: 0 0 4px;
+
+  color: #29242d;
+
+  font-size: 15px;
+
+  font-weight: 750;
+}
+
+
+.game-start p {
+
+  margin: 0 0 12px;
+
+  color: #716b76;
+
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   GAME BUTTON
+========================================================= */
+
+.start-game-btn {
+
+  min-height: 36px;
+
+  padding: 8px 17px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 7px;
+
+  border: 1px solid #6255a5;
+
+  border-radius: 7px;
+
+  background: #6255a5;
+
+  color: #ffffff;
+
+  font-size: 12px;
+
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition:
+    transform .2s ease,
+    background .2s ease,
+    box-shadow .2s ease;
+}
+
+
+.start-game-btn:hover {
+
+  background: #554895;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 6px 16px rgba(98, 85, 165, .20);
+}
+
+
+/* =========================================================
+   MOVING GAME BOOK
+========================================================= */
+
+.game-book {
+
+  position: absolute;
+
+  width: 58px;
+
+  height: 58px;
+
+  margin: 0;
+
+  padding: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  transform: translate(-50%, -50%);
+
+  border: 1px solid #6255a5;
+
+  border-radius: 50%;
+
+  background: #eee9fa;
+
+  color: #6255a5;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 6px 16px rgba(98, 85, 165, .18);
+
+  transition:
+    left .18s ease,
+    top .18s ease,
+    transform .15s ease;
+
+  animation:
+    gameBookPulse 1.2s ease-in-out infinite;
+
+  z-index: 5;
+}
+
+
+/*
+ * IMPORTANT:
+ * Only the game book image is styled here.
+ * This prevents the image from affecting the logo.
+ */
+
+.game-book img {
+
+  width: 40px;
+
+  height: 48px;
+
+  display: block;
+
+  object-fit: contain;
+
+  pointer-events: none;
+
+  user-select: none;
+}
+
+
+.game-book:hover {
+
+  transform:
+    translate(-50%, -50%)
+    scale(1.12);
+}
+
+
+.game-book:active {
+
+  transform:
+    translate(-50%, -50%)
+    scale(.92);
+}
+
+
+@keyframes gameBookPulse {
+
+  0%,
+  100% {
+
+    box-shadow:
+      0 6px 16px rgba(98, 85, 165, .18);
+
+  }
+
+  50% {
+
+    box-shadow:
+      0 10px 25px rgba(98, 85, 165, .30);
+
+  }
+
+}
+
+
+/* =========================================================
+   GAME INSTRUCTION
+========================================================= */
+
+.game-instruction {
+
+  position: absolute;
+
+  bottom: 10px;
+
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  padding: 5px 10px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  border-radius: 5px;
+
+  background: rgba(255, 255, 255, .90);
+
+  color: #716b76;
+
+  font-size: 9px;
+
+  white-space: nowrap;
+
+  pointer-events: none;
+
+  z-index: 10;
+}
+
+
+/* =========================================================
+   GAME OVER
+========================================================= */
+
+.game-over {
+
+  position: absolute;
+
+  inset: 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+}
+
+
+.game-over-icon {
+
+  width: 45px;
+
+  height: 45px;
+
+  margin-bottom: 8px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #eee9fa;
+
+  color: #6255a5;
+
+  font-size: 18px;
+}
+
+
+.game-over h3 {
+
+  margin: 0 0 5px;
+
+  color: #29242d;
+
+  font-size: 16px;
+
+  font-weight: 750;
+}
+
+
+.game-over p {
+
+  margin: 0 0 12px;
+
+  color: #716b76;
+
+  font-size: 12px;
+}
+
+
+.game-over p strong {
+
+  color: #6255a5;
+
+  font-size: 16px;
+}
+
+
+/* =========================================================
+   ERROR LAYOUT
+========================================================= */
+
+.error-layout {
+
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(220px, 1fr)
+    minmax(400px, 1.2fr)
+    minmax(220px, 1fr);
+
+  gap: 24px;
+
+  align-items: stretch;
+}
+
+
+/* =========================================================
+   COMMON ERROR CARDS
+========================================================= */
+
+.logo-section,
+.error-section,
+.ebook-section {
+
+  min-height: 350px;
+
+  border: 1px solid #ded9e3;
+
+  background: #ffffff;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   LEFT LOGO
+========================================================= */
+
+.logo-section {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 30px;
+}
+
+
+.logo-card {
+
+  width: 100%;
+
+  height: 100%;
+
+  min-height: 290px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+
+.ebook-logo {
+
+  width: 150px;
+
+  height: 150px;
+
+  display: block;
+
+  object-fit: contain;
+
+  animation:
+    logoFloat 3.5s ease-in-out infinite;
+
+  filter:
+    drop-shadow(
+      0 12px 20px
+      rgba(98, 85, 165, .15)
+    );
+}
+
+
+@keyframes logoFloat {
+
+  0% {
+
+    transform:
+      translateY(0)
+      rotate(0deg);
+
+  }
+
+  50% {
+
+    transform:
+      translateY(-10px)
+      rotate(-2deg);
+
+  }
+
+  100% {
+
+    transform:
+      translateY(0)
+      rotate(0deg);
+
+  }
+
+}
+
+
+/* =========================================================
+   CENTER ERROR
+========================================================= */
+
+.error-section {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 35px 30px;
+}
+
+
+.error-content {
+
+  width: 100%;
+
+  max-width: 500px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  text-align: center;
+}
+
+
+.small-error-label {
+
+  margin-bottom: 10px;
+
+  color: #716b76;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  letter-spacing: 3px;
+}
+
+
+.error-code {
+
+  color: #554895;
+
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  font-size: 100px;
+
+  font-weight: 900;
+
+  line-height: .85;
+
+  letter-spacing: -7px;
+
+  text-shadow:
+    0 10px 25px rgba(85, 72, 149, .12);
+}
+
+
+/* =========================================================
+   ERROR DIVIDER
+========================================================= */
+
+.error-divider {
+
+  width: 190px;
+
+  margin: 20px 0;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+}
+
+
+.error-divider span {
+
+  flex: 1;
+
+  height: 1px;
+
+  background: #ddd8e2;
+}
+
+
+.error-divider i {
+
+  width: 30px;
+
+  height: 30px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #eee9fa;
+
+  color: #6255a5;
+
+  font-size: 13px;
+}
+
+
+.error-section h1 {
+
+  margin: 0 0 12px;
+
+  color: #29242d;
+
+  font-size: 28px;
+
+  font-weight: 800;
+}
+
+
+.error-section p {
+
+  max-width: 410px;
+
+  margin: 0;
+
+  color: #716b76;
+
+  font-size: 13px;
+
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   ERROR BUTTONS
+========================================================= */
+
+.not-found-actions {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  margin-top: 24px;
+}
+
+
+.home-btn,
+.back-btn {
+
+  min-width: 135px;
+
+  min-height: 42px;
+
+  padding: 9px 17px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 7px;
+
+  border-radius: 7px;
+
+  font-size: 13px;
+
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    background .2s ease,
+    border-color .2s ease;
+}
+
+
+.home-btn {
+
+  border: 1px solid #6255a5;
+
+  background: #6255a5;
+
+  color: #ffffff;
+}
+
+
+.home-btn:hover {
+
+  background: #554895;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 7px 18px rgba(98, 85, 165, .22);
+}
+
+
+.back-btn {
+
+  border: 1px solid #ded9e3;
+
+  background: #ffffff;
+
+  color: #29242d;
+}
+
+
+.back-btn:hover {
+
+  background: #000000;
+
+  border-color: #000000;
+
+  color: #ffffff;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 7px 18px rgba(31, 25, 38, .10);
+}
+
+
+/* =========================================================
+   HELPER
+========================================================= */
+
+.not-found-help {
+
+  margin-top: 20px;
+
+  padding: 9px 14px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+
+  border-radius: 6px;
+
+  background: #000000;
+
+  color: #ffffff;
+
+  font-size: 10px;
+}
+
+
+.not-found-help i {
+
+  flex-shrink: 0;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   RIGHT EBOOK
+========================================================= */
+
+.ebook-section {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  flex-direction: column;
+
+  padding: 25px;
+}
+
+
+.ebook-brand {
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+
+.ebook-letter {
+
+  display: block;
+
+  color: #554895;
+
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  font-size: 34px;
+
+  font-weight: 900;
+
+  line-height: .95;
+
+  animation:
+    letterFloat 2.5s ease-in-out infinite;
+}
+
+
+.ebook-letter:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.ebook-letter:nth-child(2) {
+  animation-delay: .12s;
+}
+
+.ebook-letter:nth-child(3) {
+  animation-delay: .24s;
+}
+
+.ebook-letter:nth-child(4) {
+  animation-delay: .36s;
+}
+
+.ebook-letter:nth-child(5) {
+  animation-delay: .48s;
+}
+
+
+@keyframes letterFloat {
+
+  0%,
+  100% {
+
+    transform: translateX(0);
+
+    text-shadow:
+      0 3px 8px rgba(98, 85, 165, .08);
+
+  }
+
+  50% {
+
+    transform: translateX(4px);
+
+    text-shadow:
+      0 5px 15px rgba(98, 85, 165, .22);
+
+  }
+
+}
+
+
+.ebook-tagline {
+
+  margin-top: 18px;
+
+  color: #716b76;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  .not-found-page {
+
+    padding:
+      20px
+      25px
+      35px;
+
+  }
+
+
+  .error-layout {
+
+    grid-template-columns:
+      minmax(170px, .8fr)
+      minmax(340px, 1.4fr)
+      minmax(170px, .8fr);
+
+    gap: 16px;
+
+  }
+
+
+  .error-code {
+
+    font-size: 85px;
+
+  }
+
+
+  .ebook-letter {
+
+    font-size: 29px;
+
+  }
+
+
+  .ebook-logo {
+
+    width: 120px;
+
+    height: 120px;
+
+  }
+
+}
+
+
+/* =========================================================
+   TABLET / SMALL LAPTOP
+========================================================= */
+
+@media (max-width: 850px) {
+
+  .error-layout {
+
+    grid-template-columns:
+      minmax(150px, .75fr)
+      minmax(300px, 1.5fr)
+      minmax(150px, .75fr);
+
+    gap: 12px;
+
+  }
+
+
+  .logo-section,
+  .error-section,
+  .ebook-section {
+
+    min-height: 320px;
+
+  }
+
+
+  .logo-section {
+
+    padding: 20px;
+
+  }
+
+
+  .error-section {
+
+    padding: 25px 18px;
+
+  }
+
+
+  .error-code {
+
+    font-size: 72px;
+
+    letter-spacing: -5px;
+
+  }
+
+
+  .error-section h1 {
+
+    font-size: 23px;
+
+  }
+
+
+  .error-section p {
+
+    font-size: 12px;
+
+  }
+
+
+  .ebook-section {
+
+    padding: 15px;
+
+  }
+
+
+  .ebook-letter {
+
+    font-size: 26px;
+
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .not-found-page {
+
+    padding:
+      15px
+      12px
+      30px;
+
+  }
+
+
+  /* GAME */
+
+  .game-section {
+
+    margin-bottom: 25px;
+
+  }
+
+
+  .game-header {
+
+    min-height: 58px;
+
+    padding: 8px 10px;
+
+  }
+
+
+  .game-title {
+
+    gap: 8px;
+
+  }
+
+
+  .game-title > i {
+
+    width: 32px;
+
+    height: 32px;
+
+    font-size: 14px;
+
+  }
+
+
+  .game-title h2 {
+
+    font-size: 13px;
+
+  }
+
+
+  .game-title p {
+
+    display: none;
+
+  }
+
+
+  .game-stats {
+
+    gap: 4px;
+
+  }
+
+
+  .game-stat {
+
+    min-width: 50px;
+
+    padding: 4px 6px;
+
+  }
+
+
+  .game-stat span {
+
+    font-size: 8px;
+
+  }
+
+
+  .game-stat strong {
+
+    font-size: 12px;
+
+  }
+
+
+  .game-board {
+
+    height: 200px;
+
+  }
+
+
+  .game-book {
+
+    width: 52px;
+
+    height: 52px;
+
+  }
+
+
+  .game-book img {
+
+    width: 35px;
+
+    height: 43px;
+
+  }
+
+
+  /* ERROR */
+
+  .error-layout {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+
+  }
+
+
+  .logo-section,
+  .error-section,
+  .ebook-section {
+
+    min-height: auto;
+
+  }
+
+
+  /* LOGO */
+
+  .logo-section {
+
+    order: 1;
+
+    padding: 20px;
+
+  }
+
+
+  .logo-card {
+
+    min-height: 130px;
+
+  }
+
+
+  .ebook-logo {
+
+    width: 95px;
+
+    height: 95px;
+
+  }
+
+
+  /* ERROR */
+
+  .error-section {
+
+    order: 2;
+
+    padding: 35px 20px;
+
+  }
+
+
+  .error-code {
+
+    font-size: 85px;
+
+    letter-spacing: -5px;
+
+  }
+
+
+  .error-section h1 {
+
+    font-size: 24px;
+
+  }
+
+
+  .error-section p {
+
+    font-size: 12px;
+
+  }
+
+
+  .not-found-actions {
+
+    width: 100%;
+
+    flex-direction: column;
+
+  }
+
+
+  .home-btn,
+  .back-btn {
+
+    width: 100%;
+
+    max-width: 250px;
+
+  }
+
+
+  /* EBOOK */
+
+  .ebook-section {
+
+    order: 3;
+
+    min-height: 150px;
+
+    padding: 25px;
+
+  }
+
+
+  .ebook-brand {
+
+    flex-direction: row;
+
+    gap: 2px;
+
+  }
+
+
+  .ebook-letter {
+
+    font-size: 29px;
+
+  }
+
+
+  .ebook-tagline {
+
+    margin-top: 10px;
+
+  }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+
+  .not-found-page {
+
+    padding-left: 8px;
+
+    padding-right: 8px;
+
+  }
+
+
+  .game-header {
+
+    align-items: flex-start;
+
+  }
+
+
+  .game-title h2 {
+
+    font-size: 12px;
+
+  }
+
+
+  .game-stats {
+
+    gap: 3px;
+
+  }
+
+
+  .game-stat {
+
+    min-width: 45px;
+
+  }
+
+
+  .game-board {
+
+    height: 190px;
+
+  }
+
+
+  .error-code {
+
+    font-size: 72px;
+
+  }
+
+
+  .error-section h1 {
+
+    font-size: 22px;
+
+  }
+
+
+  .not-found-help {
+
+    font-size: 9px;
+
+  }
+
+}
+
+
+/* =========================================================
+   REDUCE MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .game-book,
+  .ebook-logo,
+  .ebook-letter {
+
+    animation: none;
+
+  }
+
+}

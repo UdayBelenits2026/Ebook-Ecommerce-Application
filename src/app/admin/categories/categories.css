@@ -1,0 +1,232 @@
+/* Admin Categories Page Styles */
+.admin-categories {
+  padding: 24px;
+  max-width: 1200px;
+  margin:  auto;
+  font-family: 'Times New Roman', Times, serif;
+  
+  background:
+    radial-gradient(
+      circle at 0 0,
+      rgba(255, 190, 120, 0.15),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 100% 10%,
+      rgba(255, 140, 120, 0.12),
+      transparent 25%
+    ),
+    #f7f7f5;
+}
+
+.page-header {
+  margin-bottom: 24px;
+}
+.page-header h1 {
+  margin: 0 0 6px;
+  font-size: 1.6rem;
+}
+.page-header .subtitle {
+  color: #64748b;
+  margin: 0;
+}
+
+/* Create */
+.create-section {
+  margin-bottom: 24px;
+}
+.create-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(2,6,23,0.06);
+  padding: 20px;
+}
+.create-card h1{
+  font-weight: 700;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size:17px;
+}
+.create-card h2 {
+  margin: 0 0 14px;
+  font-size: 1.1rem;
+  font-weight: 900;
+}
+.create-form {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+.create-form .field {
+  flex: 1 1 240px;
+}
+.create-form .field input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(15,23,42,0.1);
+  background: #f8fafc;
+  font-size: 0.95rem;
+}
+.create-form .field input:focus {
+  outline: 2px solid rgba(99,102,241,0.2);
+  border-color: #6366f1;
+}
+.create-form .btn.primary {
+  padding: 10px 20px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #60a5fa, #7c3aed);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+.create-form .btn.primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Messages */
+.msg {
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.msg.success {
+  background: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+.msg.error {
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+/* Loading */
+.loading-state {
+  text-align: center;
+  padding: 40px 0;
+}
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(99,102,241,0.12);
+  border-top-color: #6366f1;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 12px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Error */
+.error-state {
+  text-align: center;
+  padding: 40px 0;
+}
+.error-card {
+  background: #fef2f2;
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+.error-card h3 {
+  margin: 0 0 8px;
+}
+.error-card .btn.primary {
+  margin-top: 12px;
+  padding: 8px 20px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #60a5fa, #7c3aed);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+/* List */
+.list-section h2 {
+  font-size: 1.1rem;
+  margin: 0 0 14px;
+}
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(2,6,23,0.04);
+  color: #64748b;
+}
+
+/* Table */
+.table-responsive {
+  overflow-x: auto;
+}
+.categories-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #f8f7f7;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(2,6,23,0.06);
+  overflow: hidden;
+}
+.categories-table th,
+.categories-table td {
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 0.9rem;
+}
+.categories-table thead th {
+  background: #dd910e;
+  font-weight: 600;
+  color: #475569;
+  border-bottom: 1px solid rgba(15,23,42,0.06);
+}
+.categories-table tbody tr {
+  border-bottom: 1px solid rgba(15,23,42,0.04);
+  transition: background 0.2s;
+}
+.categories-table tbody tr:hover {
+  background: rgba(99,102,241,0.02);
+  border-radius: 2px solid rgb(193, 124, 5);
+}
+.categories-table .cat-name {
+  font-weight: 500;
+}
+.categories-table .desc-cell {
+  color: #64748b;
+  max-width: 280px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.btn.danger.small {
+  padding: 6px 14px;
+  border-radius: 6px;
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.2s;
+}
+.btn.danger.small:hover:not(:disabled) {
+  background: #fee2e2;
+}
+.btn.danger.small:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .create-form {
+    flex-direction: column;
+  }
+  .create-form .field {
+    flex: 1 1 auto;
+  }
+}

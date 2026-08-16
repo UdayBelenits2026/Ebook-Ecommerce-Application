@@ -1,0 +1,392 @@
+<div class="cart-page">
+  <!-- 
+                         TOAST
+  = -->
+
+  <!-- TOAST NOTIFICATION                                    -->
+
+  <div
+    class="cart-toast"
+    *ngIf="showToastMessage"
+    [ngClass]="{
+      'toast-success': toastType === 'success',
+      'toast-error': toastType === 'error',
+      'toast-info': toastType === 'info',
+    }"
+  >
+    <!-- ICON -->
+
+    <div class="toast-icon">
+      <i
+        class="bi"
+        [ngClass]="{
+          'bi-check-circle-fill': toastType === 'success',
+          'bi-exclamation-circle-fill': toastType === 'error',
+          'bi-info-circle-fill': toastType === 'info',
+        }"
+      >
+      </i>
+    </div>
+
+    <!-- MESSAGE -->
+
+    <div class="toast-content">
+      <strong>
+        {{ toastType === 'success' ? 'Success' : toastType === 'error' ? 'Error' : 'Information' }}
+      </strong>
+
+      <span>
+        {{ toastMessage }}
+      </span>
+    </div>
+
+    <!-- CLOSE BUTTON -->
+
+    <button
+      type="button"
+      class="toast-close"
+      (click)="closeToast()"
+      aria-label="Close notification"
+    >
+      <i class="bi bi-x-lg"></i>
+    </button>
+  </div>
+
+  <div class="cart-container">
+    <!-- 
+                         PAGE HEADER
+    = -->
+    <div class="cart-header">
+      <div class="header-content">
+        <h1>Cart</h1>
+
+        <p *ngIf="!loading && cartItems.length > 0">
+          {{ cartCount }}
+          {{ cartCount === 1 ? 'book' : 'books' }}
+          in your cart
+        </p>
+      </div>
+
+      <button
+        *ngIf="!loading && cartItems.length > 0"
+        type="button"
+        class="clear-cart-btn"
+        [disabled]="clearingCart"
+        (click)="clearCart()"
+      >
+        <i class="bi" [ngClass]="clearingCart ? 'bi-arrow-repeat spin-icon' : 'bi-trash3'"></i>
+
+        {{ clearingCart ? 'Clearing...' : 'Clear Cart' }}
+      </button>
+    </div>
+    <!-- 
+                         LOADING
+    = -->
+    <div class="state-card" *ngIf="loading">
+      <div class="loader"></div>
+
+      <h3>Loading your cart</h3>
+
+      <p>Getting your books ready...</p>
+    </div>
+
+    <!-- 
+                          ERROR
+    = -->
+    <div class="state-card error-card" *ngIf="!loading && errorMessage">
+      <div class="state-icon">
+        <i class="bi bi-exclamation-triangle"></i>
+      </div>
+
+      <h3>Unable to load cart</h3>
+
+      <p>{{ errorMessage }}</p>
+
+      <button type="button" class="retry-btn" (click)="loadCart()">
+        <i class="bi bi-arrow-clockwise"></i>
+        Try Again
+      </button>
+    </div>
+
+    <!-- 
+                          EMPTY
+    = -->
+    <div class="state-card" *ngIf="!loading && !errorMessage && cartItems.length === 0">
+      <div class="empty-cart-icon">
+        <i class="bi bi-cart-x"></i>
+      </div>
+
+      <h3>
+        {{ emptyMessage || 'Your cart is empty' }}
+      </h3>
+
+      <p>Looks like you haven't added any books to your cart yet.</p>
+
+      <a routerLink="/books" class="browse-btn">
+        <i class="bi bi-book"></i>
+        Browse Books
+      </a>
+    </div>
+
+    <!-- 
+                       MAIN CART CONTENT
+    = -->
+    <div class="cart-layout" *ngIf="!loading && !errorMessage && cartItems.length > 0">
+      <!-- 
+                           PRODUCTS
+      = -->
+      <section class="cart-products">
+        <div class="product-row" *ngFor="let item of cartItems; trackBy: trackByItem">
+          <!-- BOOK IMAGE -->
+          <div class="product-image">
+            <img
+              [src]="item.image || placeholderImage"
+              [alt]="item.title"
+              loading="lazy"
+              (error)="onImageError($event)"
+            />
+          </div>
+
+          <!-- BOOK INFORMATION -->
+          <div class="product-info">
+            <!-- STOCK -->
+            <div class="stock-row">
+              <span class="stock-status" [class.out-of-stock]="item.stock <= 0">
+                {{ item.stock > 0 ? 'In Stock' : 'Out of Stock' }}
+              </span>
+            </div>
+
+            <!-- TITLE -->
+            <h3 class="product-title" [title]="item.title">
+              {{ item.title }}
+            </h3>
+
+            <!-- AUTHOR -->
+            <p class="author">by {{ item.author }}</p>
+
+            <!-- CATEGORY / RATING -->
+            <div class="product-meta">
+              <span class="category" *ngIf="item.category_name">
+                <i class="bi bi-bookmark"></i>
+                {{ item.category_name }}
+              </span>
+
+              <span class="rating" *ngIf="item.rating > 0">
+                <i class="bi bi-star-fill"></i>
+
+                {{ item.rating | number: '1.1-1' }}
+              </span>
+            </div>
+
+            <!-- MOBILE PRICE -->
+            <div class="price-mobile">₹{{ item.price | number: '1.2-2' }}</div>
+
+            <!-- 
+                            QUANTITY
+            = -->
+            <div class="quantity-wrapper">
+              <span class="quantity-label"> Quantity </span>
+
+              <div class="quantity-control">
+                <!-- DECREASE -->
+                <button
+                  type="button"
+                  class="quantity-btn"
+                  [disabled]="isProcessing(item.book_id)"
+                  (click)="decreaseQuantity(item)"
+                  title="Decrease quantity"
+                >
+                  <i class="bi bi-dash"></i>
+                </button>
+
+                <!-- QUANTITY VALUE -->
+                <span class="quantity-value">
+                  <span *ngIf="!isProcessing(item.book_id)">
+                    {{ item.quantity }}
+                  </span>
+
+                  <span *ngIf="isProcessing(item.book_id)" class="mini-loader"></span>
+                </span>
+
+                <!-- INCREASE -->
+                <button
+                  type="button"
+                  class="quantity-btn"
+                  [disabled]="
+                    isProcessing(item.book_id) || item.stock <= 0 || item.quantity >= item.stock
+                  "
+                  (click)="increaseQuantity(item)"
+                  title="Increase quantity"
+                >
+                  <i class="bi bi-plus"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- STOCK LIMIT -->
+            <small class="stock-limit" *ngIf="item.stock > 0 && item.quantity >= item.stock">
+              Maximum available quantity reached
+            </small>
+          </div>
+
+          <!-- 
+                        PRICE / REMOVE
+          = -->
+          <div class="product-side">
+            <!-- DELETE -->
+            <button
+              type="button"
+              class="delete-btn"
+              [disabled]="isProcessing(item.book_id)"
+              (click)="removeItem(item.book_id)"
+              title="Remove from cart"
+            >
+              <i class="bi bi-trash3"></i>
+            </button>
+
+            <!-- UNIT PRICE -->
+            <div class="unit-price-label">Price</div>
+
+            <div class="unit-price">₹{{ item.price | number: '1.2-2' }}</div>
+
+            <!-- SUBTOTAL -->
+            <div class="subtotal-label">Subtotal</div>
+
+            <div class="item-subtotal">₹{{ item.subtotal | number: '1.2-2' }}</div>
+          </div>
+        </div>
+
+        <!-- 
+                      CONTINUE SHOPPING
+        = -->
+        <div class="cart-bottom-actions">
+          <a routerLink="/books" class="back-shopping">
+            <i class="bi bi-arrow-left"></i>
+
+            Continue Shopping
+          </a>
+        </div>
+      </section>
+
+      <!-- 
+                       ORDER SUMMARY
+      = -->
+      <aside class="order-summary">
+        <div class="summary-card">
+          <div class="summary-header">
+            <h2>Order Summary</h2>
+
+            <span>
+              {{ cartCount }}
+              {{ cartCount === 1 ? 'item' : 'items' }}
+            </span>
+          </div>
+
+          <!-- SUBTOTAL -->
+          <div class="summary-line">
+            <span>Sub Total</span>
+
+            <strong> ₹{{ subtotal | number: '1.2-2' }} </strong>
+          </div>
+
+          <!-- SHIPPING -->
+          <div class="summary-line">
+            <span>Shipping</span>
+
+            <strong [class.free]="shipping === 0">
+              {{ shipping === 0 ? 'FREE' : '₹' + (shipping | number: '1.2-2') }}
+            </strong>
+          </div>
+
+          <!-- 
+                      SHIPPING MESSAGE
+          = -->
+          <div class="shipping-message" *ngIf="subtotal < 500">
+            <div class="shipping-message-icon">
+              <i class="bi bi-truck"></i>
+            </div>
+
+            <div>
+              Add
+
+              <strong> ₹{{ 500 - subtotal | number: '1.2-2' }} </strong>
+
+              more for free shipping.
+            </div>
+          </div>
+
+          <div class="shipping-message free-message" *ngIf="subtotal >= 500">
+            <div class="shipping-message-icon">
+              <i class="bi bi-check-circle-fill"></i>
+            </div>
+
+            <div>
+              You unlocked
+              <strong>FREE shipping!</strong>
+            </div>
+          </div>
+
+          <div class="summary-divider"></div>
+
+          <!-- TOTAL -->
+          <div class="summary-total">
+            <span>Total</span>
+
+            <strong> ₹{{ grandTotal | number: '1.2-2' }} </strong>
+          </div>
+
+          <p class="tax-note">Shipping and applicable charges included.</p>
+
+          <!-- CHECKOUT -->
+          <button
+            type="button"
+            class="checkout-button"
+            [disabled]="cartItems.length === 0"
+            (click)="proceedToCheckout()"
+          >
+            Proceed to Checkout
+
+            <i class="bi bi-arrow-right"></i>
+          </button>
+
+          <!-- SECURE -->
+          <div class="secure-checkout">
+            <i class="bi bi-shield-lock-fill"></i>
+
+            <span> Secure checkout </span>
+          </div>
+        </div>
+
+        <!-- 
+                       DELIVERY CARD
+        = -->
+        <div class="delivery-card">
+          <div class="delivery-icon">
+            <i class="bi bi-truck"></i>
+          </div>
+
+          <div class="delivery-content">
+            <strong> Fast Delivery </strong>
+
+            <span> Safe and reliable book delivery </span>
+          </div>
+        </div>
+
+        <!-- 
+                       SECURE PAYMENT
+        = -->
+        <div class="delivery-card">
+          <div class="delivery-icon">
+            <i class="bi bi-shield-check"></i>
+          </div>
+
+          <div class="delivery-content">
+            <strong> Secure Payment </strong>
+
+            <span> Your payment information is protected </span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>

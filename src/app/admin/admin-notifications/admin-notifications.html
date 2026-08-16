@@ -1,0 +1,42 @@
+<div class="admin-notif-page">
+  <h2>Admin Notifications</h2>
+
+  <div class="create-card">
+    <h3>Create Notification</h3>
+    <div class="form-row">
+      <input type="text" placeholder="Title" [(ngModel)]="title" />
+    </div>
+    <div class="form-row">
+      <textarea placeholder="Message" [(ngModel)]="message"></textarea>
+    </div>
+    <div class="form-row">
+      <select [(ngModel)]="type">
+        <option *ngFor="let t of types" [value]="t">{{ t }}</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <button (click)="createNotification()">Publish</button>
+    </div>
+  </div>
+
+  <div class="list-card">
+    <h3>All Notifications</h3>
+    <div *ngIf="loading" class="loading">Loading...</div>
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+    <div *ngIf="!loading && notifications.length === 0" class="empty">No notifications yet.</div>
+
+    <div class="notif-list" *ngIf="!loading && notifications.length > 0">
+      <div class="notif-item" *ngFor="let n of notifications; trackBy: trackById">
+        <div class="main">
+          <div class="title">{{ n.title }}</div>
+          <div class="message">{{ n.message }}</div>
+          <small class="meta">{{ n.type }} • {{ n.created_at | date:'short' }}</small>
+        </div>
+        <div class="actions">
+          <button class="btn-delete" (click)="deleteNotification(n)">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

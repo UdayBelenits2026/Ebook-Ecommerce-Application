@@ -1,0 +1,315 @@
+<section class="users-page">
+
+    <!-- ===========================
+            Page Header
+    ============================ -->
+
+    <div class="page-header">
+
+        <div>
+
+            <h2>User Management</h2>
+
+            <p>
+                Manage all registered bookstore users.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- ===========================
+            Statistics
+    ============================ -->
+
+    <div class="stats-grid">
+
+        <div class="stat-card total">
+
+            <i class="bi bi-people-fill"></i>
+
+            <div>
+
+                <span>Total Users</span>
+
+                <h3>{{ users().length }}</h3>
+
+            </div>
+
+        </div>
+
+        <div class="stat-card active">
+
+            <i class="bi bi-person-check-fill"></i>
+
+            <div>
+
+                <span>Active Users</span>
+
+                <h3>
+
+                    {{ users().filter(user => user.is_active).length }}
+
+                </h3>
+
+            </div>
+
+        </div>
+
+        <div class="stat-card inactive">
+
+            <i class="bi bi-person-x-fill"></i>
+
+            <div>
+
+                <span>Inactive Users</span>
+
+                <h3>
+
+                    {{ users().filter(user => !user.is_active).length }}
+
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ===========================
+            Search Bar
+    ============================ -->
+
+    <div class="toolbar">
+
+        <div class="search-box">
+
+            <i class="bi bi-search"></i>
+
+            <input
+                type="text"
+                placeholder="Search by name or email...">
+
+        </div>
+
+    </div>
+
+    <!-- ===========================
+            Loading
+    ============================ -->
+
+    @if(loading()){
+
+    <div class="loading-box">
+
+        <div class="spinner-border text-warning"></div>
+
+        <span>
+
+            Loading Users...
+
+        </span>
+
+    </div>
+
+    }
+
+    <!-- ===========================
+            Error
+    ============================ -->
+
+    @if(error()){
+
+    <div class="error-box">
+
+        {{ error() }}
+
+    </div>
+
+    }
+
+    <!-- ===========================
+            Users Table
+    ============================ -->
+
+    @if(!loading() && users().length){
+
+    <div class="table-card">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>#</th>
+
+                    <th>User</th>
+
+                    <th>Email</th>
+
+                    <th>Phone</th>
+
+                    <th>Role</th>
+
+                    <th>Status</th>
+
+                    <th>Joined</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @for(user of users(); track user.id){
+
+                <tr>
+
+                    <td>
+
+                        {{ user.id }}
+
+                    </td>
+
+                    <td>
+
+                        <div class="user-info">
+
+                            <img
+                                [src]="user.profile_image || 'assets/images/default-user.png'"
+                                alt="user">
+
+                            <div>
+
+                                <strong>
+
+                                    {{ user.full_name }}
+
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        {{ user.email }}
+
+                    </td>
+
+                    <td>
+
+                        {{ user.phone || '-' }}
+
+                    </td>
+
+                    <td>
+
+                        <span class="role">
+
+                            {{ user.role }}
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        @if(user.is_active){
+
+                        <span class="badge active">
+
+                            Active
+
+                        </span>
+
+                        }
+
+                        @else{
+
+                        <span class="badge inactive">
+
+                            Inactive
+
+                        </span>
+
+                        }
+
+                    </td>
+
+                    <td>
+
+                        {{ user.created_at | date:'dd MMM yyyy' }}
+
+                    </td>
+
+                    <td>
+
+                        <div class="actions">
+
+                            <button
+                                class="status-btn"
+                                (click)="toggleStatus(user)">
+
+                                @if(user.is_active){
+
+                                Disable
+
+                                }
+
+                                @else{
+
+                                Enable
+
+                                }
+
+                            </button>
+
+                            <button
+                                class="delete-btn"
+                                (click)="deleteUser(user.id)">
+
+                                <i class="bi bi-trash-fill"></i>
+
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    }
+
+    @if(!loading() && users().length===0){
+
+    <div class="empty-state">
+
+        <i class="bi bi-people"></i>
+
+        <h3>No Users Found</h3>
+
+        <p>
+
+            There are currently no registered users.
+
+        </p>
+
+    </div>
+
+    }
+
+</section>

@@ -1,0 +1,212 @@
+<div class="not-found-page">
+  <!--==
+       GAME SECTION
+ === -->
+
+  <section class="game-section">
+    <!--
+         GAME HEADER
+   -->
+
+    <div class="game-header">
+      <div class="game-title">
+        <i class="bi bi-controller"></i>
+
+        <div>
+          <h2>Catch the Book</h2>
+
+          <p>Catch as many books as you can in 30 seconds!</p>
+        </div>
+      </div>
+
+      <!-- GAME STATS -->
+
+      <div class="game-stats" *ngIf="gameStarted || gameOver">
+        <div class="game-stat">
+          <span> Score </span>
+
+          <strong>
+            {{ score }}
+          </strong>
+        </div>
+
+        <div class="game-stat">
+          <span> Time </span>
+
+          <strong> {{ timeLeft }}s </strong>
+        </div>
+      </div>
+    </div>
+
+    <!--
+         GAME BOARD
+   -->
+
+    <div class="game-board">
+      <!-- 
+           START SCREEN
+       -->
+
+      <div class="game-start" *ngIf="!gameStarted && !gameOver">
+        <div class="game-start-icon">
+          <i class="bi bi-book"></i>
+        </div>
+
+        <h3>Ready to Play?</h3>
+
+        <p>Click the button and catch the moving book.</p>
+
+        <button type="button" class="start-game-btn" (click)="startGame()">
+          <i class="bi bi-play-fill"></i>
+
+          <span> Start Game </span>
+        </button>
+      </div>
+
+      <!-- 
+           MOVING BOOK
+       -->
+
+      <button
+        *ngIf="gameStarted"
+        type="button"
+        class="game-book"
+        [style.left.%]="bookX"
+        [style.top.%]="bookY"
+        (click)="catchBook($event)"
+        aria-label="Catch the book"
+      >
+        <img src="assets/images/gamebook.png" alt="Catch the book" />
+      </button>
+
+      <!-- 
+           GAME OVER
+       -->
+
+      <div class="game-over" *ngIf="gameOver">
+        <div class="game-over-icon">
+          <i class="bi bi-trophy"></i>
+        </div>
+
+        <h3>Time's Up!</h3>
+
+        <p>
+          You caught
+
+          <strong>
+            {{ score }}
+          </strong>
+
+          {{ score === 1 ? 'book' : 'books' }}.
+        </p>
+
+        <button type="button" class="start-game-btn" (click)="playAgain()">
+          <i class="bi bi-arrow-repeat"></i>
+
+          <span> Play Again </span>
+        </button>
+      </div>
+
+      <!-- 
+           GAME INSTRUCTION
+       -->
+
+      <div class="game-instruction" *ngIf="gameStarted">
+        <i class="bi bi-cursor-fill"></i>
+
+        <span> Click the book! </span>
+      </div>
+    </div>
+  </section>
+
+  <!--==
+       ERROR SECTION
+ === -->
+
+  <section class="error-layout">
+    <!--
+         LEFT : LOGO
+   -->
+
+    <div class="logo-section">
+      <div class="logo-card">
+        <img src="assets/images/aboutpage.png" alt="Ebook Logo" class="ebook-logo" />
+      </div>
+    </div>
+
+    <!--
+         CENTER : 404
+   -->
+
+    <div class="error-section">
+      <div class="error-content">
+        <span class="small-error-label"> OOPS! </span>
+
+        <div class="error-code">404</div>
+
+        <div class="error-divider">
+          <span></span>
+
+          <i class="bi bi-book"></i>
+
+          <span></span>
+        </div>
+
+        <h1>Page Not Found</h1>
+
+        <p>
+          Sorry, the page you're looking for doesn't exist, may have been moved, or the URL is
+          incorrect.
+        </p>
+
+        <!-- 
+             BUTTONS
+         -->
+
+        <div class="not-found-actions">
+          <button type="button" class="home-btn" routerLink="/">
+            <i class="bi bi-house"></i>
+
+            <span> Go to Home </span>
+          </button>
+
+          <button type="button" class="back-btn" (click)="goBack()">
+            <i class="bi bi-arrow-left"></i>
+
+            <span> Go Back </span>
+          </button>
+        </div>
+
+        <!-- 
+             HELPER
+         -->
+
+        <div class="not-found-help">
+          <i class="bi bi-search"></i>
+
+          <span> Your next great book is waiting for you. </span>
+        </div>
+      </div>
+    </div>
+
+    <!--
+         RIGHT : EBOOK
+   -->
+
+    <div class="ebook-section">
+      <div class="ebook-brand">
+        <span class="ebook-letter"> E </span>
+
+        <span class="ebook-letter"> B </span>
+
+        <span class="ebook-letter"> O </span>
+
+        <span class="ebook-letter"> O </span>
+
+        <span class="ebook-letter"> K </span>
+      </div>
+
+      <div class="ebook-tagline">YOUR WORLD OF BOOKS</div>
+    </div>
+  </section>
+</div>

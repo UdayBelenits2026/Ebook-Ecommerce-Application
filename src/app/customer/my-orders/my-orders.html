@@ -1,0 +1,267 @@
+<div class="orders-page">
+  <!-- 
+       PAGE HEADER
+  -->
+
+  <section class="page-header">
+    <h1>My Orders</h1>
+    <p>Track, manage and review all your book orders.</p>
+  </section>
+
+  <!-- 
+       FILTER BAR
+  -->
+
+  <section class="filter-section">
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Search by Order ID..."
+        [(ngModel)]="searchText"
+        (input)="onSearch()"
+      />
+    </div>
+
+    <div class="status-filter">
+      <button
+        *ngFor="let status of statusFilters"
+        type="button"
+        [class.active]="selectedStatus === status"
+        (click)="filterStatus(status)"
+      >
+        {{ status }}
+      </button>
+    </div>
+  </section>
+
+  <!-- 
+       LOADING
+  -->
+
+  <div class="loading-container" *ngIf="loading">
+    <div class="spinner"></div>
+
+    <p>Loading your orders...</p>
+  </div>
+
+  <!-- 
+       ERROR
+  -->
+
+  <div class="error-message" *ngIf="!loading && errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <!-- 
+       EMPTY STATE
+  -->
+
+  <div class="empty-orders" *ngIf="!loading && !errorMessage && filteredOrders.length === 0">
+    <i class="fa-solid fa-book-open"></i>
+
+    <h2>No Orders Found</h2>
+
+    <p>Looks like you haven't placed any orders yet.</p>
+
+    <a routerLink="/books" class="browse-btn"> Browse Books </a>
+  </div>
+
+  <!-- 
+       ORDERS GRID
+  -->
+
+  <div class="orders-grid" *ngIf="!loading && filteredOrders.length">
+    <div class="order-card" *ngFor="let order of filteredOrders; trackBy: trackByOrder">
+      <!-- 
+         CARD HEADER
+    -->
+
+      <div class="card-header">
+        <div>
+          <h3>Order #{{ order.id }}</h3>
+
+          <p class="order-date">Ordered on {{ formatDate(order.created_at) }}</p>
+        </div>
+
+        <span class="status-badge" [ngClass]="getStatusClass(order.order_status)">
+          {{ order.order_status }}
+        </span>
+      </div>
+
+      <!-- 
+         CARD BODY
+    -->
+
+      <div class="card-body">
+        <div class="info-item">
+          <span class="label">Books</span>
+          <strong>{{ getItemsCount(order) }}</strong>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Total Amount</span>
+          <strong>{{ formatCurrency(order.total_amount) }}</strong>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Payment</span>
+          <strong>{{ order.payment_method }}</strong>
+        </div>
+      </div>
+
+      <!-- 
+         ACTIONS
+    -->
+
+      <div class="card-actions">
+        <button type="button" class="details-btn" (click)="openOrderDetails(order)">
+          <i class="fa-solid fa-eye"></i>
+
+          View Details
+        </button>
+
+        <button
+          *ngIf="canCancel(order.order_status)"
+          type="button"
+          class="cancel-btn"
+          (click)="cancelOrder(order)"
+        >
+          <i class="fa-solid fa-xmark"></i>
+
+          Cancel Order
+        </button>
+      </div>
+    </div>
+  </div>
+  <!--==============
+        ORDER DETAILS MODAL
+ =============== -->
+
+  <div class="modal-backdrop" *ngIf="isModalOpen" (click)="closeModal()">
+    <div class="order-modal" (click)="$event.stopPropagation()">
+      <!-- 
+           MODAL HEADER
+      -->
+
+      <div class="modal-header">
+        <div>
+          <h2>Order #{{ selectedOrder?.id }}</h2>
+
+          <p>
+            Ordered on
+            {{ selectedOrder?.created_at ? formatDate(selectedOrder!.created_at) : '' }}
+          </p>
+        </div>
+
+        <button class="close-btn" type="button" (click)="closeModal()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- 
+           LOADING DETAILS
+      -->
+
+      <div class="details-loading" *ngIf="!selectedOrderDetails">
+        <div class="spinner"></div>
+
+        <p>Loading order details...</p>
+      </div>
+
+      <!-- 
+           ORDER DETAILS
+      -->
+
+      <div class="modal-body" *ngIf="selectedOrderDetails">
+        <!-- 
+             BOOKS
+        -->
+
+        <h3 class="section-title">Ordered Books</h3>
+
+        <div class="books-list">
+          <div class="book-item" *ngFor="let item of selectedOrderDetails.items">
+            <img [src]="getImageUrl(item.image)" [alt]="item.title" />
+
+            <div class="book-info">
+              <h4>
+                {{ item.title }}
+              </h4>
+
+              <p>
+                <strong>Author:</strong>
+                {{ item.author }}
+              </p>
+
+              <p>
+                <strong>Quantity:</strong>
+                {{ item.quantity }}
+              </p>
+
+              <p>
+                <strong>Price:</strong>
+                {{ formatCurrency(item.price) }}
+              </p>
+              <p>
+                <strong>Subtotal:</strong>
+                {{ formatCurrency(item.subtotal) }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 
+             SHIPPING
+        -->
+
+        <h3 class="section-title">Shipping Address</h3>
+
+        <div class="info-card">
+          <p>{{ selectedOrderDetails.shipping_address }}</p>
+        </div>
+
+        <!-- 
+             PAYMENT
+        -->
+
+        <h3 class="section-title">Payment Method</h3>
+
+        <div class="info-card">
+          <p>{{ selectedOrderDetails.payment_method }}</p>
+        </div>
+
+        <!-- 
+     BILL SUMMARY
+= -->
+
+        <h3 class="section-title">Bill Summary</h3>
+
+        <div class="summary-card">
+          <div class="summary-row">
+            <span>Subtotal</span>
+
+            <strong>
+              {{ formatCurrency(selectedOrderDetails.subtotal) }}
+            </strong>
+          </div>
+
+          <div class="summary-row">
+            <span>Shipping</span>
+
+            <strong>
+              {{ formatCurrency(selectedOrderDetails.shipping) }}
+            </strong>
+          </div>
+
+          <div class="summary-row total">
+            <span>Total</span>
+
+            <strong>
+              {{ formatCurrency(selectedOrderDetails.grand_total) }}
+            </strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

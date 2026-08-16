@@ -1,0 +1,119 @@
+<div class="settings-container">
+  <!-- 
+            Page Header
+    = -->
+
+  <div class="page-header">
+    <h2>Account Settings</h2>
+
+    <p>Change your administrator password.</p>
+  </div>
+
+  <!-- 
+            Success Message
+    = -->
+
+  @if (successMessage()) {
+    <div class="success-message">
+      {{ successMessage() }}
+    </div>
+  }
+
+  <!-- 
+            Error Message
+    = -->
+
+  @if (errorMessage()) {
+    <div class="error-message">
+      {{ errorMessage() }}
+    </div>
+  }
+
+  <!-- 
+            Settings Card
+    = -->
+
+  <div class="settings-card">
+    <!-- Old Password -->
+
+    <div class="form-group">
+      <label> Old Password </label>
+
+      <div class="password-field">
+        <input
+          [type]="showOldPassword() ? 'text' : 'password'"
+          [ngModel]="oldPassword()"
+          (ngModelChange)="oldPassword.set($event)"
+          placeholder="Enter old password"
+        />
+
+        <button
+          type="button"
+          class="toggle-password"
+          (click)="showOldPassword.set(!showOldPassword())"
+        >
+          <i [class]="showOldPassword() ? 'bi bi-eye-slash' : 'bi bi-eye'"> </i>
+        </button>
+      </div>
+    </div>
+
+    <!-- New Password -->
+
+    <div class="form-group">
+      <label> New Password </label>
+
+      <div class="password-field">
+        <input
+          [type]="showNewPassword() ? 'text' : 'password'"
+          [ngModel]="newPassword()"
+          (ngModelChange)="newPassword.set($event)"
+          placeholder="Enter new password"
+        />
+
+        <button
+          type="button"
+          class="toggle-password"
+          (click)="showNewPassword.set(!showNewPassword())"
+        >
+          <i [class]="showNewPassword() ? 'bi bi-eye-slash' : 'bi bi-eye'"> </i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Confirm Password -->
+
+    <div class="form-group">
+      <label> Confirm Password </label>
+
+      <div class="password-field">
+        <input
+          [type]="showConfirmPassword() ? 'text' : 'password'"
+          [ngModel]="confirmPassword()"
+          (ngModelChange)="confirmPassword.set($event)"
+          placeholder="Confirm new password"
+        />
+
+        <button
+          type="button"
+          class="toggle-password"
+          (click)="showConfirmPassword.set(!showConfirmPassword())"
+        >
+          <i [class]="showConfirmPassword() ? 'bi bi-eye-slash' : 'bi bi-eye'"> </i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+
+    <button class="save-btn" [disabled]="isLoading()" (click)="changePassword()">
+      @if (isLoading()) {
+        Changing Password...
+
+      } @else {
+        <i class="bi bi-shield-lock"></i>
+
+        Change Password
+      }
+    </button>
+  </div>
+</div>

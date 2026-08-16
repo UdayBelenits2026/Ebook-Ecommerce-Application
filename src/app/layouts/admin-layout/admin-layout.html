@@ -1,0 +1,33 @@
+<div class="admin-layout">
+  <!-- SIDEBAR -->
+
+  <app-admin-side-navbar
+    [isSidebarCollapsed]="isSidebarCollapsed()"
+    (menuSelected)="closeSidebarOnMobile()"
+  >
+  </app-admin-side-navbar>
+
+  <!-- MOBILE BACKDROP -->
+
+  @if (isSidebarCollapsed()) {
+    <div class="mobile-sidebar-backdrop" (click)="closeSidebarOnMobile()"></div>
+  }
+
+  <!-- MAIN -->
+
+  <div class="admin-main-area" [class.sidebar-collapsed]="isSidebarCollapsed()">
+    <!-- NAVBAR -->
+
+    <app-admin-main-navbar
+      [isSidebarCollapsed]="isSidebarCollapsed()"
+      (sidebarToggle)="toggleSidebar()"
+    >
+    </app-admin-main-navbar>
+
+    <!-- CONTENT -->
+
+    <main class="admin-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

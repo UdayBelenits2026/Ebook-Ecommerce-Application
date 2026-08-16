@@ -1,0 +1,97 @@
+<aside
+    class="admin-sidebar"
+    [class.collapsed]="isSidebarCollapsed">
+    <div class="sidebar-logo">
+
+
+        @if (!isSidebarCollapsed) {
+
+            <a
+                routerLink="/admin/dashboard"
+                class="logo-expanded"
+                (click)="onMenuClick()">
+
+                <span class="logo-icon">
+                    📚
+                </span>
+
+                <span class="logo-text">
+                    Ebook
+                </span>
+
+            </a>
+
+        }
+
+
+        @if (isSidebarCollapsed) {
+
+            <a
+                routerLink="/admin/dashboard"
+                class="logo-collapsed"
+                (click)="onMenuClick()">
+
+                📚
+
+            </a>
+
+        }
+
+    </div>
+    <nav class="sidebar-navigation">
+
+
+        @for (
+            menu of sidebarMenus;
+            track menu.id
+        ) {
+
+            <a
+                [routerLink]="menu.route"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{
+                    exact: true
+                }"
+                class="menu-item"
+                (click)="onMenuClick()">
+
+
+                <!-- ICON -->
+
+                <i
+                    [class]="menu.icon">
+                </i>
+
+
+                <!-- TITLE -->
+
+                @if (!isSidebarCollapsed) {
+
+                    <span class="menu-title">
+
+                        {{ menu.title }}
+
+                    </span>
+
+                }
+
+
+                <!-- TOOLTIP -->
+
+                @if (isSidebarCollapsed) {
+
+                    <span class="menu-tooltip">
+
+                        {{ menu.title }}
+
+                    </span>
+
+                }
+
+            </a>
+
+        }
+
+    </nav>
+
+</aside>

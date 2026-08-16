@@ -1,0 +1,545 @@
+<div class="about-page">
+  <!--
+       HERO
+ = -->
+
+  <section class="about-hero">
+    <div class="container">
+      <div class="hero-layout reveal-element" #revealEl>
+        <!-- LEFT -->
+
+        <div class="hero-content">
+          <span class="eyebrow"> ABOUT EBOOK </span>
+
+          <h1>
+            Today a
+
+            <span> Reader, </span>
+
+            <br />
+
+            Tomorrow a
+
+            <span> Leader. </span>
+          </h1>
+
+          <p class="hero-description">
+            EBook is built for people who believe the right book can change the way they think,
+            learn and imagine. Discover meaningful stories, useful knowledge and your next favourite
+            read from our growing collection.
+          </p>
+
+          <!-- BUTTONS -->
+
+          <div class="hero-actions">
+            <button type="button" class="primary-btn" (click)="browseBooks()">
+              Browse Books
+
+              <i class="bi bi-arrow-right"></i>
+            </button>
+
+            <button type="button" class="secondary-btn" (click)="exploreCategories()">
+              Explore Categories
+            </button>
+          </div>
+
+          <!-- SMALL POINTS -->
+
+          <div class="hero-points">
+            <div class="hero-point">
+              <i class="bi bi-check-circle-fill"></i>
+
+              <span> Curated collection </span>
+            </div>
+
+            <div class="hero-point">
+              <i class="bi bi-check-circle-fill"></i>
+
+              <span> Secure shopping </span>
+            </div>
+
+            <div class="hero-point">
+              <i class="bi bi-check-circle-fill"></i>
+
+              <span> Books for every reader </span>
+            </div>
+
+            <div class="hero-point">
+              <i class="bi bi-check-circle-fill"></i>
+
+              <span> Easy wishlist </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT VISUAL -->
+
+        <div class="hero-visual">
+          <div class="hero-shape shape-one"></div>
+
+          <div class="hero-shape shape-two"></div>
+
+          <div class="reader-illustration">
+            <div class="reader-circle">
+              <img src="/assets/images/reading.png" alt="reading-image" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--
+       STORE HIGHLIGHTS
+ = -->
+
+  <section class="highlight-section">
+    <div class="container">
+      <p class="highlight-heading">Everything you need for a better book shopping experience</p>
+
+      <div class="highlight-row">
+        <div class="highlight-item" *ngFor="let item of storeHighlights">
+          <div class="highlight-icon">
+            <i [class]="item.icon"></i>
+          </div>
+
+          <div>
+            <strong>
+              {{ item.title }}
+            </strong>
+
+            <span>
+              {{ item.text }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--
+       STORY / PROMOTIONAL BLOCKS
+ = -->
+
+  <section class="story-promotions">
+    <div class="container">
+      <div class="promotion-grid">
+        <!-- STORY -->
+
+        <article class="promotion-card story-card reveal-element" #revealEl>
+          <div class="promotion-content">
+            <span class="small-label"> OUR STORY </span>
+
+            <h2>
+              A bookstore built around
+              <span>better discovery.</span>
+            </h2>
+
+            <p>
+              EBook started with a simple idea: finding your next great book should feel exciting,
+              not complicated.
+            </p>
+
+            <p>
+              We bring books, categories, wishlist tools and a simple shopping experience together
+              in one place.
+            </p>
+
+            <button type="button" class="dark-btn" (click)="browseBooks()">
+              Explore Collection
+
+              <i class="bi bi-arrow-right"></i>
+            </button>
+          </div>
+
+          <div class="promotion-visual story-graphic">
+            <img src="/assets/images/smalllboy2.png" alt="small-boy" id="boy-img" />
+          </div>
+        </article>
+
+        <!-- OFFER / WHY EBOOK -->
+
+        <article class="promotion-card yellow-card reveal-element" #revealEl>
+          <div class="promotion-content">
+            <span class="small-label"> WHY EBOOK </span>
+
+            <h2>
+              Books for
+              <span>every kind</span>
+              of reader.
+            </h2>
+
+            <p>Fiction or technology. History or science. Bestseller or hidden gem.</p>
+
+            <p>Explore categories created to make discovering your next read easier.</p>
+
+            <button type="button" class="dark-btn" (click)="exploreCategories()">
+              Browse Categories
+
+              <i class="bi bi-arrow-right"></i>
+            </button>
+          </div>
+
+          <div class="promotion-visual category-graphic">
+            <img src="/assets/images/treeboy.png" alt="tree-boy" id="tree-img" />
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!--
+       DYNAMIC STATISTICS
+ = -->
+
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid reveal-element" #revealEl>
+        <!-- BOOKS -->
+
+        <div class="stat-item">
+          <div class="stat-icon">
+            <i class="bi bi-book-half"></i>
+          </div>
+
+          <strong *ngIf="!booksLoading"> {{ totalBooks }}+ </strong>
+
+          <div class="mini-loader" *ngIf="booksLoading"></div>
+
+          <span> Books Available </span>
+        </div>
+
+        <!-- CATEGORIES -->
+
+        <div class="stat-item">
+          <div class="stat-icon">
+            <i class="bi bi-grid"></i>
+          </div>
+
+          <strong *ngIf="!categoriesLoading"> {{ totalCategories }}+ </strong>
+
+          <div class="mini-loader" *ngIf="categoriesLoading"></div>
+
+          <span> Book Categories </span>
+        </div>
+
+        <!-- SECURE -->
+
+        <div class="stat-item">
+          <div class="stat-icon">
+            <i class="bi bi-shield-check"></i>
+          </div>
+
+          <strong> Secure </strong>
+
+          <span> Shopping Experience </span>
+        </div>
+
+        <!-- SUPPORT -->
+
+        <div class="stat-item">
+          <div class="stat-icon">
+            <i class="bi bi-heart"></i>
+          </div>
+
+          <strong> Simple </strong>
+
+          <span> Wishlist & Cart </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--
+       FEATURED COLLECTION
+ = -->
+
+  <section class="collection-section">
+    <div class="container">
+      <!-- HEADING -->
+
+      <div class="section-header reveal-element" #revealEl>
+        <div>
+          <span class="eyebrow"> OUR COLLECTION </span>
+
+          <h2>Featured Books</h2>
+
+          <p>Discover something worth reading from our growing bookstore.</p>
+        </div>
+
+        <button type="button" class="view-all-btn" (click)="browseBooks()">
+          View All Books
+
+          <i class="bi bi-arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- LOADING -->
+
+      <div class="collection-loading" *ngIf="booksLoading">
+        <div class="loader"></div>
+
+        <p>Loading books...</p>
+      </div>
+
+      <!-- ERROR -->
+
+      <div class="collection-error" *ngIf="!booksLoading && booksError">
+        <i class="bi bi-exclamation-circle"></i>
+
+        <p>
+          {{ booksError }}
+        </p>
+
+        <button type="button" (click)="loadBooks()">Try Again</button>
+      </div>
+
+      <!-- BOOKS -->
+
+      <div class="books-scroll" *ngIf="!booksLoading && !booksError && books.length">
+        <article
+          class="book-card"
+          *ngFor="let book of books; trackBy: trackByBook"
+          (click)="openBook(book)"
+        >
+          <!-- IMAGE -->
+
+          <div class="book-image">
+            <img
+              [src]="book.image || placeholderImage"
+              [alt]="book.title"
+              loading="lazy"
+              (error)="onBookImageError($event)"
+            />
+
+            <span class="book-category" *ngIf="book.category_name">
+              {{ book.category_name }}
+            </span>
+          </div>
+
+          <!-- CONTENT -->
+
+          <div class="book-info">
+            <h3 [title]="book.title">
+              {{ book.title }}
+            </h3>
+
+            <p class="book-author">
+              {{ book.author }}
+            </p>
+
+            <!-- RATING -->
+
+            <div class="rating-row">
+              <div class="stars">
+                <i class="bi bi-star-fill" *ngFor="let star of getStars(book.rating)"></i>
+
+                <i class="bi bi-star" *ngFor="let star of getEmptyStars(book.rating)"></i>
+              </div>
+
+              <span>
+                {{ book.rating | number: '1.1-1' }}
+              </span>
+            </div>
+
+            <!-- PRICE -->
+
+            <div class="book-bottom">
+              <strong class="book-price">
+                {{ book.price | currency: 'INR' : 'symbol' : '1.0-0' }}
+              </strong>
+
+              <span class="stock" [class.out-stock]="book.stock <= 0">
+                {{ book.stock > 0 ? 'In stock' : 'Out of stock' }}
+              </span>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- EMPTY -->
+
+      <div class="collection-empty" *ngIf="!booksLoading && !booksError && books.length === 0">
+        <i class="bi bi-book"></i>
+
+        <h3>Our collection is growing.</h3>
+
+        <p>New books will appear here soon.</p>
+      </div>
+    </div>
+  </section>
+
+  <!--
+       CATEGORIES
+ = -->
+
+  <section class="categories-section">
+    <div class="container">
+      <div class="section-header reveal-element" #revealEl>
+        <div>
+          <span class="eyebrow"> EXPLORE </span>
+
+          <h2>Browse by Category</h2>
+
+          <p>Find the kind of book you're in the mood to read.</p>
+        </div>
+
+        <button type="button" class="view-all-btn" (click)="exploreCategories()">
+          All Categories
+
+          <i class="bi bi-arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- LOADING -->
+
+      <div class="category-loading" *ngIf="categoriesLoading">
+        <div class="loader"></div>
+      </div>
+
+      <!-- CATEGORY ROW -->
+
+      <div class="category-row" *ngIf="!categoriesLoading && categories.length">
+        <button
+          type="button"
+          class="category-pill"
+          *ngFor="let category of categories; trackBy: trackByCategory"
+          (click)="openCategory(category)"
+        >
+          <div class="category-thumb" *ngIf="category.image">
+            <img [src]="category.image" [alt]="category.name" />
+          </div>
+
+          <div class="category-default-icon" *ngIf="!category.image">
+            <i class="bi bi-book"></i>
+          </div>
+
+          <span>
+            {{ category.name }}
+          </span>
+
+          <i class="bi bi-arrow-up-right"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!--
+       WHY CHOOSE EBOOK
+ = -->
+
+  <section class="why-section">
+    <div class="container">
+      <div class="why-layout">
+        <!-- LEFT -->
+
+        <div class="why-intro reveal-element" #revealEl>
+          <span class="eyebrow"> WHY CHOOSE US </span>
+
+          <h2>
+            Built for people who simply
+
+            <span> love books. </span>
+          </h2>
+
+          <p>
+            We focus on making book discovery straightforward, enjoyable and useful. From finding a
+            title to saving it for later or adding it to your cart, everything is designed around
+            readers.
+          </p>
+
+          <button type="button" class="primary-btn" (click)="browseBooks()">
+            Start Exploring
+
+            <i class="bi bi-arrow-right"></i>
+          </button>
+        </div>
+
+        <!-- FEATURES -->
+
+        <div class="why-grid">
+          <article class="why-card reveal-element" #revealEl *ngFor="let item of whyChooseUs">
+            <div class="why-icon">
+              <i [class]="item.icon"></i>
+            </div>
+
+            <h3>
+              {{ item.title }}
+            </h3>
+
+            <p>
+              {{ item.text }}
+            </p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--
+       HOW IT WORKS
+ = -->
+
+  <section class="steps-section">
+    <div class="container">
+      <div class="center-heading reveal-element" #revealEl>
+        <span class="eyebrow"> SIMPLE EXPERIENCE </span>
+
+        <h2>From discovery to your bookshelf.</h2>
+
+        <p>Finding and buying your next book should be simple.</p>
+      </div>
+
+      <div class="steps-row">
+        <div class="step" *ngFor="let step of steps; let last = last">
+          <div class="step-circle">
+            <i [class]="step.icon"></i>
+          </div>
+
+          <span class="step-number">
+            {{ step.number }}
+          </span>
+
+          <h3>
+            {{ step.title }}
+          </h3>
+
+          <p>
+            {{ step.text }}
+          </p>
+
+          <div class="step-line" *ngIf="!last"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--
+       FINAL CTA
+  -->
+
+  <section class="final-section">
+    <div class="container">
+      <div class="final-card reveal-element" #revealEl>
+        <div class="final-content">
+          <span class="eyebrow"> YOUR NEXT STORY STARTS HERE </span>
+
+          <h2>Find a book worth getting lost in.</h2>
+
+          <p>
+            Explore our growing collection and discover stories, ideas and knowledge waiting for
+            you.
+          </p>
+
+          <button type="button" class="final-button" (click)="browseBooks()">
+            Browse Books
+
+            <i class="bi bi-arrow-right"></i>
+          </button>
+        </div>
+
+        <img src="/assets/images/aboutpage.png" alt="" />
+      </div>
+    </div>
+  </section>
+</div>

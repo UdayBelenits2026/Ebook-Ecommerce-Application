@@ -1,0 +1,98 @@
+<div class="profile-container">
+  <div class="page-header">
+    <h2>My Profile</h2>
+
+    <p>Manage your personal information</p>
+  </div>
+
+  <!-- Loading -->
+
+  @if (isLoading()) {
+    <div class="loading">
+      <div class="spinner-border text-primary"></div>
+    </div>
+
+  } @else {
+    <!-- Success -->
+
+    @if (successMessage()) {
+      <div class="success-message">
+        {{ successMessage() }}
+      </div>
+    }
+
+    <!-- Error -->
+
+    @if (errorMessage()) {
+      <div class="error-message">
+        {{ errorMessage() }}
+      </div>
+    }
+
+    <div class="profile-card">
+      <!-- ======================
+             Profile Image
+        ======================= -->
+
+      <div class="image-section">
+        @if (profileImage()) {
+          <img [src]="profileImage()" alt="Admin Profile" />
+
+        } @else {
+          <div class="default-avatar">
+            <i class="bi bi-person-circle"></i>
+          </div>
+        }
+
+        <label for="profileImage" class="upload-btn">
+          <i class="bi bi-camera"></i>
+
+          Upload Image
+        </label>
+
+        <input
+          id="profileImage"
+          type="file"
+          accept="image/*"
+          hidden
+          (change)="onImageSelected($event)"
+        />
+      </div>
+
+      <!-- ======================
+             Profile Form
+        ======================= -->
+
+      <div class="form-section">
+        <div class="form-group">
+          <label> Full Name </label>
+
+          <input type="text" [ngModel]="fullName()" (ngModelChange)="fullName.set($event)" />
+        </div>
+
+        <div class="form-group">
+          <label> Email </label>
+
+          <input type="email" [value]="profile()?.email" readonly />
+        </div>
+
+        <div class="form-group">
+          <label> Phone </label>
+
+          <input type="text" [ngModel]="phone()" (ngModelChange)="phone.set($event)" />
+        </div>
+
+        <button class="save-btn" [disabled]="isSaving()" (click)="saveProfile()">
+          @if (isSaving()) {
+            Saving...
+
+          } @else {
+            <i class="bi bi-check-circle"></i>
+
+            Save Changes
+          }
+        </button>
+      </div>
+    </div>
+  }
+</div>

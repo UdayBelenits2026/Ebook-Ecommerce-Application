@@ -1,0 +1,156 @@
+<section class="main-setings">
+  <section class="settings-page">
+    <!-- 
+         PAGE HEADER
+    = -->
+
+    <div class="page-header">
+      <h1>Settings</h1>
+      <p>Keep your account secure by updating your password regularly.</p>
+    </div>
+
+    <!-- 
+         CHANGE PASSWORD CARD
+    = -->
+
+    <div class="settings-card">
+      <h2>Change Password</h2>
+
+      <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+        <!-- Current Password -->
+
+        <div class="form-group">
+          <label for="oldPassword"> Current Password </label>
+
+          <input
+            id="oldPassword"
+            type="password"
+            formControlName="old_password"
+            placeholder="Enter your current password"
+          />
+
+          <small
+            class="validation-error"
+            *ngIf="oldPassword?.touched && oldPassword?.hasError('required')"
+          >
+            Current password is required.
+          </small>
+        </div>
+
+        <!-- New Password -->
+
+        <div class="form-group">
+          <label for="newPassword"> New Password </label>
+
+          <input
+            id="newPassword"
+            type="password"
+            formControlName="new_password"
+            placeholder="Enter your new password"
+          />
+
+          <small
+            class="validation-error"
+            *ngIf="newPassword?.touched && newPassword?.hasError('required')"
+          >
+            New password is required.
+          </small>
+
+          <small
+            class="validation-error"
+            *ngIf="newPassword?.touched && newPassword?.hasError('minlength')"
+          >
+            Password must contain at least 8 characters.
+          </small>
+
+          <small
+            class="validation-error"
+            *ngIf="newPassword?.touched && newPassword?.hasError('pattern')"
+          >
+            Password must contain an uppercase letter, lowercase letter, number and special
+            character.
+          </small>
+        </div>
+
+        <!-- Confirm Password -->
+
+        <div class="form-group">
+          <label for="confirmPassword"> Confirm New Password </label>
+
+          <input
+            id="confirmPassword"
+            type="password"
+            formControlName="confirm_password"
+            placeholder="Confirm your password"
+          />
+
+          <small
+            class="validation-error"
+            *ngIf="confirmPassword?.touched && confirmPassword?.hasError('required')"
+          >
+            Confirm password is required.
+          </small>
+
+          <small
+            class="validation-error"
+            *ngIf="passwordForm.hasError('passwordMismatch') && confirmPassword?.touched"
+          >
+            Passwords do not match.
+          </small>
+        </div>
+
+        <!-- Success -->
+
+        <div class="success-message" *ngIf="successMessage">
+          {{ successMessage }}
+        </div>
+
+        <!-- Error -->
+
+        <div class="error-message" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+
+        <!-- Password Tips -->
+
+        <div class="password-tips">
+          <h4>Password Requirements</h4>
+
+          <ul>
+            <li>Minimum 8 characters.</li>
+
+            <li>One uppercase letter.</li>
+
+            <li>One lowercase letter.</li>
+
+            <li>One number.</li>
+
+            <li>One special character.</li>
+          </ul>
+        </div>
+
+        <!-- Button -->
+
+        <button class="change-btn" type="submit" [disabled]="loading || passwordForm.invalid">
+          {{ loading ? 'Updating Password...' : 'Change Password' }}
+        </button>
+      </form>
+    </div>
+  </section>
+</section>
+
+<!-- 
+     SUCCESS MODAL
+= -->
+
+<div class="modal-backdrop" *ngIf="showSuccessModal">
+  <div class="success-modal">
+    <div class="success-icon">✔</div>
+
+    <h2>Password Updated</h2>
+
+    <p>Your password has been changed successfully.</p>
+
+    <button class="modal-btn" (click)="closeModal()">OK</button>
+  </div>
+</div>

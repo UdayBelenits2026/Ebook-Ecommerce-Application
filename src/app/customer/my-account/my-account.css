@@ -1,0 +1,287 @@
+/* 
+   PAGE
+ */
+.main-account {
+  background:
+    radial-gradient(circle at 0 0, rgba(255, 190, 120, 0.15), transparent 25%),
+    radial-gradient(circle at 100% 10%, rgba(255, 140, 120, 0.12), transparent 25%), #f7f7f5;
+}
+.account-page {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 20px;
+  font-family: 'Times New Roman', serif;
+}
+
+/* 
+   HEADER
+ */
+
+.page-header {
+  margin-bottom: 30px;
+}
+
+.page-header h1 {
+  font-size: 38px;
+  color: #4b2e2e;
+  margin-bottom: 10px;
+}
+
+.page-header p {
+  color: #7a6d63;
+  font-size: 17px;
+}
+
+/* 
+   CARD
+ */
+
+.account-card {
+  display: flex;
+  gap: 50px;
+  border-radius: 18px;
+  padding: 35px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+  border: 1px solid #eee3d5;
+}
+
+/* 
+   LEFT
+ */
+
+.profile-left {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-image {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 5px solid #c9ae84;
+  object-fit: contain;
+  object-position: center;
+  background: #fff;
+  display: block;
+  margin: 0 auto 20px;
+}
+
+.profile-left input[type='file'] {
+  width: 100%;
+  margin-bottom: 15px;
+  color: #555;
+}
+
+.upload-btn {
+  width: 100%;
+  border: none;
+  background: #8b5e3c;
+  color: white;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+.upload-btn:hover:not(:disabled) {
+  background: #6d472d;
+}
+
+.upload-btn:disabled {
+  background: #c5b8ad;
+  cursor: not-allowed;
+}
+
+/* 
+   RIGHT
+ */
+
+.profile-right {
+  flex: 1;
+}
+
+.form-group {
+  margin-bottom: 22px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #5a4432;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 13px 15px;
+  border-radius: 10px;
+  border: 1px solid #d8c7b5;
+  font-size: 16px;
+  font-family: 'Times New Roman', serif;
+  transition: 0.25s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #8b5e3c;
+  box-shadow: 0 0 0 3px rgba(139, 94, 60, 0.15);
+}
+
+.form-group input[readonly] {
+  background: #f7f5f2;
+  cursor: not-allowed;
+}
+
+/* 
+   VERIFIED
+ */
+
+.verified,
+.not-verified {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 25px;
+  font-weight: bold;
+}
+
+.verified {
+  background: #dff6e2;
+  color: #1b7f37;
+}
+
+.not-verified {
+  background: #ffe3e3;
+  color: #c62828;
+}
+
+/* 
+   BUTTON
+ */
+
+.save-btn {
+  margin-top: 10px;
+  border: none;
+  background: #e9862a;
+  color: white;
+  padding: 14px 30px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 17px;
+  transition: 0.3s;
+}
+
+.save-btn:hover:not(:disabled) {
+  background: #c19c08;
+  transform: translateY(-2px);
+}
+
+.save-btn:disabled {
+  background: #bcaea2;
+  cursor: not-allowed;
+}
+
+/* 
+   MESSAGES
+ */
+
+.success-message {
+  margin: 20px 0;
+  background: #eaf8ec;
+  color: #256029;
+  padding: 14px;
+  border-radius: 10px;
+  border-left: 5px solid #3fa34d;
+}
+
+.error-message {
+  margin: 20px 0;
+  background: #fff1f0;
+  color: #c62828;
+  padding: 14px;
+  border-radius: 10px;
+  border-left: 5px solid #d32f2f;
+}
+
+/* 
+   LOADING
+ */
+
+.loading-container {
+  text-align: center;
+  padding: 80px 0;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  margin: auto;
+  border: 5px solid #e8ddd2;
+  border-top-color: #8b5e3c;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.loading-container p {
+  margin-top: 18px;
+  color: #666;
+  font-size: 17px;
+}
+
+/* 
+   ANIMATION
+ */
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 
+   RESPONSIVE
+ */
+
+@media (max-width: 992px) {
+  .account-card {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile-left {
+    width: 100%;
+  }
+
+  .profile-right {
+    width: 100%;
+  }
+
+  .profile-image {
+    width: 170px;
+    height: 170px;
+  }
+}
+
+@media (max-width: 576px) {
+  .page-header h1 {
+    font-size: 30px;
+  }
+
+  .account-card {
+    padding: 22px;
+  }
+
+  .profile-image {
+    width: 140px;
+    height: 140px;
+  }
+
+  .save-btn,
+  .upload-btn {
+    width: 100%;
+  }
+}

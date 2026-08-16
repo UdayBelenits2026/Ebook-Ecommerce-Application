@@ -1,0 +1,124 @@
+<div class="login-page">
+
+  <section class="login-left">
+    <div class="login-card">
+      <!-- LOGO -->
+      <div class="brand">EBook</div>
+
+      <!-- WELCOME -->
+      <p class="welcome-text">Welcome back !!!</p>
+
+      <!-- TITLE -->
+      <h1 class="login-title">Sign in</h1>
+
+      <!-- FORM -->
+      <form [formGroup]="LoginForm" (ngSubmit)="login()">
+        <div *ngIf="serverError" class="server-error">
+          {{ serverError }}
+        </div>
+
+        <!-- 
+             EMAIL
+        = -->
+        <div class="form-group">
+          <label for="email"> Email </label>
+
+          <input
+            id="email"
+            type="email"
+            formControlName="Email"
+            placeholder="book@gmail.com"
+            autocomplete="email"
+          />
+
+          <!-- REQUIRED -->
+          <small
+            class="error-message"
+            *ngIf="LoginForm.get('Email')?.touched && LoginForm.get('Email')?.hasError('required')"
+          >
+            Email is required
+          </small>
+
+          <!-- INVALID EMAIL -->
+          <small
+            class="error-message"
+            *ngIf="LoginForm.get('Email')?.touched && LoginForm.get('Email')?.hasError('email')"
+          >
+            Please enter a valid email address
+          </small>
+        </div>
+
+        <!-- 
+             PASSWORD
+        = -->
+        <div class="form-group password-group">
+          <div class="password-label-row">
+            <label for="password"> Password </label>
+
+            <a routerLink="/forgot-password" class="forgot-link"> Forgot Password ? </a>
+          </div>
+
+          <input
+            id="password"
+            type="password"
+            formControlName="Password"
+            placeholder="••••••••••"
+            autocomplete="current-password"
+          />
+
+          <!-- REQUIRED -->
+          <small
+            class="error-message"
+            *ngIf="
+              LoginForm.get('Password')?.touched && LoginForm.get('Password')?.hasError('required')
+            "
+          >
+            Password is required
+          </small>
+        </div>
+
+        <!-- 
+             LOGIN BUTTON
+        = -->
+        <div class="login-button-wrapper">
+          <button type="submit" class="login-button" [disabled]="isLoading">
+            <span>
+              {{ isLoading ? 'SIGNING IN...' : 'SIGN IN' }}
+            </span>
+
+            <i
+              class="bi"
+              [ngClass]="isLoading ? 'bi-arrow-repeat loading-icon' : 'bi-arrow-right'"
+            ></i>
+          </button>
+        </div>
+
+        <!-- 
+             SIGN UP
+        = -->
+        <p class="signup-text">
+          I don't have an account ?
+
+          <a routerLink="/signup"> Sign up </a>
+        </p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ====
+       RIGHT SIDE
+  ===== -->
+  <section class="login-right">
+    <!-- ACTUAL PNG IMAGE -->
+    <div class="illustration-wrapper">
+      <img
+        src="assets/images/loginpage.png"
+        alt="Shopping illustration"
+        class="login-illustration"
+      />
+    </div>
+  </section>
+
+  <!-- BOTTOM LINE -->
+  <div class="bottom-line"></div>
+</div>

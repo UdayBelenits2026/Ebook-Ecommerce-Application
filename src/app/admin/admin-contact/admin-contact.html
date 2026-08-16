@@ -1,0 +1,411 @@
+<div class="contact-page">
+  <!-- 
+       PAGE HEADER
+   -->
+
+  <div class="page-header">
+    <div>
+      <p class="page-label">CUSTOMER SUPPORT</p>
+
+      <h1>Contact Messages</h1>
+
+      <p class="page-description">View and manage enquiries submitted by your customers.</p>
+    </div>
+
+    <button type="button" class="refresh-btn" [disabled]="loading" (click)="refreshMessages()">
+      <i class="bi bi-arrow-clockwise" [class.spin]="loading"></i>
+
+      {{ loading ? 'Refreshing...' : 'Refresh' }}
+    </button>
+  </div>
+
+  <!-- 
+       STATISTICS
+   -->
+
+  <div class="stats-grid">
+    <!-- TOTAL -->
+
+    <div class="stat-card">
+      <div class="stat-icon total-icon">
+        <i class="bi bi-chat-left-text"></i>
+      </div>
+
+      <div>
+        <span class="stat-label"> Total Messages </span>
+
+        <h3>
+          {{ totalMessages }}
+        </h3>
+      </div>
+    </div>
+
+    <!-- UNREAD -->
+
+    <div class="stat-card">
+      <div class="stat-icon unread-icon">
+        <i class="bi bi-envelope"></i>
+      </div>
+
+      <div>
+        <span class="stat-label"> Unread </span>
+
+        <h3>
+          {{ unreadMessages }}
+        </h3>
+      </div>
+    </div>
+
+    <!-- READ -->
+
+    <div class="stat-card">
+      <div class="stat-icon read-icon">
+        <i class="bi bi-envelope-open"></i>
+      </div>
+
+      <div>
+        <span class="stat-label"> Read </span>
+
+        <h3>
+          {{ readMessages }}
+        </h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- 
+       ERROR
+   -->
+
+  <div class="error-box" *ngIf="error">
+    <div class="error-content">
+      <i class="bi bi-exclamation-circle"></i>
+
+      <span>
+        {{ error }}
+      </span>
+    </div>
+
+    <button type="button" (click)="error = ''">
+      <i class="bi bi-x-lg"></i>
+    </button>
+  </div>
+
+  <!-- 
+       LOADING
+   -->
+
+  <div class="loading-state" *ngIf="loading">
+    <div class="spinner-border"></div>
+
+    <h3>Loading messages</h3>
+
+    <p>Please wait while we fetch the latest customer enquiries.</p>
+  </div>
+
+  <!-- 
+       EMPTY STATE
+   -->
+
+  <div class="empty-state" *ngIf="!loading && !error && messages.length === 0">
+    <div class="empty-icon">
+      <i class="bi bi-inbox"></i>
+    </div>
+
+    <h3>No messages yet</h3>
+
+    <p>Customer enquiries will appear here when they contact you.</p>
+  </div>
+
+  <!-- 
+       MESSAGES
+   -->
+
+  <div class="messages-card" *ngIf="!loading && messages.length > 0">
+    <!-- CARD HEADER -->
+
+    <div class="messages-header">
+      <div>
+        <h2>Customer Enquiries</h2>
+
+        <p>
+          {{ totalMessages }}
+          {{ totalMessages === 1 ? 'message' : 'messages' }}
+        </p>
+      </div>
+    </div>
+
+    <!-- ===================================================
+         TABLE
+    ==================================================== -->
+
+    <div class="table-responsive">
+      <table class="messages-table">
+        <thead>
+          <tr>
+            <th>Customer</th>
+
+            <th>Subject</th>
+
+            <th>Message</th>
+
+            <th>Status</th>
+
+            <th>Date</th>
+
+            <th class="action-heading">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            *ngFor="let msg of messages; trackBy: trackByMessageId"
+            [class.unread-row]="!msg.is_read"
+          >
+            <!-- ===========================================
+                 CUSTOMER
+            ============================================ -->
+
+            <td>
+              <div class="customer">
+                <div class="customer-avatar">
+                  {{ getInitial(msg.name) }}
+                </div>
+
+                <div class="customer-info">
+                  <strong>
+                    {{ msg.name }}
+                  </strong>
+
+                  <span>
+                    {{ msg.email }}
+                  </span>
+                </div>
+              </div>
+            </td>
+
+            <!-- ===========================================
+                 SUBJECT
+            ============================================ -->
+
+            <td>
+              <span class="subject">
+                {{ msg.subject || 'No Subject' }}
+              </span>
+            </td>
+
+            <!-- ===========================================
+                 MESSAGE
+            ============================================ -->
+
+            <td>
+              <p class="message-preview">
+                {{ msg.message }}
+              </p>
+            </td>
+
+            <!-- ===========================================
+                 STATUS
+            ============================================ -->
+
+            <td>
+              <!-- UNREAD -->
+
+              <span class="status-badge unread" *ngIf="!msg.is_read">
+                <span class="status-dot"></span>
+
+                Unread
+              </span>
+
+              <!-- READ -->
+
+              <span class="status-badge read" *ngIf="msg.is_read">
+                <i class="bi bi-check-circle-fill"></i>
+
+                Read
+              </span>
+            </td>
+
+            <!-- ===========================================
+                 DATE
+            ============================================ -->
+
+            <td>
+              <div class="date-info">
+                <span>
+                  {{ msg.created_at | date: 'dd MMM yyyy' }}
+                </span>
+
+                <small>
+                  {{ msg.created_at | date: 'hh:mm a' }}
+                </small>
+              </div>
+            </td>
+
+            <!-- ===========================================
+                 ACTIONS
+            ============================================ -->
+
+            <td>
+              <div class="action-buttons">
+                <!-- VIEW -->
+
+                <button
+                  type="button"
+                  class="icon-btn view-btn"
+                  title="View message"
+                  (click)="openMessage(msg)"
+                >
+                  <i class="bi bi-eye"></i>
+                </button>
+
+                <!-- MARK READ -->
+
+                <button
+                  *ngIf="!msg.is_read"
+                  type="button"
+                  class="icon-btn read-btn"
+                  title="Mark as read"
+                  [disabled]="isMarkingRead(msg.id)"
+                  (click)="markAsRead(msg)"
+                >
+                  <i
+                    class="bi"
+                    [ngClass]="isMarkingRead(msg.id) ? 'bi-arrow-repeat spin' : 'bi-envelope-open'"
+                  ></i>
+                </button>
+
+                <!-- DELETE -->
+
+                <button
+                  type="button"
+                  class="icon-btn delete-btn"
+                  title="Delete message"
+                  [disabled]="isDeleting(msg.id)"
+                  (click)="deleteMessage(msg.id)"
+                >
+                  <i
+                    class="bi"
+                    [ngClass]="isDeleting(msg.id) ? 'bi-arrow-repeat spin' : 'bi-trash3'"
+                  ></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ===
+     MESSAGE MODAL
+==== -->
+
+<div class="message-modal-backdrop" *ngIf="selectedMessage" (click)="closeMessage()">
+  <div class="message-modal" (click)="$event.stopPropagation()">
+    <!-- 
+         MODAL HEADER
+     -->
+
+    <div class="modal-header">
+      <div class="modal-customer">
+        <div class="modal-avatar">
+          {{ getInitial(selectedMessage.name) }}
+        </div>
+
+        <div>
+          <span class="modal-label"> MESSAGE FROM </span>
+
+          <h3>
+            {{ selectedMessage.name }}
+          </h3>
+
+          <a [href]="'mailto:' + selectedMessage.email">
+            {{ selectedMessage.email }}
+          </a>
+        </div>
+      </div>
+
+      <button type="button" class="modal-close" (click)="closeMessage()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <!-- 
+         MODAL BODY
+     -->
+
+    <div class="modal-body">
+      <!-- META -->
+
+      <div class="message-meta">
+        <div>
+          <span> Subject </span>
+
+          <strong>
+            {{ selectedMessage.subject || 'No Subject' }}
+          </strong>
+        </div>
+
+        <div>
+          <span> Received </span>
+
+          <strong>
+            {{ selectedMessage.created_at | date: 'dd MMM yyyy, hh:mm a' }}
+          </strong>
+        </div>
+
+        <div>
+          <span> Status </span>
+
+          <strong
+            [class.status-read-text]="selectedMessage.is_read"
+            [class.status-unread-text]="!selectedMessage.is_read"
+          >
+            {{ selectedMessage.is_read ? 'Read' : 'Unread' }}
+          </strong>
+        </div>
+      </div>
+
+      <!-- MESSAGE -->
+
+      <div class="full-message">
+        <span class="message-label"> Message </span>
+
+        <p>
+          {{ selectedMessage.message }}
+        </p>
+      </div>
+    </div>
+
+    <!-- 
+         MODAL FOOTER
+     -->
+
+    <div class="modal-footer">
+      <a
+        class="reply-btn"
+        [href]="'mailto:' + selectedMessage.email + '?subject=Re: ' + selectedMessage.subject"
+      >
+        <i class="bi bi-reply"></i>
+
+        Reply by Email
+      </a>
+
+      <button
+        type="button"
+        class="modal-delete-btn"
+        [disabled]="isDeleting(selectedMessage.id)"
+        (click)="deleteMessage(selectedMessage.id)"
+      >
+        <i
+          class="bi"
+          [ngClass]="isDeleting(selectedMessage.id) ? 'bi-arrow-repeat spin' : 'bi-trash3'"
+        ></i>
+
+        {{ isDeleting(selectedMessage.id) ? 'Deleting...' : 'Delete' }}
+      </button>
+    </div>
+  </div>
+</div>

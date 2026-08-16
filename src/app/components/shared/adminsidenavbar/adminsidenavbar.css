@@ -1,0 +1,452 @@
+:host {
+    display: block;
+}
+
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.admin-sidebar {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+    width: 260px;
+
+    height: 100vh;
+
+    background: #B8860B;
+
+    color: #ffffff;
+
+    display: flex;
+
+    flex-direction: column;
+
+    overflow: hidden;
+
+    z-index: 1200;
+
+    box-shadow:
+        3px 0 12px
+        rgba(0, 0, 0, .12);
+
+    transition:
+        width .3s ease,
+        transform .3s ease;
+
+}
+
+
+/* =====================================================
+   COLLAPSED DESKTOP
+===================================================== */
+
+.admin-sidebar.collapsed {
+
+    width: 80px;
+
+}
+
+
+/* =====================================================
+   LOGO
+===================================================== */
+
+.sidebar-logo {
+
+    height: 70px;
+
+    min-height: 70px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-bottom:
+        1px solid
+        rgba(255, 255, 255, .18);
+
+}
+
+
+.logo-expanded {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+}
+
+
+.logo-icon {
+
+    font-size: 24px;
+
+}
+
+
+.logo-text {
+
+    font-size: 24px;
+
+    font-weight: 600;
+
+}
+
+
+.logo-collapsed {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 26px;
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+.sidebar-navigation {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+
+    margin-top: 15px;
+
+    padding: 0 10px;
+
+    overflow-y: auto;
+
+    overflow-x: hidden;
+
+}
+
+
+/* =====================================================
+   MENU ITEM
+===================================================== */
+
+.menu-item {
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    width: 100%;
+
+    min-height: 50px;
+
+    padding: 13px 15px;
+
+    border-radius: 8px;
+
+    color: #f2f4f5;
+
+    text-decoration: none;
+
+    transition:
+        background .2s ease,
+        color .2s ease;
+
+}
+
+
+.menu-item i {
+
+    width: 25px;
+
+    min-width: 25px;
+
+    text-align: center;
+
+    font-size: 20px;
+
+}
+
+
+.menu-title {
+
+    font-size: 15px;
+
+    font-weight: 500;
+
+    white-space: nowrap;
+
+}
+
+
+/* =====================================================
+   HOVER
+===================================================== */
+
+.menu-item:hover {
+
+    background: #D4A017;
+
+    color: #ffffff;
+
+}
+
+
+/* =====================================================
+   ACTIVE
+===================================================== */
+
+.menu-item.active {
+
+    background: #1E3A8A;
+
+    color: #ffffff;
+
+    font-weight: 600;
+
+}
+
+
+/* =====================================================
+   COLLAPSED
+===================================================== */
+
+.admin-sidebar.collapsed
+.menu-item {
+
+    justify-content: center;
+
+    padding:
+        13px 10px;
+
+}
+
+
+/* =====================================================
+   TOOLTIP
+===================================================== */
+
+.menu-tooltip {
+
+    position: absolute;
+
+    left: 70px;
+
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    background: #111827;
+
+    color: #ffffff;
+
+    padding: 8px 12px;
+
+    border-radius: 6px;
+
+    font-size: 13px;
+
+    white-space: nowrap;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transition: .2s;
+
+    z-index: 2000;
+
+}
+
+
+.admin-sidebar.collapsed
+.menu-item:hover
+.menu-tooltip {
+
+    opacity: 1;
+
+    visibility: visible;
+
+}
+
+
+/* =====================================================
+   SCROLLBAR
+===================================================== */
+
+.sidebar-navigation::-webkit-scrollbar {
+
+    width: 5px;
+
+}
+
+
+.sidebar-navigation::-webkit-scrollbar-track {
+
+    background:
+        rgba(0, 0, 0, .08);
+
+}
+
+
+.sidebar-navigation::-webkit-scrollbar-thumb {
+
+    background:
+        rgba(255, 255, 255, .35);
+
+    border-radius: 10px;
+
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 1024px) {
+
+    .admin-sidebar {
+
+        width: 200px;
+
+    }
+
+
+    .admin-sidebar.collapsed {
+
+        width: 64px;
+
+    }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 768px) {
+
+    /*
+       Mobile sidebar is initially hidden.
+    */
+
+    .admin-sidebar {
+
+        width: 260px;
+
+        transform:
+            translateX(-100%);
+
+        box-shadow:
+            5px 0 25px
+            rgba(0, 0, 0, .25);
+
+    }
+
+
+    /*
+       When collapsed signal is TRUE,
+       sidebar becomes visible on mobile.
+    */
+
+    .admin-sidebar.collapsed {
+
+        width: 260px;
+
+        transform:
+            translateX(0);
+
+    }
+
+
+    /*
+       Hide tooltip on mobile.
+    */
+
+    .menu-tooltip {
+
+        display: none;
+
+    }
+
+
+    .sidebar-logo {
+
+        height: 65px;
+
+        min-height: 65px;
+
+    }
+
+
+    .sidebar-navigation {
+
+        padding:
+            0 12px;
+
+    }
+
+
+    .menu-item {
+
+        min-height: 50px;
+
+        padding:
+            14px 16px;
+
+    }
+
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 480px) {
+
+    .admin-sidebar {
+
+        width: 240px;
+
+    }
+
+
+    .admin-sidebar.collapsed {
+
+        width: 240px;
+
+    }
+
+}

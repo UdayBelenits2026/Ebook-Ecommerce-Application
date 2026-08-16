@@ -1,0 +1,124 @@
+<header
+    class="admin-top-navbar"
+    [class.sidebar-collapsed]="isSidebarCollapsed">
+    <div class="navbar-left">
+
+        <button
+            type="button"
+            class="menu-btn"
+            (click)="toggleSidebar()"
+            aria-label="Toggle sidebar">
+
+            <i class="bi bi-list"></i>
+
+        </button>
+    </div>
+    <div class="navbar-right">
+
+        <div
+            class="profile-section"
+            [class.open]="isProfileMenuOpen()">
+            <button
+                type="button"
+                class="profile"
+                (click)="toggleProfileMenu()"
+                [attr.aria-expanded]="isProfileMenuOpen()">
+
+
+                <img
+                    *ngIf="adminProfile()?.profile_image"
+                    [src]="adminProfile()?.profile_image"
+                    alt="Admin Image"
+                    class="profile-image">
+
+
+                <i
+                    *ngIf="!adminProfile()?.profile_image"
+                    class="bi bi-person-circle profile-icon">
+                </i>
+
+
+                <div
+                    class="profile-details"
+                    *ngIf="!isSidebarCollapsed">
+
+                    <h4>
+                        {{
+                            adminProfile()?.full_name ||
+                            'Administrator'
+                        }}
+                    </h4>
+
+                    <small>
+                        {{
+                            adminProfile()?.email ||
+                            ''
+                        }}
+                    </small>
+
+                </div>
+
+
+                <i
+                    class="bi bi-chevron-down profile-arrow"
+                    [class.rotate]="isProfileMenuOpen()">
+                </i>
+
+            </button>
+
+
+            <!-- PROFILE DROPDOWN -->
+
+            <div
+                class="profile-dropdown"
+                *ngIf="isProfileMenuOpen()">
+
+
+                <a
+                    routerLink="/admin/admin-profile"
+                    (click)="closeProfileMenu()">
+
+                    <i class="bi bi-person-circle"></i>
+
+                    <span>
+                        My Profile
+                    </span>
+
+                </a>
+
+
+                <a
+                    routerLink="/admin/admin-settings"
+                    (click)="closeProfileMenu()">
+
+                    <i class="bi bi-gear"></i>
+
+                    <span>
+                        Settings
+                    </span>
+
+                </a>
+
+
+                <div class="dropdown-divider"></div>
+
+
+                <button
+                    type="button"
+                    (click)="logout()">
+
+                    <i class="bi bi-box-arrow-right"></i>
+
+                    <span>
+                        Logout
+                    </span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>

@@ -1,0 +1,154 @@
+<section class="contact-section py-5" id="contact-fo">
+  <div class="container py-md-4">
+    <div class="row g-5 align-items-start">
+
+      <!-- Left Column: Branding & Info -->
+      <div class="col-lg-5 pe-lg-5">
+        <h1 class="font-serif display-4 fw-bold text-dark mb-4">Contact The Ebook</h1>
+
+        <!-- Quick Action Buttons -->
+        <div class="d-flex flex-wrap gap-2 mb-4">
+          <a href="tel:+18003155939" class="btn btn-yellow-pill rounded-pill px-3 py-2 fw-semibold text-dark text-decoration-none">
+            <i class="bi bi-telephone-fill me-1"></i> Call us +1 (800) 315-5939
+          </a>
+          <button type="button" class="btn btn-outline-dark rounded-pill px-3 py-2 fw-semibold d-flex align-items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-text" viewBox="0 0 16 16">
+              <path d="M2.678 11.894a1 1 0 0 1 .287.801 11 11 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8 8 0 0 0 8 14c3.996 0 7-2.807 7-6s-3.004-6-7-6-7 2.807-7 6c0 1.313.511 2.51 1.38 3.42a1 1 0 0 1 .298.474z"/>
+            </svg>
+            Chat with us
+          </button>
+        </div>
+
+        <!-- Descriptive Bullet Points -->
+        <div class="info-list text-secondary mb-4 space-y-3">
+          <p class="mb-2">Find the right digital reader library for your goals.</p>
+          <p class="mb-2">Experience a live demo of The Ebook Reader platform.</p>
+          <p class="mb-2">Explore custom institutional and bulk licensing for your business or school.</p>
+        </div>
+
+        <p class="text-muted small fst-italic mb-4">
+          *Our customer support and sales teams are available Monday through Friday, 8am - 8pm EST.
+        </p>
+
+        <!-- Dark Callout Box (Support) -->
+        <div class="support-card bg-dark text-white p-4 rounded-2">
+          <p class="mb-0 text-center small">
+            Need help with an existing digital order? 
+            <a href="#" class="text-white fw-bold text-decoration-underline">Get Support</a>.
+            <br>
+            <span class="fst-italic opacity-75">*Assistance is currently available in English.</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Right Column: Contact Form -->
+      <div class="col-lg-7 ps-lg-4">
+        <h2 class="h3 font-serif fw-bold text-dark mb-4">Email us</h2>
+
+        <!-- Alert Banners -->
+        <div *ngIf="submitted()" class="alert alert-success border-0 rounded-3 shadow-sm mb-4">
+          <i class="bi bi-check-circle-fill me-2"></i> Thank you! Your message has been sent successfully.
+        </div>
+
+        <div *ngIf="submitError()" class="alert alert-danger border-0 rounded-3 shadow-sm mb-4">
+          <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ submitError() }}
+        </div>
+
+        <!-- Angular Reactive Form -->
+        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" novalidate>
+          
+          <!-- Name & Email Row -->
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label for="name" class="form-label fw-bold text-dark small">Full Name<span class="text-danger">*</span></label>
+              <input 
+                type="text" 
+                id="name" 
+                formControlName="name" 
+                class="form-control custom-input" 
+                placeholder="e.g. Sam Lee"
+                [class.is-invalid]="contactForm.get('name')?.touched && contactForm.get('name')?.invalid"
+              />
+              <div *ngIf="contactForm.get('name')?.touched && contactForm.get('name')?.errors?.['required']" class="invalid-feedback">
+                Name is required.
+              </div>
+              <div *ngIf="contactForm.get('name')?.touched && contactForm.get('name')?.errors?.['minlength']" class="invalid-feedback">
+                Name must be at least 2 characters.
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="email" class="form-label fw-bold text-dark small">Email Address<span class="text-danger">*</span></label>
+              <input 
+                type="email" 
+                id="email" 
+                formControlName="email" 
+                class="form-control custom-input" 
+                placeholder="sam@example.com"
+                [class.is-invalid]="contactForm.get('email')?.touched && contactForm.get('email')?.invalid"
+              />
+              <div *ngIf="contactForm.get('email')?.touched && contactForm.get('email')?.errors?.['required']" class="invalid-feedback">
+                Email address is required.
+              </div>
+              <div *ngIf="contactForm.get('email')?.touched && contactForm.get('email')?.errors?.['email']" class="invalid-feedback">
+                Please enter a valid email address.
+              </div>
+            </div>
+          </div>
+
+          <!-- Subject -->
+          <div class="mb-3">
+            <label for="subject" class="form-label fw-bold text-dark small">Subject<span class="text-danger">*</span></label>
+            <input 
+              type="text" 
+              id="subject" 
+              formControlName="subject" 
+              class="form-control custom-input" 
+              placeholder="How can we help you?"
+              [class.is-invalid]="contactForm.get('subject')?.touched && contactForm.get('subject')?.invalid"
+            />
+            <div *ngIf="contactForm.get('subject')?.touched && contactForm.get('subject')?.errors?.['required']" class="invalid-feedback">
+              Subject is required.
+            </div>
+            <div *ngIf="contactForm.get('subject')?.touched && contactForm.get('subject')?.errors?.['minlength']" class="invalid-feedback">
+              Subject must be at least 3 characters.
+            </div>
+          </div>
+
+          <!-- Message -->
+          <div class="mb-4">
+            <label for="message" class="form-label fw-bold text-dark small">Briefly, tell us the reason for contacting us<span class="text-danger">*</span></label>
+            <textarea 
+              id="message" 
+              formControlName="message" 
+              rows="5" 
+              class="form-control custom-input" 
+              placeholder="I'd like to know more about..."
+              [class.is-invalid]="contactForm.get('message')?.touched && contactForm.get('message')?.invalid"
+            ></textarea>
+            <div *ngIf="contactForm.get('message')?.touched && contactForm.get('message')?.errors?.['required']" class="invalid-feedback">
+              Message is required.
+            </div>
+            <div *ngIf="contactForm.get('message')?.touched && contactForm.get('message')?.errors?.['minlength']" class="invalid-feedback">
+              Message must be at least 10 characters long.
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div>
+            <button 
+              type="submit" 
+              class="btn btn-yellow-pill rounded-pill px-5 py-2 fw-bold text-dark border-dark"
+              [disabled]="submitting()"
+            >
+              <span *ngIf="submitting()" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              {{ submitting() ? 'Sending...' : 'Send' }}
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>

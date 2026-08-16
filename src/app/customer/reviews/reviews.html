@@ -1,0 +1,74 @@
+<div class="summary" *ngIf="summary">
+
+    <h2>Customer Reviews</h2>
+
+    <h1>{{summary.average_rating}}</h1>
+
+    <p>{{summary.review_count}} Reviews</p>
+
+</div>
+
+<div class="review-form">
+
+    <h3>Add Review</h3>
+
+    <label>Rating</label>
+
+    <select [(ngModel)]="rating">
+
+        <option [value]="5">5</option>
+
+        <option [value]="4">4</option>
+
+        <option [value]="3">3</option>
+
+        <option [value]="2">2</option>
+
+        <option [value]="1">1</option>
+
+    </select>
+
+    <textarea
+        rows="5"
+        [(ngModel)]="review"
+        placeholder="Write your review">
+    </textarea>
+
+    <button
+        (click)="submitReview()"
+        [disabled]="submitting">
+
+        Submit Review
+
+    </button>
+
+</div>
+
+<div class="review-list">
+
+    <div
+        class="review-card"
+        *ngFor="let item of reviews">
+
+        <img
+            [src]="item.profile_image || 'assets/images/user.png'">
+
+        <div>
+
+            <h4>{{item.full_name}}</h4>
+
+            <small>{{item.created_at | date}}</small>
+
+            <p>
+
+                ⭐ {{item.rating}}
+
+            </p>
+
+            <p>{{item.review}}</p>
+
+        </div>
+
+    </div>
+
+</div>

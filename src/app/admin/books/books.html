@@ -1,0 +1,1340 @@
+<section class="books-page">
+
+  <!-- =====================================================
+       HEADER
+  ====================================================== -->
+
+  <div class="page-header">
+
+    <div>
+
+      <h1>
+        Books Management
+      </h1>
+
+      <p>
+        Manage your bookstore inventory efficiently.
+      </p>
+
+    </div>
+
+
+    <button
+      type="button"
+      class="refresh-btn"
+      [disabled]="loading"
+      (click)="loadBooks()"
+    >
+
+      <i
+        class="bi bi-arrow-clockwise"
+        [class.spin-icon]="loading"
+      ></i>
+
+      {{ loading ? 'Loading...' : 'Refresh' }}
+
+    </button>
+
+  </div>
+
+
+  <!-- =====================================================
+       MANAGEMENT CARDS
+  ====================================================== -->
+
+  <div class="cards-grid">
+
+    <!-- CREATE -->
+
+    <button
+      type="button"
+      class="card"
+      [class.active]="activeTab() === 'create'"
+      (click)="selectTab('create')"
+    >
+
+      <div class="card-icon">
+        ➕
+      </div>
+
+      <div class="card-body">
+
+        <h4>
+          Create Book
+        </h4>
+
+        <p>
+          Add a new book to the catalogue
+        </p>
+
+      </div>
+
+    </button>
+
+
+    <!-- VIEW -->
+
+    <button
+      type="button"
+      class="card"
+      [class.active]="activeTab() === 'view'"
+      (click)="selectTab('view')"
+    >
+
+      <div class="card-icon">
+        📚
+      </div>
+
+      <div class="card-body">
+
+        <h4>
+          View Books
+        </h4>
+
+        <p>
+          Browse all books
+        </p>
+
+      </div>
+
+    </button>
+
+
+    <!-- UPDATE -->
+
+    <button
+      type="button"
+      class="card"
+      [class.active]="activeTab() === 'update'"
+      (click)="selectTab('update')"
+    >
+
+      <div class="card-icon">
+        ✏️
+      </div>
+
+      <div class="card-body">
+
+        <h4>
+          Update Book
+        </h4>
+
+        <p>
+          Edit existing book details
+        </p>
+
+      </div>
+
+    </button>
+
+
+    <!-- DELETE -->
+
+    <button
+      type="button"
+      class="card"
+      [class.active]="activeTab() === 'delete'"
+      (click)="selectTab('delete')"
+    >
+
+      <div class="card-icon">
+        🗑️
+      </div>
+
+      <div class="card-body">
+
+        <h4>
+          Delete Book
+        </h4>
+
+        <p>
+          Remove books from inventory
+        </p>
+
+      </div>
+
+    </button>
+
+  </div>
+
+
+  <!-- =====================================================
+       MESSAGES
+  ====================================================== -->
+
+  <div class="messages">
+
+    <div
+      *ngIf="feedbackMessage"
+      class="feedback-message"
+    >
+
+      {{ feedbackMessage }}
+
+    </div>
+
+
+    <div
+      *ngIf="errorMessage"
+      class="error-message"
+    >
+
+      {{ errorMessage }}
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       MAIN PANEL
+  ====================================================== -->
+
+  <div class="panel">
+
+
+    <!-- ===================================================
+         CREATE BOOK
+    ==================================================== -->
+
+    <section
+      *ngIf="activeTab() === 'create'"
+      class="panel-card"
+    >
+
+      <div class="section-header">
+
+        <div>
+
+          <h3>
+            Create New Book
+          </h3>
+
+          <p>
+            Enter the details for the new book.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <form
+        [formGroup]="bookForm"
+        (ngSubmit)="save()"
+      >
+
+        <div class="form-grid">
+
+
+          <!-- TITLE -->
+
+          <label>
+
+            Title *
+
+            <input
+              type="text"
+              formControlName="title"
+              placeholder="Book title"
+              [class.field-invalid]="isFieldInvalid('title')"
+            >
+
+            <span
+              *ngIf="isFieldInvalid('title')"
+              class="field-error"
+            >
+              {{ getFieldError('title') }}
+            </span>
+
+          </label>
+
+
+          <!-- AUTHOR -->
+
+          <label>
+
+            Author *
+
+            <input
+              type="text"
+              formControlName="author"
+              placeholder="Author"
+              [class.field-invalid]="isFieldInvalid('author')"
+            >
+
+            <span
+              *ngIf="isFieldInvalid('author')"
+              class="field-error"
+            >
+              {{ getFieldError('author') }}
+            </span>
+
+          </label>
+
+
+          <!-- CATEGORY -->
+
+          <label>
+
+            Category *
+
+            <select
+              formControlName="category_id"
+              [class.field-invalid]="isFieldInvalid('category_id')"
+            >
+
+              <option [ngValue]="0">
+                -- Select Category --
+              </option>
+
+              <option
+                *ngFor="let cat of categories"
+                [ngValue]="cat.id"
+              >
+                {{ cat.name }}
+              </option>
+
+            </select>
+
+
+            <span
+              *ngIf="categoriesLoading"
+              class="field-loading"
+            >
+              Loading categories...
+            </span>
+
+
+            <span
+              *ngIf="isFieldInvalid('category_id')"
+              class="field-error"
+            >
+              {{ getFieldError('category_id') }}
+            </span>
+
+          </label>
+
+
+          <!-- PUBLISHER -->
+
+          <label>
+
+            Publisher *
+
+            <input
+              type="text"
+              formControlName="publisher"
+              placeholder="Publisher"
+              [class.field-invalid]="isFieldInvalid('publisher')"
+            >
+
+            <span
+              *ngIf="isFieldInvalid('publisher')"
+              class="field-error"
+            >
+              {{ getFieldError('publisher') }}
+            </span>
+
+          </label>
+
+
+          <!-- ISBN -->
+
+          <label>
+
+            ISBN *
+
+            <input
+              type="text"
+              maxlength="20"
+              formControlName="isbn"
+              placeholder="ISBN"
+              [class.field-invalid]="isFieldInvalid('isbn')"
+            >
+
+            <span
+              *ngIf="isFieldInvalid('isbn')"
+              class="field-error"
+            >
+              {{ getFieldError('isbn') }}
+            </span>
+
+          </label>
+
+
+          <!-- LANGUAGE -->
+
+          <label>
+
+            Language *
+
+            <input
+              type="text"
+              formControlName="language"
+              placeholder="Language"
+              [class.field-invalid]="isFieldInvalid('language')"
+            >
+
+            <span
+              *ngIf="isFieldInvalid('language')"
+              class="field-error"
+            >
+              {{ getFieldError('language') }}
+            </span>
+
+          </label>
+
+
+          <!-- PAGES -->
+
+          <label>
+
+            Pages *
+
+            <input
+              type="number"
+              min="1"
+              formControlName="pages"
+              [class.field-invalid]="isFieldInvalid('pages')"
+            >
+
+            <span
+              *ngIf="isFieldInvalid('pages')"
+              class="field-error"
+            >
+              {{ getFieldError('pages') }}
+            </span>
+
+          </label>
+
+
+          <!-- PRICE -->
+
+          <label>
+
+            Price *
+
+            <input
+              type="number"
+              min="0.01"
+              step="0.01"
+              formControlName="price"
+              [class.field-invalid]="isFieldInvalid('price')"
+            >
+
+            <span
+              *ngIf="isFieldInvalid('price')"
+              class="field-error"
+            >
+              {{ getFieldError('price') }}
+            </span>
+
+          </label>
+
+
+          <!-- STOCK -->
+
+          <label>
+
+            Stock *
+
+            <input
+              type="number"
+              min="0"
+              formControlName="stock"
+              [class.field-invalid]="isFieldInvalid('stock')"
+            >
+
+            <span
+              *ngIf="isFieldInvalid('stock')"
+              class="field-error"
+            >
+              {{ getFieldError('stock') }}
+            </span>
+
+          </label>
+
+
+          <!-- DESCRIPTION -->
+
+          <label class="full">
+
+            Description *
+
+            <textarea
+              rows="5"
+              formControlName="description"
+              placeholder="Enter book description"
+              [class.field-invalid]="isFieldInvalid('description')"
+            ></textarea>
+
+            <span
+              *ngIf="isFieldInvalid('description')"
+              class="field-error"
+            >
+              {{ getFieldError('description') }}
+            </span>
+
+          </label>
+
+
+          <!-- COVER -->
+
+          <label class="full">
+
+            Cover Image
+
+            <input
+              type="file"
+              accept="image/*"
+              (change)="onFileSelect($event)"
+            >
+
+            <span class="field-hint">
+              Optional book cover image.
+            </span>
+
+          </label>
+
+        </div>
+
+
+        <div class="form-actions">
+
+          <button
+            class="btn primary"
+            type="submit"
+            [disabled]="submitting"
+          >
+
+            <span
+              *ngIf="submitting"
+              class="spinner"
+            ></span>
+
+            {{
+              submitting
+                ? 'Saving...'
+                : 'Create Book'
+            }}
+
+          </button>
+
+
+          <button
+            class="btn secondary"
+            type="button"
+            [disabled]="submitting"
+            (click)="resetForm()"
+          >
+            Reset
+          </button>
+
+        </div>
+
+      </form>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         VIEW BOOKS
+    ==================================================== -->
+
+    <section
+      *ngIf="activeTab() === 'view'"
+      class="panel-card"
+    >
+
+      <div class="view-header">
+
+        <div>
+
+          <h3>
+            Books List
+          </h3>
+
+          <p>
+            All books currently available in your catalogue.
+          </p>
+
+        </div>
+
+
+        <div class="book-total">
+
+          Total:
+
+          <strong>
+            {{ totalBooks }}
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <!-- ===============================================
+           LOADING
+      ================================================ -->
+
+      <div
+        *ngIf="loading"
+        class="loading-state"
+      >
+
+        <span class="large-spinner"></span>
+
+        <h4>
+          Loading books...
+        </h4>
+
+        <p>
+          Please wait while we fetch your inventory.
+        </p>
+
+      </div>
+
+
+      <!-- ===============================================
+           BOOK TABLE
+      ================================================ -->
+
+      <div
+        class="table-wrapper"
+        *ngIf="
+          !loading &&
+          books.length > 0
+        "
+      >
+
+        <table class="books-table">
+
+          <thead>
+
+            <tr>
+
+              <th>
+                #
+              </th>
+
+              <th>
+                Book
+              </th>
+
+              <th>
+                Author
+              </th>
+
+              <th>
+                Category
+              </th>
+
+              <th>
+                Price
+              </th>
+
+              <th>
+                Stock
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody>
+
+            <tr
+              *ngFor="
+                let book of books;
+                let i = index
+              "
+            >
+
+              <td class="number-column">
+                {{ i + 1 }}
+              </td>
+
+
+              <td>
+
+                <div class="book-cell">
+
+                  <div class="mini-cover">
+
+                    <img
+                      [src]="book.image || defaultCoverImage"
+                      [alt]="book.title"
+                      (error)="onImageError($event)"
+                    >
+
+                  </div>
+
+
+                  <div class="book-information">
+
+                    <strong>
+                      {{ book.title }}
+                    </strong>
+
+                    <small>
+                      {{ book.isbn }}
+                    </small>
+
+                  </div>
+
+                </div>
+
+              </td>
+
+
+              <td>
+                {{ book.author }}
+              </td>
+
+
+              <td>
+
+                {{ book.category_name || '—' }}
+
+              </td>
+
+
+              <td class="price-column">
+
+                {{ book.price | number:'1.2-2' }}
+
+              </td>
+
+
+              <td>
+
+                <span
+                  class="stock-badge"
+                  [class.low-stock]="book.stock > 0 && book.stock < 10"
+                  [class.out-stock]="book.stock === 0"
+                >
+
+                  {{
+                    book.stock === 0
+                      ? 'Out of stock'
+                      : book.stock
+                  }}
+
+                </span>
+
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+      <!-- ===============================================
+           EMPTY
+      ================================================ -->
+
+      <div
+        *ngIf="
+          !loading &&
+          !errorMessage &&
+          books.length === 0
+        "
+        class="empty-state"
+      >
+
+        <div class="empty-icon">
+          📚
+        </div>
+
+        <h3>
+          No books found
+        </h3>
+
+        <p>
+          There are currently no books in your catalogue.
+        </p>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         UPDATE BOOK
+    ==================================================== -->
+
+    <section
+      *ngIf="activeTab() === 'update'"
+      class="panel-card"
+    >
+
+      <div class="section-header">
+
+        <div>
+
+          <h3>
+            Update Book
+          </h3>
+
+          <p>
+            Select a book and update its information.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- LOADING -->
+
+      <div
+        *ngIf="loading"
+        class="loading-inline"
+      >
+
+        <span class="large-spinner"></span>
+
+        Loading books...
+
+      </div>
+
+
+      <!-- SELECT BOOK -->
+
+      <div
+        class="book-selector"
+        *ngIf="!loading"
+      >
+
+        <label>
+
+          Select Book
+
+          <select
+            (change)="selectBookForUpdate($any($event.target).value)"
+          >
+
+            <option value="">
+              -- Select Book --
+            </option>
+
+            <option
+              *ngFor="let book of books"
+              [value]="book.id"
+            >
+
+              {{ book.title }}
+              -
+              {{ book.author }}
+
+            </option>
+
+          </select>
+
+        </label>
+
+      </div>
+
+
+      <!-- UPDATE FORM -->
+
+      <form
+        *ngIf="isEditMode"
+        [formGroup]="bookForm"
+        (ngSubmit)="save()"
+      >
+
+        <div class="form-grid">
+
+
+          <label>
+
+            Title *
+
+            <input
+              type="text"
+              formControlName="title"
+              [class.field-invalid]="isFieldInvalid('title')"
+            >
+
+            <span
+              class="field-error"
+              *ngIf="isFieldInvalid('title')"
+            >
+              {{ getFieldError('title') }}
+            </span>
+
+          </label>
+
+
+          <label>
+
+            Author *
+
+            <input
+              type="text"
+              formControlName="author"
+              [class.field-invalid]="isFieldInvalid('author')"
+            >
+
+            <span
+              class="field-error"
+              *ngIf="isFieldInvalid('author')"
+            >
+              {{ getFieldError('author') }}
+            </span>
+
+          </label>
+
+
+          <label>
+
+            Category *
+
+            <select
+              formControlName="category_id"
+              [class.field-invalid]="isFieldInvalid('category_id')"
+            >
+
+              <option [ngValue]="0">
+                -- Select Category --
+              </option>
+
+              <option
+                *ngFor="let cat of categories"
+                [ngValue]="cat.id"
+              >
+                {{ cat.name }}
+              </option>
+
+            </select>
+
+            <span
+              class="field-error"
+              *ngIf="isFieldInvalid('category_id')"
+            >
+              {{ getFieldError('category_id') }}
+            </span>
+
+          </label>
+
+
+          <label>
+
+            Publisher *
+
+            <input
+              type="text"
+              formControlName="publisher"
+              [class.field-invalid]="isFieldInvalid('publisher')"
+            >
+
+            <span
+              class="field-error"
+              *ngIf="isFieldInvalid('publisher')"
+            >
+              {{ getFieldError('publisher') }}
+            </span>
+
+          </label>
+
+
+          <label>
+
+            ISBN *
+
+            <input
+              type="text"
+              formControlName="isbn"
+              maxlength="20"
+              [class.field-invalid]="isFieldInvalid('isbn')"
+            >
+
+            <span
+              class="field-error"
+              *ngIf="isFieldInvalid('isbn')"
+            >
+              {{ getFieldError('isbn') }}
+            </span>
+
+          </label>
+
+
+          <label>
+
+            Language *
+
+            <input
+              type="text"
+              formControlName="language"
+              [class.field-invalid]="isFieldInvalid('language')"
+            >
+
+            <span
+              class="field-error"
+              *ngIf="isFieldInvalid('language')"
+            >
+              {{ getFieldError('language') }}
+            </span>
+
+          </label>
+
+
+          <label>
+
+            Pages *
+
+            <input
+              type="number"
+              min="1"
+              formControlName="pages"
+              [class.field-invalid]="isFieldInvalid('pages')"
+            >
+
+            <span
+              class="field-error"
+              *ngIf="isFieldInvalid('pages')"
+            >
+              {{ getFieldError('pages') }}
+            </span>
+
+          </label>
+
+
+          <label>
+
+            Price *
+
+            <input
+              type="number"
+              min="0.01"
+              step="0.01"
+              formControlName="price"
+              [class.field-invalid]="isFieldInvalid('price')"
+            >
+
+            <span
+              class="field-error"
+              *ngIf="isFieldInvalid('price')"
+            >
+              {{ getFieldError('price') }}
+            </span>
+
+          </label>
+
+
+          <label>
+
+            Stock *
+
+            <input
+              type="number"
+              min="0"
+              formControlName="stock"
+              [class.field-invalid]="isFieldInvalid('stock')"
+            >
+
+            <span
+              class="field-error"
+              *ngIf="isFieldInvalid('stock')"
+            >
+              {{ getFieldError('stock') }}
+            </span>
+
+          </label>
+
+
+          <label class="full">
+
+            Description *
+
+            <textarea
+              rows="5"
+              formControlName="description"
+              [class.field-invalid]="isFieldInvalid('description')"
+            ></textarea>
+
+            <span
+              class="field-error"
+              *ngIf="isFieldInvalid('description')"
+            >
+              {{ getFieldError('description') }}
+            </span>
+
+          </label>
+
+        </div>
+
+
+        <div class="form-actions">
+
+          <button
+            type="submit"
+            class="btn primary"
+            [disabled]="submitting"
+          >
+
+            <span
+              *ngIf="submitting"
+              class="spinner"
+            ></span>
+
+            {{
+              submitting
+                ? 'Updating...'
+                : 'Update Book'
+            }}
+
+          </button>
+
+
+          <button
+            type="button"
+            class="btn secondary"
+            [disabled]="submitting"
+            (click)="resetForm()"
+          >
+            Cancel
+          </button>
+
+        </div>
+
+
+        <!-- IMAGE -->
+
+        <div class="upload-section">
+
+          <h4>
+            Update Cover Image
+          </h4>
+
+
+          <input
+            type="file"
+            accept="image/*"
+            (change)="onFileSelect($event)"
+          >
+
+
+          <button
+            type="button"
+            class="btn primary"
+            [disabled]="uploading || !fileToUpload"
+            (click)="uploadCover()"
+          >
+
+            {{
+              uploading
+                ? 'Uploading ' + uploadProgress + '%'
+                : 'Upload Image'
+            }}
+
+          </button>
+
+        </div>
+
+      </form>
+
+
+      <div
+        *ngIf="
+          !loading &&
+          !isEditMode
+        "
+        class="hint"
+      >
+
+        Select a book above to begin editing.
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         DELETE BOOK
+    ==================================================== -->
+
+    <section
+      *ngIf="activeTab() === 'delete'"
+      class="panel-card"
+    >
+
+      <div class="section-header">
+
+        <div>
+
+          <h3>
+            Delete Book
+          </h3>
+
+          <p>
+            Permanently remove books from the catalogue.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div
+        *ngIf="loading"
+        class="loading-state"
+      >
+
+        <span class="large-spinner"></span>
+
+        <h4>
+          Loading books...
+        </h4>
+
+      </div>
+
+
+      <div
+        class="table-wrapper"
+        *ngIf="
+          !loading &&
+          books.length > 0
+        "
+      >
+
+        <table class="books-table">
+
+          <thead>
+
+            <tr>
+
+              <th>
+                #
+              </th>
+
+              <th>
+                Book
+              </th>
+
+              <th>
+                Author
+              </th>
+
+              <th>
+                Stock
+              </th>
+
+              <th>
+                Action
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody>
+
+            <tr
+              *ngFor="
+                let book of books;
+                let i = index
+              "
+            >
+
+              <td>
+                {{ i + 1 }}
+              </td>
+
+
+              <td>
+
+                <div class="book-cell">
+
+                  <div class="mini-cover">
+
+                    <img
+                      [src]="book.image || defaultCoverImage"
+                      [alt]="book.title"
+                      (error)="onImageError($event)"
+                    >
+
+                  </div>
+
+                  <strong>
+                    {{ book.title }}
+                  </strong>
+
+                </div>
+
+              </td>
+
+
+              <td>
+                {{ book.author }}
+              </td>
+
+
+              <td>
+                {{ book.stock }}
+              </td>
+
+
+              <td>
+
+                <button
+                  type="button"
+                  class="btn danger"
+                  [disabled]="deletingBookId === book.id"
+                  (click)="deleteBook(book.id)"
+                >
+
+                  {{
+                    deletingBookId === book.id
+                      ? 'Deleting...'
+                      : 'Delete'
+                  }}
+
+                </button>
+
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+      <div
+        class="empty-state"
+        *ngIf="
+          !loading &&
+          books.length === 0
+        "
+      >
+
+        <div class="empty-icon">
+          📚
+        </div>
+
+        <h3>
+          No books available
+        </h3>
+
+      </div>
+
+    </section>
+
+  </div>
+
+</section>

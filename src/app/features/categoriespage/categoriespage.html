@@ -1,0 +1,587 @@
+<div class="categories-page">
+  <!-- 
+                         TOAST
+  = -->
+
+  <div class="shop-toast" *ngIf="toastVisible" [ngClass]="toastType">
+    <div class="toast-symbol">
+      <i
+        class="bi"
+        [ngClass]="{
+          'bi-check-circle-fill': toastType === 'success',
+          'bi-exclamation-circle-fill': toastType === 'error',
+          'bi-info-circle-fill': toastType === 'info',
+        }"
+      ></i>
+    </div>
+
+    <div class="toast-text">
+      <strong>
+        {{ toastType === 'success' ? 'Success' : toastType === 'error' ? 'Error' : 'Information' }}
+      </strong>
+
+      <span>
+        {{ toastMessage }}
+      </span>
+    </div>
+
+    <button type="button" class="toast-close" (click)="closeToast()">
+      <i class="bi bi-x-lg"></i>
+    </button>
+  </div>
+
+  <!-- 
+                          HERO
+  = -->
+
+  <section
+    class="shop-hero"
+    [style.background-image]="
+      selectedCategoryObject?.image ? 'url(' + selectedCategoryObject?.image + ')' : null
+    "
+  >
+    <div class="hero-overlay">
+      <div class="hero-content">
+        <span class="hero-eyebrow"> EBOOK COLLECTION </span>
+
+        <h1>
+          {{ selectedCategory === null ? 'Discover Great Books' : getSelectedCategoryName() }}
+        </h1>
+
+        <p>
+          {{
+            selectedCategoryObject?.description ||
+              'Explore our carefully selected collection and find the perfect book for your next reading journey.'
+          }}
+        </p>
+      </div>
+    </div>
+
+    <div class="hero-curve"></div>
+
+    <button type="button" class="hero-shop-btn" (click)="resetFilters()">
+      Shop All
+
+      <i class="bi bi-arrow-down"></i>
+    </button>
+  </section>
+
+  <!-- 
+                       CATEGORY TABS
+  = -->
+
+  <section class="category-navigation">
+    <div class="category-tabs">
+      <div class="category-tabs-track">
+        <!--
+                           FIRST SET
+       = -->
+
+        <div class="category-tab-group">
+          <!-- ALL -->
+
+          <button
+            type="button"
+            class="category-tab"
+            [class.active]="selectedCategory === null"
+            (click)="selectCategory(null)"
+          >
+            All
+          </button>
+
+          <!-- CATEGORIES -->
+
+          <button
+            type="button"
+            class="category-tab"
+            *ngFor="let category of categories; trackBy: trackCategory"
+            [class.active]="selectedCategory === category.id"
+            (click)="selectCategory(category)"
+          >
+            {{ category.name }}
+          </button>
+        </div>
+
+        <!--
+                          SECOND SET
+             Duplicate used for seamless scrolling
+       = -->
+
+        <div class="category-tab-group" aria-hidden="true">
+          <!-- ALL -->
+
+          <button type="button" class="category-tab" tabindex="-1">All</button>
+
+          <!-- CATEGORIES -->
+
+          <button
+            type="button"
+            class="category-tab"
+            *ngFor="let category of categories; trackBy: trackCategory"
+            tabindex="-1"
+          >
+            {{ category.name }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 
+                       SHOP CONTENT
+  = -->
+
+  <main class="shop-main">
+    <!-- 
+                           SIDEBAR
+    = -->
+
+    <aside class="shop-sidebar">
+      <!--
+                           CATEGORY
+     = -->
+
+      <div class="filter-section">
+        <div class="filter-heading">
+          <h3>Categories</h3>
+
+          <i class="bi bi-chevron-up"></i>
+        </div>
+
+        <div class="filter-divider"></div>
+
+        <div class="sidebar-categories">
+          <!-- ALL BOOKS -->
+
+          <button
+            type="button"
+            class="sidebar-category"
+            [class.active]="selectedCategory === null"
+            (click)="selectCategory(null)"
+          >
+            <span> All Books </span>
+
+            <span class="category-count">
+              {{ total }}
+            </span>
+          </button>
+
+          <!-- CATEGORIES -->
+
+          <button
+            type="button"
+            class="sidebar-category"
+            *ngFor="let category of categories; trackBy: trackCategory"
+            [class.active]="selectedCategory === category.id"
+            (click)="selectCategory(category)"
+          >
+            <span>
+              {{ category.name }}
+            </span>
+
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!--
+FILTER INFO
+     = -->
+
+      <div class="filter-section">
+        <div class="filter-heading">
+          <h3>Filters</h3>
+
+          <i class="bi bi-chevron-up"></i>
+        </div>
+
+        <div class="filter-divider"></div>
+
+        <!-- DELIVERY -->
+
+        <div class="filter-block filter-info">
+          <div>
+            <i class="bi bi-truck"></i>
+
+            <span> Fast Delivery </span>
+          </div>
+
+          <div>
+            <i class="bi bi-shield-check"></i>
+
+            <span> Secure Shopping </span>
+          </div>
+        </div>
+
+        <!-- RESET -->
+
+        <button
+          type="button"
+          class="reset-filters"
+          *ngIf="hasActiveFilters"
+          (click)="resetFilters()"
+        >
+          <i class="bi bi-arrow-counterclockwise"></i>
+
+          Reset Filters
+        </button>
+      </div>
+    </aside>
+
+    <!-- 
+                         PRODUCTS
+    = -->
+
+    <section class="products-area">
+      <!--
+                         PRODUCT HEADER
+     = -->
+
+      <div class="products-header">
+        <!--
+TITLE
+       = -->
+
+        <div class="product-heading">
+          <h2>
+            {{ getSelectedCategoryName() }}
+          </h2>
+
+          <span> {{ total }} books </span>
+        </div>
+
+        <!--
+                     SEARCH + PRICE FILTER
+       = -->
+
+        <div class="products-filters">
+          <!-- SEARCH -->
+
+          <div class="header-search">
+            <i class="bi bi-search"></i>
+
+            <input
+              type="text"
+              [(ngModel)]="search"
+              (ngModelChange)="onSearchChange($event)"
+              placeholder="Search books"
+            />
+
+            <button type="button" *ngIf="search" (click)="clearSearch()" aria-label="Clear search">
+              <i class="bi bi-x"></i>
+            </button>
+          </div>
+
+          <!-- MIN PRICE -->
+
+          <div class="header-price-field">
+            <span> ₹ </span>
+
+            <input type="number" [(ngModel)]="minPrice" placeholder="Min" />
+          </div>
+
+          <span class="header-price-separator"> — </span>
+
+          <!-- MAX PRICE -->
+
+          <div class="header-price-field">
+            <span> ₹ </span>
+
+            <input type="number" [(ngModel)]="maxPrice" placeholder="Max" />
+          </div>
+
+          <!-- APPLY PRICE -->
+
+          <button type="button" class="header-apply-price" (click)="applyPriceFilter()">
+            Apply
+          </button>
+        </div>
+
+        <!--
+SORT
+       = -->
+
+        <div class="sort-tabs">
+          <!-- NEWEST -->
+
+          <button
+            type="button"
+            [class.active]="sortBy === 'newest' || sortBy === ''"
+            (click)="setSort('newest')"
+          >
+            Newest
+          </button>
+
+          <!-- HIGHEST RATED -->
+
+
+          <!-- HIGH PRICE -->
+
+          <button
+            type="button"
+            [class.active]="sortBy === 'price_desc'"
+            (click)="setSort('price_desc')"
+          >
+            High Price to Low
+          </button>
+        </div>
+      </div>
+
+      <!--
+                           LOADING
+     = -->
+
+      <div class="loading-grid" *ngIf="loading">
+        <div class="book-skeleton" *ngFor="let item of [1, 2, 3, 4, 5, 6]">
+          <div class="skeleton skeleton-cover"></div>
+
+          <div class="skeleton-body">
+            <div class="skeleton skeleton-line-lg"></div>
+
+            <div class="skeleton skeleton-line-sm"></div>
+
+            <div class="skeleton skeleton-line-md"></div>
+          </div>
+        </div>
+      </div>
+
+      <!--
+                           ERROR
+     = -->
+
+      <div class="error-state" *ngIf="!loading && loadError">
+        <div class="state-icon error-icon">
+          <i class="bi bi-exclamation-circle"></i>
+        </div>
+
+        <h3>Unable to load books</h3>
+
+        <p>
+          {{ loadError }}
+        </p>
+
+        <button type="button" (click)="loadBooks()">Try Again</button>
+      </div>
+
+      <!--
+                         EMPTY STATE
+     = -->
+
+      <div class="empty-state" *ngIf="!loading && !loadError && books.length === 0">
+        <div class="state-icon">
+          <i class="bi bi-book"></i>
+        </div>
+
+        <h3>No Books Found</h3>
+
+        <p>We couldn't find books matching your current filters.</p>
+
+        <button type="button" *ngIf="hasActiveFilters" (click)="resetFilters()">
+          Reset Filters
+        </button>
+      </div>
+
+      <!--
+                          BOOK GRID
+     = -->
+
+      <div class="books-grid" *ngIf="!loading && !loadError && books.length > 0">
+        <article
+          class="book-card"
+          *ngFor="let book of books; trackBy: trackBook"
+          (click)="openBook(book)"
+        >
+          <!--
+  IMAGE
+         = -->
+
+          <div class="book-cover-area">
+            <div class="book-cover-wrapper">
+              <img
+                [src]="book.image || placeholderImage"
+                [alt]="book.title"
+                (error)="onImageError($event)"
+              />
+            </div>
+
+            <!-- CATEGORY -->
+
+            <span class="book-category" *ngIf="book.category_name">
+              {{ book.category_name }}
+            </span>
+
+            <!-- WISHLIST -->
+
+            <button
+              type="button"
+              class="wishlist-button"
+              [class.active]="isInWishlist(book)"
+              [disabled]="isWishlistProcessing(book.id)"
+              (click)="toggleWishlist(book); $event.stopPropagation()"
+            >
+              <span class="mini-spinner" *ngIf="isWishlistProcessing(book.id)"> </span>
+
+              <i
+                *ngIf="!isWishlistProcessing(book.id)"
+                class="bi"
+                [ngClass]="isInWishlist(book) ? 'bi-heart-fill' : 'bi-heart'"
+              ></i>
+            </button>
+
+            <!-- STOCK -->
+
+            <span class="stock-badge" [class.out]="book.stock <= 0">
+              {{ book.stock | stockStatus }}
+            </span>
+          </div>
+
+          <!--
+CONTENT
+         = -->
+
+          <div class="book-details">
+            <!-- RATING -->
+
+            <div class="rating-row">
+              <div class="stars">
+                <i class="bi" [ngClass]="getRating(book) >= 1 ? 'bi-star-fill' : 'bi-star'"> </i>
+
+                <i class="bi" [ngClass]="getRating(book) >= 2 ? 'bi-star-fill' : 'bi-star'"> </i>
+
+                <i class="bi" [ngClass]="getRating(book) >= 3 ? 'bi-star-fill' : 'bi-star'"> </i>
+
+                <i class="bi" [ngClass]="getRating(book) >= 4 ? 'bi-star-fill' : 'bi-star'"> </i>
+
+                <i class="bi" [ngClass]="getRating(book) >= 5 ? 'bi-star-fill' : 'bi-star'"> </i>
+              </div>
+
+              <span class="rating-value">
+                {{ getRating(book) | number: '1.1-1' }}
+              </span>
+
+              <span class="review-count"> ({{ book.review_count || 0 }}) </span>
+            </div>
+
+            <!-- TITLE -->
+
+            <h3 class="book-title" [title]="book.title">
+              {{ book.title }}
+            </h3>
+
+            <!-- AUTHOR -->
+
+            <p class="book-author">by {{ book.author }}</p>
+
+            <!-- DESCRIPTION -->
+
+            <p class="book-description">
+              {{ book.description || 'Discover this book from our collection.' }}
+            </p>
+
+            <!-- PRICE -->
+
+            <div class="price-row">
+              <div>
+                <small> Price </small>
+
+                <strong>
+                  {{ book.price | currency: 'INR' : 'symbol' : '1.0-2' }}
+                </strong>
+              </div>
+
+              <span class="stock-left" *ngIf="book.stock > 0 && book.stock <= 5">
+                Only {{ book.stock }} left
+              </span>
+            </div>
+
+            <!-- ACTIONS -->
+
+            <div class="book-actions">
+              <!-- CART -->
+
+              <button
+                type="button"
+                class="cart-button"
+                [class.added]="isInCart(book)"
+                [disabled]="book.stock <= 0 || isCartProcessing(book.id)"
+                (click)="toggleCart(book); $event.stopPropagation()"
+              >
+                <span class="mini-spinner light" *ngIf="isCartProcessing(book.id)"> </span>
+
+                <i
+                  *ngIf="!isCartProcessing(book.id)"
+                  class="bi"
+                  [ngClass]="isInCart(book) ? 'bi-cart-check-fill' : 'bi-cart-plus'"
+                >
+                </i>
+
+                <span>
+                  {{
+                    isCartProcessing(book.id)
+                      ? 'Please wait...'
+                      : book.stock <= 0
+                        ? 'Out of Stock'
+                        : isInCart(book)
+                          ? 'Added'
+                          : 'Add to Cart'
+                  }}
+                </span>
+              </button>
+
+              <!-- QUICK VIEW -->
+
+              <button
+                type="button"
+                class="quick-view"
+                title="View Book"
+                (click)="openBook(book); $event.stopPropagation()"
+              >
+                <i class="bi bi-eye"></i>
+              </button>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!--
+                         PAGINATION
+     = -->
+
+      <div class="pagination" *ngIf="!loading && !loadError && books.length > 0 && totalPages > 1">
+        <!-- PREVIOUS -->
+
+        <button
+          type="button"
+          class="pagination-arrow"
+          [disabled]="page === 1"
+          (click)="previousPage()"
+        >
+          <i class="bi bi-chevron-left"></i>
+        </button>
+
+        <!-- NUMBERS -->
+
+        <button
+          type="button"
+          class="pagination-number"
+          *ngFor="let p of pages"
+          [class.active]="p === page"
+          (click)="goToPage(p)"
+        >
+          {{ p }}
+        </button>
+
+        <!-- NEXT -->
+
+        <button
+          type="button"
+          class="pagination-arrow"
+          [disabled]="page === totalPages"
+          (click)="nextPage()"
+        >
+          <i class="bi bi-chevron-right"></i>
+        </button>
+      </div>
+    </section>
+  </main>
+</div>

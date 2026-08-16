@@ -1,0 +1,912 @@
+/* 
+   REVIEWS SECTION
+ */
+
+.reviews-section {
+  width: 100%;
+  margin-top: 50px;
+}
+
+/* 
+   REVIEW SUMMARY
+ */
+
+.reviews-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Times New Roman', Times, serif;
+  gap: 50px;
+
+  padding: 30px;
+
+  background: #ffffff;
+
+  border: 1px solid #eeeaf0;
+  border-radius: 14px;
+
+  box-shadow: 0 5px 18px rgba(31, 25, 38, 0.05);
+}
+
+/* 
+   SUMMARY LEFT
+ */
+
+.summary-left {
+  flex: 0 0 230px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.summary-rating {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: center;
+}
+
+.summary-rating strong {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #020202;
+
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+
+  font-size: 42px;
+  font-weight: 750;
+  line-height: 1;
+}
+
+.summary-stars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  margin-bottom: 9px;
+}
+
+.summary-stars i {
+  color: #a58c55;
+
+  font-size: 18px;
+}
+
+.summary-rating > span {
+  color: #000000;
+
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* 
+   SUMMARY DISTRIBUTION
+ */
+
+.summary-distribution {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 9px;
+
+  max-width: 600px;
+}
+
+.rating-row {
+  display: grid;
+
+  grid-template-columns: 15px 18px minmax(150px, 1fr) 35px;
+
+  align-items: center;
+
+  column-gap: 9px;
+}
+
+.rating-number {
+  color: #000000;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  text-align: right;
+}
+
+.rating-small-star {
+  color: #d77008;
+
+  font-size: 11px;
+}
+
+.rating-bar {
+  width: 100%;
+  height: 8px;
+
+  overflow: hidden;
+
+  border-radius: 20px;
+
+  background: #eae2e2;
+}
+
+.rating-bar-fill {
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: #d8a338;
+
+  transition: width 0.35s ease;
+}
+
+.rating-count {
+  color: #000000;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  text-align: left;
+}
+
+/* 
+   WRITE REVIEW
+ */
+
+.write-review {
+  margin-top: 25px;
+
+  padding: 30px;
+
+  background: #ffffff;
+
+  border: 1px solid #eeeaf0;
+  border-radius: 14px;
+
+  box-shadow: 0 5px 18px rgba(31, 25, 38, 0.05);
+}
+
+.write-review h3 {
+  margin: 0 0 6px;
+
+  color: #29242d;
+
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+
+  font-size: 22px;
+  font-weight: 750;
+}
+
+.review-subtitle {
+  margin: 0 0 25px;
+
+  color: #77727d;
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* 
+   RATING SELECTOR
+ */
+
+.rating-selector {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+
+  margin-bottom: 22px;
+}
+
+.rating-selector > span {
+  color: #403b45;
+
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.select-stars {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.rating-star-button {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 0;
+
+  border-radius: 50%;
+
+  background: transparent;
+
+  color: #d96d08;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.rating-star-button:hover {
+  color: #6255a5;
+
+  background: #f0ecfa;
+
+  transform: translateY(-2px);
+}
+
+.rating-star-button i {
+  font-size: 21px;
+}
+
+.rating-star-button:focus-visible {
+  outline: 2px solid #6255a5;
+
+  outline-offset: 2px;
+}
+
+/* 
+   REVIEW INPUT
+ */
+
+.review-input {
+  position: relative;
+
+  margin-bottom: 20px;
+}
+
+.review-input label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #403b45;
+
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.review-input textarea {
+  width: 100%;
+  min-height: 120px;
+
+  display: block;
+
+  padding: 13px 15px;
+
+  resize: vertical;
+
+  border: 1px solid #ddd8e2;
+
+  border-radius: 9px;
+
+  outline: none;
+
+  background: #ffffff;
+
+  color: #29242d;
+
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+
+  font-size: 13px;
+
+  line-height: 1.55;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.review-input textarea::placeholder {
+  color: #aaa5af;
+}
+
+.review-input textarea:focus {
+  border-color: #6255a5;
+
+  box-shadow: 0 0 0 3px rgba(98, 85, 165, 0.09);
+}
+
+.review-input small {
+  display: block;
+
+  margin-top: 6px;
+
+  color: #918b96;
+
+  font-size: 11px;
+
+  text-align: right;
+}
+
+/* 
+   REVIEW MESSAGES
+ */
+
+.review-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-bottom: 18px;
+
+  padding: 11px 13px;
+
+  border-radius: 8px;
+
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.review-message i {
+  font-size: 15px;
+}
+
+.review-message.error {
+  border: 1px solid #f0d4d4;
+
+  background: #fff5f5;
+
+  color: #b34747;
+}
+
+.review-message.success {
+  border: 1px solid #d5e9dc;
+
+  background: #f4fbf6;
+
+  color: #39754c;
+}
+
+/* 
+   SUBMIT REVIEW BUTTON
+ */
+
+.submit-review-btn {
+  min-width: 145px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  padding: 11px 20px;
+
+  border: 0;
+
+  border-radius: 8px;
+
+  background: #ecad5a;
+
+  color: #ffffff;
+
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+
+  font-size: 13px;
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.submit-review-btn:hover:not(:disabled) {
+  background: #544796;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 7px 16px rgba(98, 85, 165, 0.2);
+}
+
+.submit-review-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submit-review-btn:disabled {
+  opacity: 0.65;
+
+  cursor: not-allowed;
+}
+
+.submit-review-btn .spinner-border {
+  width: 14px;
+  height: 14px;
+
+  border-width: 2px;
+}
+
+/* 
+   CUSTOMER REVIEWS
+ */
+
+.customer-reviews {
+  margin-top: 25px;
+
+  padding: 30px;
+
+  background: #ffffff;
+
+  border: 1px solid #eeeaf0;
+
+  border-radius: 14px;
+
+  box-shadow: 0 5px 18px rgba(31, 25, 38, 0.05);
+}
+
+/* 
+   REVIEWS HEADING
+ */
+
+.reviews-heading {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 25px;
+
+  padding-bottom: 15px;
+
+  border-bottom: 1px solid #eeeaf0;
+}
+
+.reviews-heading h3 {
+  margin: 0;
+
+  color: #29242d;
+
+  font-size: 21px;
+  font-weight: 750;
+}
+
+.reviews-heading > span {
+  color: #77727d;
+
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* 
+   LOADING
+ */
+
+.reviews-loading {
+  min-height: 160px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  color: #77727d;
+
+  font-size: 13px;
+}
+
+.reviews-loading .spinner-border {
+  width: 28px;
+  height: 28px;
+
+  color: #6255a5;
+
+  border-width: 3px;
+}
+
+/* 
+   EMPTY REVIEWS
+ */
+
+.reviews-empty {
+  min-height: 210px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.reviews-empty > i {
+  margin-bottom: 12px;
+
+  color: #aaa4b3;
+
+  font-size: 40px;
+}
+
+.reviews-empty h4 {
+  margin: 0 0 7px;
+
+  color: #403b45;
+
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.reviews-empty p {
+  margin: 0;
+
+  color: #88828e;
+
+  font-size: 13px;
+}
+
+/* 
+   REVIEW CARD
+ */
+
+.review-card {
+  position: relative;
+
+  padding: 22px 0;
+
+  border-bottom: 1px solid #eeeaf0;
+}
+
+.review-card:first-of-type {
+  padding-top: 5px;
+}
+
+.review-card:last-child {
+  padding-bottom: 5px;
+
+  border-bottom: 0;
+}
+
+/* 
+   REVIEW USER
+ */
+
+.review-user {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 11px;
+}
+
+.review-user img {
+  width: 45px;
+  height: 45px;
+
+  flex: 0 0 45px;
+
+  object-fit: cover;
+
+  border: 2px solid #eeeaf4;
+
+  border-radius: 50%;
+
+  background: #f4f1f7;
+}
+
+.review-user h4 {
+  margin: 0 0 3px;
+
+  color: #29242d;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.review-user span {
+  color: #918b96;
+
+  font-size: 11px;
+}
+
+/* 
+   REVIEW RATING
+ */
+
+.review-rating {
+  display: flex;
+
+  align-items: center;
+
+  gap: 3px;
+
+  margin-bottom: 9px;
+}
+
+.review-rating i {
+  color: #6255a5;
+
+  font-size: 14px;
+}
+
+/* 
+   REVIEW COMMENT
+ */
+
+.review-comment {
+  margin: 0;
+
+  max-width: 850px;
+
+  color: #57515c;
+
+  font-size: 13px;
+
+  line-height: 1.65;
+
+  word-break: break-word;
+}
+
+/* 
+   RESPONSIVE
+ */
+
+@media (max-width: 900px) {
+  .reviews-summary {
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 30px;
+  }
+
+  .summary-left {
+    flex: none;
+
+    justify-content: flex-start;
+  }
+
+  .summary-rating {
+    align-items: flex-start;
+
+    text-align: left;
+  }
+
+  .summary-distribution {
+    max-width: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .reviews-summary,
+  .write-review,
+  .customer-reviews {
+    padding: 20px;
+  }
+
+  .summary-rating strong {
+    font-size: 36px;
+  }
+
+  .rating-selector {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 8px;
+  }
+
+  .reviews-heading {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 5px;
+  }
+
+  .rating-row {
+    grid-template-columns: 15px 16px minmax(80px, 1fr) 30px;
+
+    column-gap: 7px;
+  }
+
+  .review-card {
+    padding: 18px 0;
+  }
+
+  .submit-review-btn {
+    width: 100%;
+  }
+}
+/* 
+   REVIEW SUCCESS TOAST
+ */
+
+.review-toast {
+  position: fixed;
+
+  top: 25px;
+  right: 25px;
+
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  min-width: 280px;
+
+  padding: 14px 18px;
+
+  border: 1px solid #d5e9dc;
+
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  color: #39754c;
+
+  box-shadow: 0 10px 30px rgba(31, 25, 38, 0.15);
+
+  animation: reviewToastIn 0.3s ease;
+}
+
+.review-toast i {
+  font-size: 18px;
+
+  color: #39754c;
+}
+
+.review-toast span {
+  font-size: 13px;
+
+  font-weight: 650;
+}
+
+@keyframes reviewToastIn {
+  from {
+    opacity: 0;
+
+    transform: translateX(30px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 600px) {
+  .review-toast {
+    top: 15px;
+
+    right: 15px;
+
+    left: 15px;
+
+    min-width: auto;
+  }
+}
+
+/* 
+   REVIEW PAGINATION
+ */
+
+.reviews-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  margin-top: 25px;
+  padding-top: 20px;
+
+  border-top: 1px solid #eeeaf0;
+}
+
+.pagination-btn {
+  min-width: 38px;
+  height: 38px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 12px;
+
+  border: 1px solid #ddd8e2;
+  border-radius: 7px;
+
+  background: #ffffff;
+  color: #403b45;
+
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: #6255a5;
+  color: #ffffff;
+  border-color: #6255a5;
+  transform: translateY(-1px);
+}
+
+.pagination-btn.active {
+  background: #6255a5;
+  color: #ffffff;
+  border-color: #6255a5;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .reviews-pagination {
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .pagination-btn {
+    min-width: 35px;
+    height: 35px;
+    padding: 0 9px;
+    font-size: 12px;
+  }
+}

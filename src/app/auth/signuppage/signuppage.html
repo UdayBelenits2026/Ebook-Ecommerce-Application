@@ -1,0 +1,150 @@
+<div class="signup-wrap">
+  <div class="signup-card">
+    <div class="left-panel">
+      <div class="illustration"></div>
+      <div class="left-content">
+        <h3>Welcome Join EBook</h3>
+        <p>
+          Discover and buy your next favorite read. Create an account to get personalized
+          recommendations and offers.
+        </p>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <form [formGroup]="SignUpForm" (ngSubmit)="signup()" novalidate>
+        <h2>Create Account</h2>
+
+        <div class="messages">
+          <div class="success" *ngIf="successMessage">{{ successMessage }}</div>
+          <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+        </div>
+
+        <div class="name-row">
+          <div class="form-group">
+            <label for="first">First Name</label>
+            <input id="first" type="text" formControlName="FirstName" placeholder="First name" />
+            <small
+              class="hint"
+              *ngIf="SignUpForm.get('FirstName')?.touched && SignUpForm.get('FirstName')?.invalid"
+              >First name is required (min 3 chars)</small
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="last">Last Name</label>
+            <input id="last" type="text" formControlName="LastName" placeholder="Last name" />
+            <small
+              class="hint"
+              *ngIf="SignUpForm.get('LastName')?.touched && SignUpForm.get('LastName')?.invalid"
+              >Last name is required (min 3 chars)</small
+            >
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" type="email" formControlName="Email" placeholder="you@domain.com" />
+          <small
+            class="hint"
+            *ngIf="
+              SignUpForm.get('Email')?.touched && SignUpForm.get('Email')?.hasError('required')
+            "
+            >Email is required</small
+          >
+          <small
+            class="hint"
+            *ngIf="SignUpForm.get('Email')?.touched && SignUpForm.get('Email')?.hasError('email')"
+            >Enter a valid email</small
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input id="phone" type="text" formControlName="Phone" placeholder="10 digit number" />
+          <small
+            class="hint"
+            *ngIf="SignUpForm.get('Phone')?.touched && SignUpForm.get('Phone')?.invalid"
+            >Enter a valid phone number</small
+          >
+        </div>
+
+        <div class="form-group password-group">
+          <label for="pw">Password</label>
+          <div class="pw-field">
+            <input
+              id="pw"
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              placeholder="Create password"
+            />
+            <button type="button" class="toggle" (click)="togglePasswordVisibility('password')">
+              <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+            </button>
+          </div>
+          <small
+            class="hint"
+            *ngIf="SignUpForm.get('password')?.touched && SignUpForm.get('password')?.invalid"
+            >Minimum 8 chars, must include uppercase, lowercase, number and special
+            character.</small
+          >
+
+          <div class="strength" *ngIf="passwordStrength">
+            <div class="bar" [attr.data-score]="passwordScore"></div>
+            <small class="strength-text">{{ passwordStrength }}</small>
+          </div>
+        </div>
+
+        <div class="form-group password-group">
+          <label for="confirm">Confirm Password</label>
+          <div class="pw-field">
+            <input
+              id="confirm"
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              formControlName="ConfirmPassword"
+              placeholder="Confirm password"
+            />
+            <button type="button" class="toggle" (click)="togglePasswordVisibility('confirm')">
+              <i class="bi" [ngClass]="showConfirmPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+            </button>
+          </div>
+          <small
+            class="hint"
+            *ngIf="
+              SignUpForm.hasError('passwordMismatch') && SignUpForm.get('ConfirmPassword')?.touched
+            "
+            >Passwords do not match</small
+          >
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="primary-btn" [disabled]="isLoading">
+            {{ isLoading ? 'Registering...' : 'Create Account' }}
+          </button>
+        </div>
+
+        <!-- OTP Section -->
+        <div *ngIf="otpSent" class="otp-section">
+          <h4>Email Verification</h4>
+          <div class="form-group">
+            <label for="otp">Enter OTP</label>
+            <div class="otp-row">
+              <input
+                id="otp"
+                type="text"
+                maxlength="6"
+                formControlName="OTP"
+                placeholder="6-digit code"
+              />
+              <button type="button" (click)="verifyOTP()" class="verify-btn">Verify</button>
+            </div>
+          </div>
+          <div class="resend-row">
+            <button type="button" class="link-btn" (click)="resendOTP()">Resend OTP</button>
+          </div>
+        </div>
+
+        <p class="signin-link">Already have an account? <a routerLink="/login">Sign in</a></p>
+      </form>
+    </div>
+  </div>
+</div>

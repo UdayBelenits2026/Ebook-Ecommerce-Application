@@ -1,0 +1,319 @@
+<nav [class.mobile-open]="isMobileMenuOpen()">
+  <!-- LOGO -->
+
+  <div class="logo-sec">
+    <button
+      class="mobile-menu-btn"
+      type="button"
+      (click)="toggleMobileMenu($event)"
+      aria-label="Toggle menu"
+      [attr.aria-expanded]="isMobileMenuOpen()"
+      aria-controls="main-nav"
+    >
+      <i class="bi bi-list"></i>
+    </button>
+
+    <a routerLink="/">
+      <img src="assets/images/aboutpage.png" id="logo" alt="EBook Logo" />
+    </a>
+  </div>
+
+  <!-- MAIN NAVIGATION -->
+
+  <div id="main-nav" class="nav-list" data-mobile-nav>
+    <button
+      class="mobile-close-btn"
+      *ngIf="isMobileMenuOpen()"
+      type="button"
+      (click)="toggleMobileMenu($event)"
+      aria-label="Close menu"
+    >
+      <i class="bi bi-x-lg"></i>
+    </button>
+
+    <ul>
+      <a
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="closeMobileMenu()"
+      >
+        <li>Home</li>
+      </a>
+
+      <a routerLink="/books" routerLinkActive="active" (click)="closeMobileMenu()">
+        <li>Books</li>
+      </a>
+
+      <a routerLink="/categories" routerLinkActive="active" (click)="closeMobileMenu()">
+        <li>Categories</li>
+      </a>
+
+      <a routerLink="/about" routerLinkActive="active" (click)="closeMobileMenu()">
+        <li>About Us</li>
+      </a>
+
+      <a routerLink="/contact" routerLinkActive="active" (click)="closeMobileMenu()">
+        <li>Contact</li>
+      </a>
+    </ul>
+
+    <!-- MOBILE AUTH -->
+
+    <ng-container *ngIf="!auth.isUserLoggedIn()">
+      <div class="mobile-auth-actions">
+        <a routerLink="/login" class="mobile-auth-btn login" (click)="closeMobileMenu()"> Login </a>
+
+        <a routerLink="/signup" class="mobile-auth-btn signup" (click)="closeMobileMenu()">
+          Sign Up
+        </a>
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- SEARCH -->
+
+  <form class="search-box" [class.open]="isSearchOpen()" (submit)="onSearchSubmit($event)">
+    <i class="bi bi-search" aria-hidden="true"> </i>
+
+    <input
+      #searchInput
+      type="text"
+      id="public-search-input"
+      [value]="searchQuery()"
+      (input)="onSearchInput(searchInput.value)"
+      placeholder="Search Books..."
+      aria-label="Search Books"
+      autocomplete="off"
+    />
+
+    <!-- SEARCH RESULTS -->
+
+    <div class="search-dropdown" *ngIf="isSearchDropdownOpen()">
+      <div class="search-loading" *ngIf="searchLoading()">Searching...</div>
+
+      <ul *ngIf="!searchLoading() && searchResults().length > 0; else noSearchResults">
+        <li
+          class="search-result-item"
+          *ngFor="let book of searchResults()"
+          (click)="selectSearchResult(book)"
+        >
+          <img [src]="book.image || 'assets/images/no-book.png'" [alt]="book.title" />
+
+          <div class="search-result-meta">
+            <strong>
+              {{ book.title }}
+            </strong>
+
+            <span>
+              {{ book.author }}
+            </span>
+
+            <span>
+              {{ book.category_name || 'Uncategorised' }}
+            </span>
+
+            <span class="search-result-price"> ₹{{ book.price | number: '1.0-0' }} </span>
+          </div>
+        </li>
+      </ul>
+
+      <ng-template #noSearchResults>
+        <div class="search-no-results" *ngIf="!searchLoading() && searchQuery().trim() !== ''">
+          No books found.
+        </div>
+      </ng-template>
+    </div>
+  </form>
+
+  <!-- RIGHT NAVIGATION -->
+
+  <div class="nav-icons" role="navigation" aria-label="Primary actions">
+    <!-- MOBILE SEARCH -->
+
+    <button
+      class="search-toggle-btn mobile-search-toggle"
+      type="button"
+      (click)="toggleSearch($event)"
+      aria-label="Search"
+      [attr.aria-expanded]="isSearchOpen()"
+    >
+      <i class="bi bi-search"></i>
+    </button>
+
+    <!-- SEARCH -->
+
+    <button
+      class="search-toggle-btn"
+      type="button"
+      (click)="toggleSearch($event)"
+      aria-label="Toggle search"
+      [attr.aria-expanded]="isSearchOpen()"
+    >
+      <i class="bi bi-search"></i>
+    </button>
+
+    <!-- WISHLIST -->
+
+    <a routerLink="/favourite" title="Wishlist" class="nav-icon-link">
+      <i class="bi bi-heart" id="icons-card"> </i>
+
+      <span class="badge-count" *ngIf="auth.isUserLoggedIn() && wishlistCount() > 0">
+        {{ wishlistCount() }}
+      </span>
+    </a>
+
+    <!-- CART -->
+
+    <a routerLink="/watchlist" title="Cart" class="nav-icon-link">
+      <i class="bi bi-cart-fill" id="icons-card"> </i>
+
+      <span class="badge-count" *ngIf="auth.isUserLoggedIn() && cartCount() > 0">
+        {{ cartCount() }}
+      </span>
+    </a>
+
+    <!-- NOT LOGGED IN -->
+
+    <ng-container *ngIf="!auth.isUserLoggedIn(); else logged">
+      <a routerLink="/login" class="login-btn" routerLinkActive="active"> Login </a>
+
+      <a routerLink="/signup" class="signup-btn" routerLinkActive="active"> Sign Up </a>
+    </ng-container>
+
+    <!-- LOGGED IN -->
+
+    <ng-template #logged>
+      <!-- NOTIFICATIONS -->
+
+      <div
+        class="notification"
+        data-notifications
+        (click)="toggleNotifications($event)"
+        role="button"
+        aria-haspopup="true"
+        [attr.aria-expanded]="isNotificationsOpen()"
+        tabindex="0"
+        (keydown.enter)="toggleNotifications($event)"
+      >
+        <i class="bi bi-bell" id="icons-card" aria-hidden="true"> </i>
+
+        <!-- UNREAD COUNT -->
+
+        <span class="badge-count" *ngIf="auth.isUserLoggedIn() && unreadCount() > 0">
+          {{ unreadCount() }}
+        </span>
+
+        <!-- NOTIFICATION DROPDOWN -->
+
+        <div class="notif-dropdown" *ngIf="isNotificationsOpen()">
+          <!-- EMPTY -->
+
+          <div class="notif-loading" *ngIf="notifications().length === 0">
+            <div class="empty">No Notifications</div>
+          </div>
+
+          <!-- LIST -->
+
+          <div class="notif-list" *ngIf="notifications().length > 0">
+            <div
+              class="notif-item"
+              *ngFor="let n of notifications(); trackBy: trackByNotification"
+              [class.unread]="!n.is_read"
+              [class.read]="n.is_read"
+              (click)="markAsRead(n)"
+            >
+              <div class="notif-main">
+                <div class="notif-title">
+                  {{ n.title }}
+                </div>
+
+                <div class="notif-message">
+                  {{ n.message }}
+                </div>
+
+                <small>
+                  {{ n.created_at | date: 'short' }}
+                </small>
+              </div>
+
+              <div class="notif-meta">
+                <span *ngIf="!n.is_read" class="unread-label"> Unread </span>
+
+                <span *ngIf="n.is_read" class="read-label"> Read </span>
+
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  (click)="deleteNotification(n); $event.stopPropagation()"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- VIEW ALL -->
+
+          <div class="notif-footer">
+            <a routerLink="/customer/notifications" (click)="isNotificationsOpen.set(false)">
+              View all
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROFILE -->
+
+      <div
+        class="profile"
+        data-profile
+        (click)="toggleProfileMenu($event)"
+        role="button"
+        aria-haspopup="true"
+        [attr.aria-expanded]="isProfileOpen()"
+        tabindex="0"
+        (keydown.enter)="toggleProfileMenu($event)"
+      >
+        <img
+          *ngIf="profileImageUrl()"
+          [src]="profileImageUrl()"
+          alt="Profile"
+          class="profile-avatar-img"
+        />
+
+        <i *ngIf="!profileImageUrl()" class="bi bi-person-circle profile-avatar" aria-hidden="true">
+        </i>
+
+        <span class="profile-name">
+          {{ profileDisplayName }}
+        </span>
+
+        <i class="bi bi-chevron-down"> </i>
+
+        <!-- PROFILE DROPDOWN -->
+
+        <div class="dropdown" *ngIf="isProfileOpen()">
+          <ng-container *ngFor="let item of profileMenuItems">
+            <a *ngIf="item.route" [routerLink]="item.route" (click)="closeProfileMenu()">
+              {{ item.label }}
+            </a>
+
+            <button *ngIf="item.action === 'logout'" type="button" (click)="logout()">
+              {{ item.label }}
+            </button>
+          </ng-container>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</nav>
+
+<!-- MOBILE BACKDROP -->
+
+<div
+  class="mobile-backdrop"
+  *ngIf="isMobileMenuOpen()"
+  (click)="toggleMobileMenu($event)"
+  aria-hidden="true"
+></div>

@@ -1,0 +1,198 @@
+<div class="reviews-container">
+
+    <!-- Page Header -->
+    <div class="page-header">
+
+        <div>
+            <h2>Reviews Management</h2>
+            <p>Manage customer reviews and ratings.</p>
+        </div>
+
+    </div>
+
+    <!-- Statistics -->
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <span>Total Reviews</span>
+
+            <h2>{{ reviews().length }}</h2>
+
+        </div>
+
+        <div class="stat-card">
+
+            <span>Average Rating</span>
+
+            <h2>{{ averageRating() }} ⭐</h2>
+
+        </div>
+
+    </div>
+
+    <!-- Alerts -->
+
+    @if(success()){
+
+    <div class="success-message">
+
+        {{ success() }}
+
+    </div>
+
+    }
+
+    @if(error()){
+
+    <div class="error-message">
+
+        {{ error() }}
+
+    </div>
+
+    }
+
+    <!-- Search -->
+
+    <div class="search-box">
+
+        <i class="bi bi-search"></i>
+
+        <input
+            type="text"
+            placeholder="Search reviews..."
+            [ngModel]="search()"
+            (ngModelChange)="search.set($event)"
+        >
+
+    </div>
+
+    <!-- Loading -->
+
+    @if(loading()){
+
+    <div class="loading">
+
+        <div class="spinner-border text-primary"></div>
+
+    </div>
+
+    }
+
+    @else {
+
+    @if(filteredReviews().length > 0){
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Customer</th>
+
+                    <th>Book</th>
+
+                    <th>Rating</th>
+
+                    <th>Review</th>
+
+                    <th>Date</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @for(review of filteredReviews(); track review.id){
+
+                <tr>
+
+                    <td>{{ review.id }}</td>
+
+                    <td>{{ review.user_name }}</td>
+
+                    <td>{{ review.book_title }}</td>
+
+                    <td>
+
+                        <div class="stars">
+
+                            @for(star of [1,2,3,4,5]; track star){
+
+                                <i
+                                    class="bi"
+                                    [class.bi-star-fill]="star <= review.rating"
+                                    [class.bi-star]="star > review.rating">
+                                </i>
+
+                            }
+
+                        </div>
+
+                    </td>
+
+                    <td class="review-text">
+
+                        {{ review.review }}
+
+                    </td>
+
+                    <td>
+
+                        {{ review.created_at | date:'mediumDate' }}
+
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="delete-btn"
+                            (click)="deleteReview(review.id)">
+
+                            <i class="bi bi-trash"></i>
+
+                            Delete
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    }
+
+    @else{
+
+    <div class="empty-state">
+
+        <i class="bi bi-chat-left-text"></i>
+
+        <h3>No Reviews Found</h3>
+
+        <p>No customer reviews are available.</p>
+
+    </div>
+
+    }
+
+    }
+
+</div>

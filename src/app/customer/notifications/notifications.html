@@ -1,0 +1,167 @@
+<div class="page-notifications">
+  <!-- 
+       HEADER
+   -->
+
+  <div class="notifications-header">
+    <div class="header-content">
+      <h2>Notifications</h2>
+
+      <span class="notification-count" *ngIf="notifications.length > 0">
+        {{ notifications.length }}
+        {{ notifications.length === 1 ? 'Notification' : 'Notifications' }}
+      </span>
+    </div>
+
+    <!-- UNREAD COUNT -->
+
+    <div class="header-actions" *ngIf="notifications.length > 0">
+      <span class="unread-count" *ngIf="unreadCount > 0">
+        {{ unreadCount }}
+        {{ unreadCount === 1 ? 'Unread' : 'Unread' }}
+      </span>
+
+      <button type="button" class="mark-all-btn" *ngIf="unreadCount > 0" (click)="markAllAsRead()">
+        <i class="bi bi-check2-all"></i>
+
+        Mark all as read
+      </button>
+    </div>
+  </div>
+
+  <!-- 
+       LOADING
+   -->
+
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+
+    <span> Loading notifications... </span>
+  </div>
+
+  <!-- 
+       ERROR
+   -->
+
+  <div *ngIf="!loading && errorMessage" class="error">
+    <i class="bi bi-exclamation-circle"></i>
+
+    <span>
+      {{ errorMessage }}
+    </span>
+
+    <button type="button" class="retry-btn" (click)="loadNotifications()">Retry</button>
+  </div>
+
+  <!-- 
+       EMPTY
+   -->
+
+  <div *ngIf="!loading && !errorMessage && notifications.length === 0" class="empty">
+    <div class="empty-icon">
+      <i class="bi bi-bell-slash"></i>
+    </div>
+
+    <h3>No Notifications</h3>
+
+    <p>You don't have any notifications right now.</p>
+  </div>
+
+  <!-- 
+       NOTIFICATION LIST
+   -->
+
+  <div class="notif-list" *ngIf="!loading && !errorMessage && notifications.length > 0">
+    <!-- 
+         NOTIFICATION ITEM
+    = -->
+
+    <div
+      class="notif-item"
+      *ngFor="let n of notifications; trackBy: trackById"
+      [class.unread]="!n.is_read"
+      [class.read]="n.is_read"
+    >
+      <!-- 
+           NOTIFICATION ICON
+      = -->
+
+      <div class="notification-icon">
+        <i *ngIf="n.type === 'order'" class="bi bi-box-seam"> </i>
+
+        <i *ngIf="n.type === 'offer'" class="bi bi-tag"> </i>
+
+        <i *ngIf="n.type !== 'order' && n.type !== 'offer'" class="bi bi-bell"> </i>
+      </div>
+
+      <!-- 
+           MAIN CONTENT
+      = -->
+
+      <div class="main" (click)="markAsRead(n)">
+        <!-- TITLE -->
+
+        <div class="title">
+          {{ n.title }}
+        </div>
+
+        <!-- MESSAGE -->
+
+        <div class="message">
+          {{ n.message }}
+        </div>
+
+        <!-- DATE -->
+
+        <small class="date">
+          <i class="bi bi-clock"></i>
+
+          {{ n.created_at | date: 'medium' }}
+        </small>
+      </div>
+
+      <!-- 
+           STATUS
+      = -->
+
+      <div class="notification-status">
+        <span *ngIf="!n.is_read" class="unread-badge"> Unread </span>
+
+        <span *ngIf="n.is_read" class="read-badge"> Read </span>
+      </div>
+
+      <!-- 
+           ACTIONS
+      = -->
+
+      <div class="actions">
+        <!-- MARK AS READ -->
+
+        <button
+          *ngIf="!n.is_read"
+          type="button"
+          class="btn-read"
+          title="Mark as read"
+          (click)="markAsRead(n); $event.stopPropagation()"
+        >
+          <i class="bi bi-check2"></i>
+
+          Read
+        </button>
+
+        <!-- DELETE -->
+
+        <button
+          type="button"
+          class="btn-delete"
+          title="Delete notification"
+          (click)="deleteNotification(n); $event.stopPropagation()"
+        >
+          <i class="bi bi-trash3"></i>
+
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

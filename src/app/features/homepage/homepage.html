@@ -1,0 +1,833 @@
+<!-- Home Page -->
+
+<div class="home-page">
+  <!-- EXISTING CATEGORY NAVIGATION -->
+
+  <section class="category-strip">
+    <div class="container-fluid homepage-container">
+      <div class="category-scroll-wrapper">
+        <button
+          type="button"
+          class="category-arrow category-arrow-left"
+          (click)="scrollCategories('left')"
+          aria-label="Scroll categories left"
+        >
+          <i class="bi bi-chevron-left"></i>
+        </button>
+
+        <div class="category-scroller" #categoryScroller>
+          <!-- Categories start directly without empty space -->
+
+          <button
+            type="button"
+            class="category-item"
+            *ngFor="let category of categories"
+            [class.active]="selectedCategoryId === category.id"
+            (click)="exploreCategory(category)"
+          >
+            <div class="category-image">
+              <img
+                *ngIf="category.image"
+                [src]="category.image"
+                [alt]="category.name"
+                (error)="onCategoryImageError($event)"
+              />
+
+              <div class="category-fallback" *ngIf="!category.image">
+                <i class="bi bi-book"></i>
+              </div>
+            </div>
+
+            <span [title]="category.name">
+              {{ category.name }}
+            </span>
+          </button>
+        </div>
+
+        <button
+          type="button"
+          class="category-arrow category-arrow-right"
+          (click)="scrollCategories('right')"
+          aria-label="Scroll categories right"
+        >
+          <i class="bi bi-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXISTING HERO SECTION -->
+  <section class="hero-section">
+    <div class="container-fluid homepage-container">
+      <div class="row g-3">
+        <div class="col-lg-8">
+          <div
+            id="homeHeroCarousel"
+            class="carousel slide hero-carousel"
+            data-bs-ride="carousel"
+            data-bs-interval="5000"
+          >
+            <div class="carousel-indicators">
+              <button
+                type="button"
+                data-bs-target="#homeHeroCarousel"
+                data-bs-slide-to="0"
+                class="active"
+                aria-current="true"
+                aria-label="Slide 1"
+              ></button>
+
+              <button
+                type="button"
+                data-bs-target="#homeHeroCarousel"
+                data-bs-slide-to="1"
+                aria-label="Slide 2"
+              ></button>
+
+              <button
+                type="button"
+                data-bs-target="#homeHeroCarousel"
+                data-bs-slide-to="2"
+                aria-label="Slide 3"
+              ></button>
+            </div>
+
+            <div class="carousel-inner h-100">
+              <!-- SLIDE 1 -->
+
+              <div class="carousel-item active h-100">
+                <div class="hero-slide hero-slide-one">
+                  <div class="hero-copy">
+                    <span class="hero-eyebrow"> YOUR NEXT STORY STARTS HERE </span>
+
+                    <h1>
+                      Books Worth
+                      <span>Getting Lost In.</span>
+                    </h1>
+
+                    <p>
+                      Discover stories, ideas and knowledge from our growing collection of books.
+                    </p>
+
+                    <button type="button" class="hero-btn" (click)="shopNow()">
+                      Shop Books
+                      <i class="bi bi-arrow-right"></i>
+                    </button>
+                  </div>
+
+                  <div class="hero-books" *ngIf="books.length">
+                    <img
+                      *ngIf="books[0]"
+                      class="hero-book hero-book-one"
+                      [src]="books[0].image || placeholderImage"
+                      [alt]="books[0].title"
+                      (error)="onImageError($event)"
+                    />
+
+                    <img
+                      *ngIf="books[1]"
+                      class="hero-book hero-book-two"
+                      [src]="books[1].image || placeholderImage"
+                      [alt]="books[1].title"
+                      (error)="onImageError($event)"
+                    />
+
+                    <img
+                      *ngIf="books[2]"
+                      class="hero-book hero-book-three"
+                      [src]="books[2].image || placeholderImage"
+                      [alt]="books[2].title"
+                      (error)="onImageError($event)"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- SLIDE 2 -->
+
+              <div class="carousel-item h-100">
+                <div class="hero-slide hero-slide-two">
+                  <div class="hero-copy">
+                    <span class="hero-eyebrow"> FIND SOMETHING NEW </span>
+
+                    <h1>
+                      Read More.
+                      <span>Discover More.</span>
+                    </h1>
+
+                    <p>
+                      Explore fiction, technology, history, biographies and books for every kind of
+                      reader.
+                    </p>
+
+                    <button type="button" class="hero-btn" (click)="shopNow()">
+                      Explore Collection
+                      <i class="bi bi-arrow-right"></i>
+                    </button>
+                  </div>
+
+                  <div class="hero-books" *ngIf="books.length > 3">
+                    <img
+                      *ngIf="books[3]"
+                      class="hero-book hero-book-one"
+                      [src]="books[3].image || placeholderImage"
+                      [alt]="books[3].title"
+                      (error)="onImageError($event)"
+                    />
+
+                    <img
+                      *ngIf="books[4]"
+                      class="hero-book hero-book-two"
+                      [src]="books[4].image || placeholderImage"
+                      [alt]="books[4].title"
+                      (error)="onImageError($event)"
+                    />
+
+                    <img
+                      *ngIf="books[5]"
+                      class="hero-book hero-book-three"
+                      [src]="books[5].image || placeholderImage"
+                      [alt]="books[5].title"
+                      (error)="onImageError($event)"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- SLIDE 3 -->
+
+              <div class="carousel-item h-100">
+                <div class="hero-slide hero-slide-three">
+                  <div class="hero-copy">
+                    <span class="hero-eyebrow"> BUILD YOUR LIBRARY </span>
+
+                    <h1>
+                      Great Books.
+                      <span>Better Prices.</span>
+                    </h1>
+
+                    <p>
+                      Add your favorites to the cart and build a library you'll want to come back
+                      to.
+                    </p>
+
+                    <button type="button" class="hero-btn" (click)="shopNow()">
+                      Start Shopping
+                      <i class="bi bi-arrow-right"></i>
+                    </button>
+                  </div>
+
+                  <div class="hero-books" *ngIf="books.length > 5">
+                    <img
+                      *ngIf="books[5]"
+                      class="hero-book hero-book-one"
+                      [src]="books[5].image || placeholderImage"
+                      [alt]="books[5].title"
+                      (error)="onImageError($event)"
+                    />
+
+                    <img
+                      *ngIf="books[6]"
+                      class="hero-book hero-book-two"
+                      [src]="books[6].image || placeholderImage"
+                      [alt]="books[6].title"
+                      (error)="onImageError($event)"
+                    />
+
+                    <img
+                      *ngIf="books[7]"
+                      class="hero-book hero-book-three"
+                      [src]="books[7].image || placeholderImage"
+                      [alt]="books[7].title"
+                      (error)="onImageError($event)"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button
+              class="carousel-control-prev"
+              type="button"
+              data-bs-target="#homeHeroCarousel"
+              data-bs-slide="prev"
+            >
+              <span class="hero-carousel-arrow">
+                <i class="bi bi-chevron-left"></i>
+              </span>
+            </button>
+
+            <button
+              class="carousel-control-next"
+              type="button"
+              data-bs-target="#homeHeroCarousel"
+              data-bs-slide="next"
+            >
+              <span class="hero-carousel-arrow">
+                <i class="bi bi-chevron-right"></i>
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <!-- EXISTING SIDE PROMOTIONAL CARDS -->
+
+        <div class="col-lg-4">
+          <div class="row g-3 h-100">
+            <div class="col-sm-6 col-lg-12">
+              <div class="offer-card" *ngIf="books.length > 0" (click)="viewBook(books[0])">
+                <img
+                  class="offer-book-image"
+                  [src]="books[0].image || placeholderImage"
+                  [alt]="books[0].title"
+                  (error)="onImageError($event)"
+                />
+
+                <div class="offer-overlay"></div>
+
+                <div class="offer-content">
+                  <span>NEW ARRIVAL</span>
+
+                  <h3>{{ books[0].title }}</h3>
+
+                  <p>{{ books[0].author }}</p>
+
+                  <strong>
+                    {{ books[0].price | currency: 'INR' : 'symbol' : '1.0-0' }}
+                  </strong>
+
+                  <button
+                    type="button"
+                    class="btn btn-light btn-sm"
+                    (click)="viewBook(books[0]); $event.stopPropagation()"
+                  >
+                    Explore
+                    <i class="bi bi-arrow-right ms-1"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-6 col-lg-12">
+              <div class="offer-card" *ngIf="books.length > 1" (click)="viewBook(books[1])">
+                <img
+                  class="offer-book-image"
+                  [src]="books[1].image || placeholderImage"
+                  [alt]="books[1].title"
+                  (error)="onImageError($event)"
+                />
+
+                <div class="offer-overlay"></div>
+
+                <div class="offer-content">
+                  <span>FEATURED BOOKS</span>
+
+                  <h3>{{ books[1].title }}</h3>
+
+                  <p>{{ books[1].author }}</p>
+
+                  <strong>
+                    {{ books[1].price | currency: 'INR' : 'symbol' : '1.0-0' }}
+                  </strong>
+
+                  <button
+                    type="button"
+                    class="btn btn-light btn-sm"
+                    (click)="viewBook(books[1]); $event.stopPropagation()"
+                  >
+                    Shop Now
+                    <i class="bi bi-arrow-right ms-1"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED BOOKS - ONE ROW HORIZONTAL SCROLLER -->
+
+  <section class="featured-section">
+    <div class="container-fluid homepage-container">
+      <!-- HEADER -->
+
+      <div class="section-heading">
+        <div>
+          <span class="section-label"> OUR COLLECTION </span>
+
+          <h2>Featured Books</h2>
+
+          <p>Discover books selected from our latest collection.</p>
+        </div>
+
+        <button type="button" class="view-all-btn" (click)="shopNow()">
+          View All
+          <i class="bi bi-arrow-right"></i>
+        </button>
+      </div>
+      <!-- LOADING -->
+
+      <div class="featured-scroll-shell" *ngIf="isLoadingFeatured">
+        <div class="books-loading">
+          <div class="book-skeleton" *ngFor="let item of [1, 2, 3, 4, 5, 6]">
+            <div class="skeleton-image"></div>
+
+            <div class="skeleton-body">
+              <div class="skeleton-line title"></div>
+
+              <div class="skeleton-line author"></div>
+
+              <div class="skeleton-line small"></div>
+
+              <div class="skeleton-line button"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOOKS -->
+
+      <div class="featured-books-wrapper" *ngIf="!isLoadingFeatured && books.length">
+        <!-- LEFT ARROW -->
+
+        <button
+          type="button"
+          class="featured-scroll-btn featured-scroll-left"
+          (click)="scrollFeaturedBooks('left')"
+          aria-label="Scroll featured books left"
+        >
+          <i class="bi bi-chevron-left"></i>
+        </button>
+
+        <!-- BOOK SCROLLER -->
+
+        <div class="homepage-books-grid" #featuredBooksScroller>
+          <article
+            class="homepage-book-card"
+            *ngFor="let book of books; trackBy: trackByBook"
+            (click)="viewBook(book)"
+          >
+            <!-- IMAGE -->
+
+            <div class="homepage-book-image">
+              <img
+                [src]="book.image || placeholderImage"
+                [alt]="book.title"
+                loading="lazy"
+                (error)="onImageError($event)"
+              />
+
+              <!-- CATEGORY -->
+
+              <span class="homepage-category-badge" *ngIf="book.category_name">
+                {{ book.category_name }}
+              </span>
+
+              <!-- WISHLIST -->
+
+              <button
+                type="button"
+                class="homepage-wishlist-btn"
+                [class.active]="isWishlisted(book)"
+                [disabled]="isWishlistProcessing(book.id)"
+                (click)="toggleWishlist(book, $event)"
+                aria-label="Wishlist"
+              >
+                <span
+                  class="spinner-border spinner-border-sm"
+                  *ngIf="isWishlistProcessing(book.id)"
+                ></span>
+
+                <i
+                  class="bi"
+                  *ngIf="!isWishlistProcessing(book.id)"
+                  [ngClass]="isWishlisted(book) ? 'bi-heart-fill' : 'bi-heart'"
+                ></i>
+              </button>
+            </div>
+
+            <!-- CONTENT -->
+
+            <div class="homepage-book-content">
+              <h3 class="homepage-book-title" [title]="book.title">
+                {{ book.title }}
+              </h3>
+
+              <p class="homepage-book-author" [title]="book.author">
+                {{ book.author }}
+              </p>
+
+              <!-- RATING -->
+
+              <div class="homepage-rating">
+                <div class="homepage-stars">
+                  <i class="bi bi-star-fill" *ngFor="let star of getFullStars(book)"></i>
+
+                  <i class="bi bi-star" *ngFor="let star of getEmptyStars(book)"></i>
+                </div>
+
+                <span>
+                  {{ getRating(book) | number: '1.1-1' }}
+                </span>
+              </div>
+
+              <div class="homepage-card-spacer"></div>
+
+              <!-- PRICE -->
+
+              <div class="homepage-price-row">
+                <strong>
+                  {{ book.price | currency: 'INR' : 'symbol' : '1.0-0' }}
+                </strong>
+
+                <span [class.out-of-stock]="book.stock <= 0">
+                  {{ book.stock | stockStatus }}
+                </span>
+              </div>
+
+              <!-- CART -->
+
+              <button
+                type="button"
+                class="homepage-cart-btn"
+                [class.in-cart]="isInCart(book)"
+                [disabled]="book.stock <= 0 || isCartProcessing(book.id)"
+                (click)="addToCart(book, $event)"
+              >
+                <span
+                  class="spinner-border spinner-border-sm"
+                  *ngIf="isCartProcessing(book.id)"
+                ></span>
+
+                <ng-container *ngIf="!isCartProcessing(book.id)">
+                  <i
+                    class="bi"
+                    [ngClass]="isInCart(book) ? 'bi-cart-check-fill' : 'bi-cart-plus'"
+                  ></i>
+
+                  <span>
+                    {{ isInCart(book) ? 'In Cart' : 'Add to Cart' }}
+                  </span>
+                </ng-container>
+              </button>
+            </div>
+          </article>
+        </div>
+
+        <!-- RIGHT ARROW -->
+
+        <button
+          type="button"
+          class="featured-scroll-btn featured-scroll-right"
+          (click)="scrollFeaturedBooks('right')"
+          aria-label="Scroll featured books right"
+        >
+          <i class="bi bi-chevron-right"></i>
+        </button>
+      </div>
+      <!-- EMPTY -->
+
+      <div class="featured-empty" *ngIf="!isLoadingFeatured && !books.length">
+        <i class="bi bi-book"></i>
+
+        <h3>No books available</h3>
+
+        <p>New books will appear here when they are added.</p>
+
+        <button type="button" class="hero-btn" (click)="shopNow()">Browse Books</button>
+      </div>
+    </div>
+  </section>
+  <!-- NEW CATEGORIES SHOWCASE -->
+  <!-- PLACED NEAR BOTTOM BEFORE WHY CHOOSE US -->
+
+  <section class="home-category-showcase" *ngIf="categories.length">
+    <div class="container-fluid homepage-container">
+      <div class="section-heading">
+        <div>
+          <span class="section-label"> FIND YOUR GENRE </span>
+
+          <h2>Browse by Category</h2>
+
+          <p>Find books that match what you love to read.</p>
+        </div>
+
+        <button type="button" class="view-all-btn" (click)="exploreAllBooks()">
+          View All Books
+          <i class="bi bi-arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- CATEGORY SCROLL AREA -->
+
+      <div class="home-category-slider">
+        <div class="home-category-track">
+          <!-- FIRST SET -->
+
+          <article
+            class="home-category-card"
+            *ngFor="let category of categories"
+            (click)="exploreCategory(category)"
+          >
+            <!-- BACKEND CATEGORY IMAGE -->
+
+            <img
+              *ngIf="category.image"
+              class="home-category-background"
+              [src]="category.image"
+              [alt]="category.name"
+              (error)="onCategoryImageError($event)"
+            />
+
+            <!-- FALLBACK -->
+
+            <div class="home-category-background home-category-fallback" *ngIf="!category.image">
+              <i class="bi bi-book"></i>
+            </div>
+
+            <!-- OVERLAY -->
+
+            <div class="home-category-overlay"></div>
+
+            <!-- CONTENT -->
+
+            <div class="home-category-content">
+              <div class="home-category-icon">
+                <i class="bi bi-book"></i>
+              </div>
+
+              <h3>
+                {{ category.name }}
+              </h3>
+
+              <p *ngIf="category.description">
+                {{ category.description }}
+              </p>
+
+              <span>
+                Explore Books
+                <i class="bi bi-arrow-right"></i>
+              </span>
+            </div>
+          </article>
+
+          <!-- SECOND SET
+           Required for seamless infinite scrolling -->
+
+          <article
+            class="home-category-card"
+            *ngFor="let category of categories"
+            (click)="exploreCategory(category)"
+            aria-hidden="true"
+          >
+            <!-- BACKEND CATEGORY IMAGE -->
+
+            <img
+              *ngIf="category.image"
+              class="home-category-background"
+              [src]="category.image"
+              [alt]="category.name"
+              (error)="onCategoryImageError($event)"
+            />
+
+            <!-- FALLBACK -->
+
+            <div class="home-category-background home-category-fallback" *ngIf="!category.image">
+              <i class="bi bi-book"></i>
+            </div>
+
+            <!-- OVERLAY -->
+
+            <div class="home-category-overlay"></div>
+
+            <!-- CONTENT -->
+
+            <div class="home-category-content">
+              <div class="home-category-icon">
+                <i class="bi bi-book"></i>
+              </div>
+
+              <h3>
+                {{ category.name }}
+              </h3>
+
+              <p *ngIf="category.description">
+                {{ category.description }}
+              </p>
+
+              <span>
+                Explore Books
+                <i class="bi bi-arrow-right"></i>
+              </span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- NEW OFFERS SECTION -->
+
+  <section class="home-offers-section">
+    <div class="container-fluid homepage-container">
+      <div class="section-heading">
+        <div>
+          <span class="section-label"> DON'T MISS OUT </span>
+
+          <h2>Offers & Highlights</h2>
+
+          <p>Discover more books and find something new for your shelf.</p>
+        </div>
+
+        <button type="button" class="view-all-btn" (click)="shopNow()">
+          Explore Books
+          <i class="bi bi-arrow-right"></i>
+        </button>
+      </div>
+
+      <div class="row g-4">
+        <!-- OFFER 1 -->
+
+        <div class="col-lg-7">
+          <div class="home-offer-banner home-offer-primary">
+            <div class="home-offer-copy">
+              <!-- <span class="home-offer-label">
+                READER'S PICK
+              </span> -->
+
+              <h2>
+                Make Room For
+                <span>Another Great Book.</span>
+              </h2>
+
+              <p>
+                Explore stories, ideas and new perspectives from
+                our growing collection.
+              </p>
+
+              <button type="button" class="home-offer-btn" (click)="shopNow()">
+                Shop Collection
+                <i class="bi bi-arrow-right"></i>
+              </button>
+            </div>
+
+            <div class="home-offer-books" *ngIf="books.length">
+              <img
+                *ngIf="books[0]"
+                class="home-offer-book offer-book-back"
+                [src]="books[0].image || placeholderImage"
+                [alt]="books[0].title"
+                (error)="onImageError($event)"
+              />
+
+              <img
+                *ngIf="books[1]"
+                class="home-offer-book offer-book-front"
+                [src]="books[1].image || placeholderImage"
+                [alt]="books[1].title"
+                (error)="onImageError($event)"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- OFFER 2 -->
+
+        <div class="col-lg-5">
+          <div class="home-offer-banner home-offer-secondary">
+            <div class="home-offer-copy">
+              <span class="home-offer-label"> DISCOVER MORE </span>
+
+              <h2>
+                Books For Every
+                <span>Kind Of Reader.</span>
+              </h2>
+
+              <p>From technology to fiction, history and beyond.</p>
+
+              <button type="button" class="home-offer-dark-btn" (click)="shopNow()">
+                Browse Books
+                <i class="bi bi-arrow-right"></i>
+              </button>
+            </div>
+
+            <div class="home-offer-decoration">
+              <i class="bi bi-book-half"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- EXISTING SPECIAL COLLECTION BANNER -->
+
+  <section class="sale-section">
+    <div class="container-fluid homepage-container">
+      <div class="sale-banner">
+        <div class="sale-books" *ngIf="books.length">
+          <img
+            *ngIf="books[2]"
+            [src]="books[2].image || placeholderImage"
+            [alt]="books[2].title"
+            class="sale-book sale-book-one"
+            (error)="onImageError($event)"
+          />
+
+          <img
+            *ngIf="books[3]"
+            [src]="books[3].image || placeholderImage"
+            [alt]="books[3].title"
+            class="sale-book sale-book-two"
+            (error)="onImageError($event)"
+          />
+        </div>
+
+        <div class="sale-content">
+          <span class="sale-small"> SPECIAL COLLECTION </span>
+
+          <h2>
+            Find Your Next
+            <span>Great Read</span>
+          </h2>
+
+          <p>
+            Explore our complete collection and discover something worth adding to your bookshelf.
+          </p>
+
+          <button type="button" class="sale-btn" (click)="shopNow()">
+            Shop Collection
+            <i class="bi bi-arrow-right"></i>
+          </button>
+        </div>
+
+        <div class="sale-decoration">
+          <i class="bi bi-book-half"></i>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- EXISTING SERVICES -->
+
+  <section class="services-section">
+    <div class="container-fluid homepage-container">
+      <div class="services-grid">
+        <div class="service-item" *ngFor="let service of services">
+          <div class="service-icon">
+            <i [class]="service.icon"></i>
+          </div>
+
+          <div>
+            <h4>
+              {{ service.title }}
+            </h4>
+
+            <p>
+              {{ service.description }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

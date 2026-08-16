@@ -1,0 +1,217 @@
+<div class="wishlist-page">
+  <div class="wishlist-header">
+    <div class="wishlist-heading">
+      <h2>My Wishlist</h2>
+
+      <span class="wishlist-count" *ngIf="!loading && hasWishlistItems">
+        ({{ wishlistItems.length }} {{ wishlistItems.length === 1 ? 'item' : 'items' }})
+      </span>
+    </div>
+
+    <div class="header-actions" *ngIf="!loading && hasWishlistItems">
+      <!-- CLEAR WISHLIST -->
+
+      <button type="button" class="clear-wishlist-btn" (click)="clearWishlist()">
+        <i class="bi bi-trash3"></i>
+
+        Clear Wishlist
+      </button>
+
+      <!-- CONTINUE SHOPPING -->
+
+      <button type="button" class="continue-shopping-btn" (click)="continueShopping()">
+        Continue Shopping
+      </button>
+    </div>
+  </div>
+  <div class="wishlist-container">
+    <!-- HEADER -->
+
+    <div class="wishlist-header">
+      <div class="wishlist-heading">
+        <h2>My Wishlist items</h2>
+      </div>
+
+      <button
+        *ngIf="hasWishlistItems"
+        type="button"
+        class="continue-shopping-btn"
+        (click)="continueShopping()"
+      >
+        Continue Shopping
+      </button>
+    </div>
+
+    <!-- LOADING -->
+
+    <div class="loading-container" *ngIf="loading">
+      <div class="spinner"></div>
+
+      <p>Loading your wishlist...</p>
+    </div>
+
+    <!-- ERROR -->
+
+    <div class="error-message" *ngIf="!loading && errorMessage">
+      <div class="error-icon">!</div>
+
+      <div>
+        <h4>Unable to load wishlist</h4>
+
+        <p>
+          {{ errorMessage }}
+        </p>
+      </div>
+    </div>
+
+    <!-- EMPTY WISHLIST -->
+
+    <div class="empty-wishlist" *ngIf="!loading && !errorMessage && !hasWishlistItems">
+      <div class="empty-heart">
+        <i class="bi bi-heart"></i>
+      </div>
+
+      <h2>Your wishlist is empty</h2>
+
+      <p>Save books you love and they will appear here.</p>
+
+      <button type="button" class="start-shopping-btn" (click)="continueShopping()">
+        <i class="bi bi-book"></i>
+
+        Browse Books
+      </button>
+    </div>
+
+    <!-- WISHLIST ITEMS -->
+
+    <div class="wishlist-list" *ngIf="!loading && !errorMessage && hasWishlistItems">
+      <!-- =================================================== -->
+      <!-- SINGLE WISHLIST ITEM -->
+      <!-- =================================================== -->
+
+      <div class="wishlist-item" *ngFor="let item of wishlistItems; trackBy: trackByWishlist">
+        <!-- ================================================= -->
+        <!-- BOOK IMAGE -->
+        <!-- ================================================= -->
+
+        <div class="book-image-wrapper" (click)="viewBook(item.book_id)">
+          <img
+            class="book-image"
+            [src]="item.image"
+            [alt]="item.title"
+            (error)="onImageError($event)"
+          />
+
+          <!-- OUT OF STOCK LABEL -->
+
+          <div class="out-stock-overlay" *ngIf="item.stock <= 0">OUT OF STOCK</div>
+        </div>
+
+        <!-- ================================================= -->
+        <!-- BOOK INFORMATION -->
+        <!-- ================================================= -->
+
+        <div class="book-info">
+          <!-- STOCK -->
+
+          <div
+            class="stock-status"
+            [class.in-stock]="item.stock > 0"
+            [class.out-stock]="item.stock <= 0"
+          >
+            <span class="stock-dot"></span>
+
+            {{ item.stock > 0 ? 'In Stock' : 'Out of Stock' }}
+          </div>
+
+          <!-- TITLE -->
+
+          <h3 class="book-title" (click)="viewBook(item.book_id)">
+            {{ item.title }}
+          </h3>
+
+          <!-- AUTHOR -->
+
+          <p class="book-author">
+            by
+
+            <span>
+              {{ item.author }}
+            </span>
+          </p>
+
+          <!-- CATEGORY -->
+
+          <div class="book-category" *ngIf="item.category_name">
+            {{ item.category_name }}
+          </div>
+
+          <!-- RATING -->
+
+          <div class="rating-row" *ngIf="item.rating">
+            <span class="rating-badge">
+              {{ item.rating | number: '1.1-1' }}
+
+              <i class="bi bi-star-fill"></i>
+            </span>
+
+            <span class="rating-text"> Customer Rating </span>
+          </div>
+
+          <!-- PRICE -->
+
+          <div class="price-row">
+            <span class="current-price"> ₹{{ item.price | number: '1.0-2' }} </span>
+          </div>
+        </div>
+
+        <!-- ================================================= -->
+        <!-- ACTION AREA -->
+        <!-- ================================================= -->
+
+        <div class="wishlist-actions">
+          <!-- REMOVE ICON -->
+
+          <button
+            type="button"
+            class="remove-icon-btn"
+            title="Remove from wishlist"
+            aria-label="Remove from wishlist"
+            (click)="removeFromWishlist(item.book_id)"
+          >
+            <i class="bi bi-trash3"></i>
+          </button>
+
+          <!-- ADD TO CART -->
+
+          <button
+            *ngIf="item.stock > 0"
+            type="button"
+            class="add-cart-btn"
+            (click)="moveToCart(item.book_id)"
+          >
+            <i class="bi bi-cart-plus"></i>
+
+            ADD TO CART
+          </button>
+
+          <!-- OUT OF STOCK -->
+
+          <button *ngIf="item.stock <= 0" type="button" class="out-stock-btn" disabled>
+            OUT OF STOCK
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM CONTINUE SHOPPING -->
+
+    <div class="wishlist-footer" *ngIf="!loading && hasWishlistItems">
+      <button type="button" class="footer-shopping-btn" (click)="continueShopping()">
+        <i class="bi bi-arrow-left"></i>
+
+        Continue Shopping
+      </button>
+    </div>
+  </div>
+</div>

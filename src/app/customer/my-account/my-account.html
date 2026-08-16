@@ -1,0 +1,132 @@
+<section class="main-account">
+  <section class="account-page">
+    <!-- 
+       PAGE HEADER
+   -->
+
+    <div class="page-header">
+      <h1>My Account</h1>
+      <p>Manage your profile information and keep your account up to date.</p>
+    </div>
+
+    <!-- 
+       LOADING
+   -->
+
+    <div class="loading-container" *ngIf="loading">
+      <div class="spinner"></div>
+      <p>Loading profile...</p>
+    </div>
+
+    <!-- 
+       PROFILE CARD
+   -->
+
+    <div class="account-card" *ngIf="!loading && profile">
+      <!-- 
+         LEFT SIDE
+     -->
+
+      <div class="profile-left">
+        <img [src]="profileImageUrl" alt="Profile Image" class="profile-image" />
+
+        <input type="file" accept="image/*" (change)="onFileSelected($event)" />
+
+        <button
+          type="button"
+          class="upload-btn"
+          (click)="uploadAvatar()"
+          [disabled]="!selectedFile || uploading"
+        >
+          {{ uploading ? 'Uploading...' : 'Upload Photo' }}
+        </button>
+      </div>
+
+      <!-- 
+         RIGHT SIDE
+     -->
+
+      <div class="profile-right">
+        <!-- Full Name -->
+
+        <div class="form-group">
+          <label>Full Name</label>
+
+          <input
+            type="text"
+            [(ngModel)]="profileData.full_name"
+            placeholder="Enter your full name"
+          />
+        </div>
+
+        <!-- Email -->
+
+        <div class="form-group">
+          <label>Email Address</label>
+
+          <input type="email" [value]="profile.email" readonly />
+        </div>
+
+        <!-- Phone -->
+
+        <div class="form-group">
+          <label>Phone Number</label>
+
+          <input type="text" [(ngModel)]="profileData.phone" placeholder="Enter phone number" />
+        </div>
+
+        <!-- Role -->
+
+        <div class="form-group">
+          <label>Role</label>
+
+          <input type="text" [value]="profile.role" readonly />
+        </div>
+
+        <!-- Member Since -->
+
+        <div class="form-group">
+          <label>Member Since</label>
+
+          <input type="text" [value]="profile.joined_date | date: 'dd MMM yyyy'" readonly />
+        </div>
+
+        <!-- Verification -->
+
+        <div class="form-group">
+          <label>Verification Status</label>
+
+          <span *ngIf="profile.is_verified" class="verified"> ✔ Verified </span>
+
+          <span *ngIf="!profile.is_verified" class="not-verified"> ✖ Not Verified </span>
+        </div>
+
+        <!-- Success Message -->
+
+        <div class="success-message" *ngIf="successMessage">
+          {{ successMessage }}
+        </div>
+
+        <!-- Error Message -->
+
+        <div class="error-message" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+
+        <!-- Save Button -->
+
+        <button type="button" class="save-btn" (click)="saveProfile()" [disabled]="saving">
+          {{ saving ? 'Saving...' : 'Save Changes' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- 
+       NO PROFILE FOUND
+   -->
+
+    <div class="loading-container" *ngIf="!loading && !profile">
+      <h3>No profile data found.</h3>
+    </div>
+  </section>
+</section>

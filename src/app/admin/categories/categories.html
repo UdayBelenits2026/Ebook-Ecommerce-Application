@@ -1,0 +1,112 @@
+<div class="admin-categories">
+  <!-- Header -->
+  <header class="page-header">
+    <h1 style="font-weight: 900; font-size: 30px">Manage Categories</h1>
+    <p class="subtitle">Create and manage book categories.</p>
+  </header>
+
+  <!-- Create Category Form -->
+  <section class="create-section">
+    <div class="create-card">
+      <h2>Add New Category</h2>
+      <div class="create-form">
+        <div class="field">
+          <input
+            name="name"
+            [(ngModel)]="createModel().name"
+            placeholder="Category name"
+            required
+            #catName="ngModel"
+          />
+        </div>
+        <div class="field">
+          <input
+            name="description"
+            [(ngModel)]="createModel().description"
+            placeholder="Short description"
+          />
+        </div>
+        <div class="field">
+          <input
+            type="file"
+            accept="image/*"
+            (change)="categoryImage.set($event.target.files?.[0] || null)"
+          />
+        </div>
+        <button class="btn primary" (click)="onCreate()" [disabled]="isCreating()">
+          {{ isCreating() ? 'Creating...' : 'Create Category' }}
+        </button>
+      </div>
+
+      <!-- Create Success -->
+      <div class="msg success" *ngIf="createSuccess()">✓ Category created successfully!</div>
+
+      <!-- Create Error -->
+      <div class="msg error" *ngIf="createError() as errMsg" (click)="clearCreateError()">
+        ⚠ {{ errMsg }}
+      </div>
+    </div>
+  </section>
+
+  <!-- Delete Error -->
+  <div class="msg error" *ngIf="deleteError() as delErr">⚠ {{ delErr }}</div>
+
+  <!-- Loading State -->
+  <section class="loading-state" *ngIf="isLoading()">
+    <div class="spinner"></div>
+    <p>Loading categories...</p>
+  </section>
+
+  <!-- Error State -->
+  <section class="error-state" *ngIf="error() as errMsg">
+    <div class="error-card">
+      <h3>Something went wrong</h3>
+      <p>{{ errMsg }}</p>
+      <button class="btn primary" (click)="retry()">Try again</button>
+    </div>
+  </section>
+
+  <!-- Categories Table -->
+  <section class="list-section" *ngIf="!isLoading() && !error()">
+    <h2>All Categories</h2>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="isEmpty()">
+      <p>No categories yet. Create one above.</p>
+    </div>
+
+    <!-- Table -->
+    <div class="table-responsive" *ngIf="!isEmpty()">
+      <table class="categories-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Books</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cat of categories(); let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>
+              <span class="cat-name">{{ cat.name }}</span>
+            </td>
+            <td class="desc-cell">{{ cat.description || '—' }}</td>
+            <td>{{ cat.count || 0 }}</td>
+            <td>
+              <button
+                class="btn danger small"
+                (click)="onDelete(cat.id)"
+                [disabled]="deletingId() === cat.id"
+              >
+                {{ deletingId() === cat.id ? 'Deleting...' : 'Delete' }}
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>

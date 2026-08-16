@@ -1,0 +1,226 @@
+<!-- 
+     SUCCESS TOAST 
+=-->
+
+<div class="review-toast" *ngIf="showToast">
+  <i class="bi bi-check-circle-fill"></i>
+
+  <span>
+    {{ toastMessage }}
+  </span>
+</div>
+
+<!-- 
+     REVIEW SUMMARY 
+=-->
+
+<div class="reviews-summary">
+  <div class="summary-left">
+    <div class="summary-rating">
+      <strong>
+        {{ summary?.average_rating ?? 0 | number: '1.1-1' }}
+      </strong>
+
+      <div class="summary-stars">
+        <i
+          *ngFor="let filled of getRatingStars(summary?.average_rating ?? 0)"
+          class="bi"
+          [class.bi-star-fill]="filled"
+          [class.bi-star]="!filled"
+        ></i>
+      </div>
+
+      <span> {{ summary?.review_count ?? 0 }} Reviews </span>
+    </div>
+  </div>
+
+  <div class="summary-distribution">
+    <div class="rating-row" *ngFor="let rating of [5, 4, 3, 2, 1]">
+      <span class="rating-number">
+        {{ rating }}
+      </span>
+
+      <i class="bi bi-star-fill rating-small-star"></i>
+
+      <div class="rating-bar">
+        <div class="rating-bar-fill" [style.width.%]="getRatingPercentage(rating)"></div>
+      </div>
+
+      <span class="rating-count">
+        {{ getRatingCount(rating) }}
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- 
+     ADD REVIEW 
+=-->
+
+<div class="write-review">
+  <h3>Write a Review</h3>
+
+  <p class="review-subtitle">Share your experience with this book.</p>
+
+  <!-- RATING -->
+
+  <div class="rating-selector">
+    <span> Your Rating </span>
+
+    <div class="select-stars">
+      <button
+        type="button"
+        *ngFor="let star of [1, 2, 3, 4, 5]"
+        (click)="selectRating(star)"
+        [attr.aria-label]="'Give ' + star + ' stars'"
+        class="rating-star-button"
+      >
+        <i class="bi" [ngClass]="getStarClass(star, selectedRating)"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- COMMENT -->
+
+  <div class="review-input">
+    <label for="reviewText"> Your Review </label>
+
+    <textarea
+      id="reviewText"
+      [(ngModel)]="reviewText"
+      rows="4"
+      maxlength="1000"
+      placeholder="Write your review..."
+    ></textarea>
+
+    <small> {{ reviewText.length }}/1000 </small>
+  </div>
+
+  <!-- ERROR -->
+
+  <div class="review-message error" *ngIf="errorMessage">
+    <i class="bi bi-exclamation-circle"></i>
+
+    {{ errorMessage }}
+  </div>
+
+  <!-- SUCCESS -->
+
+  <div class="review-message success" *ngIf="successMessage">
+    <i class="bi bi-check-circle"></i>
+
+    {{ successMessage }}
+  </div>
+
+  <!-- SUBMIT -->
+
+  <button type="button" class="submit-review-btn" [disabled]="submitting" (click)="submitReview()">
+    <span *ngIf="submitting" class="spinner-border spinner-border-sm"></span>
+
+    <span>
+      {{ submitting ? 'Submitting...' : 'Submit Review' }}
+    </span>
+  </button>
+</div>
+
+<!-- 
+     CUSTOMER REVIEWS 
+=-->
+
+<div class="customer-reviews">
+  <div class="reviews-heading">
+    <h3>Customer Reviews</h3>
+
+    <span> {{ reviews.length }} Reviews </span>
+  </div>
+
+  <!-- LOADING -->
+
+  <div class="reviews-loading" *ngIf="reviewsLoading">
+    <div class="spinner-border"></div>
+
+    <span> Loading reviews... </span>
+  </div>
+
+  <!-- EMPTY -->
+
+  <div class="reviews-empty" *ngIf="!reviewsLoading && !reviews.length">
+    <i class="bi bi-chat-square-text"></i>
+
+    <h4>No reviews yet</h4>
+
+    <p>Be the first person to review this book.</p>
+  </div>
+
+  <!-- REVIEW LIST -->
+
+  <div class="review-card" *ngFor="let review of paginatedReviews">
+    <!-- USER -->
+
+    <div class="review-user">
+      <img
+        [src]="getProfileImage(review.profile_image)"
+        [alt]="review.full_name"
+        (error)="onProfileImageError($event)"
+      />
+
+      <div>
+        <h4>
+          {{ review.full_name }}
+        </h4>
+
+        <span>
+          {{ formatDate(review.created_at) }}
+        </span>
+      </div>
+    </div>
+
+    <!-- RATING -->
+
+    <div class="review-rating">
+      <i
+        *ngFor="let filled of getRatingStars(review.rating)"
+        class="bi"
+        [class.bi-star-fill]="filled"
+        [class.bi-star]="!filled"
+      ></i>
+    </div>
+
+    <!-- COMMENT -->
+
+    <p class="review-comment">
+      {{ review.review }}
+    </p>
+  </div>
+
+  <!-- PAGINATION -->
+  <div class="reviews-pagination" *ngIf="totalPages > 1 && !reviewsLoading">
+    <button
+      type="button"
+      class="pagination-btn"
+      [disabled]="currentPage === 1"
+      (click)="goToPreviousPage()"
+    >
+      Previous
+    </button>
+
+    <button
+      type="button"
+      *ngFor="let page of pageNumbers"
+      class="pagination-btn page-number"
+      [class.active]="currentPage === page"
+      (click)="goToPage(page)"
+    >
+      {{ page }}
+    </button>
+
+    <button
+      type="button"
+      class="pagination-btn"
+      [disabled]="currentPage === totalPages"
+      (click)="goToNextPage()"
+    >
+      Next
+    </button>
+  </div>
+</div>

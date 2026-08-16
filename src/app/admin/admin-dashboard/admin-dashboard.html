@@ -1,0 +1,98 @@
+<section class="dashboard-container">
+  <div class="dashboard-header">
+    <div>
+      <h2>Admin Dashboard</h2>
+      <p>Book Store Management System</p>
+    </div>
+
+    <button class="refresh-btn" (click)="refreshDashboard()">Refresh</button>
+  </div>
+
+  @if (isLoading()) {
+    <div class="loading">Loading Dashboard...</div>
+  }
+
+  @if (errorMessage()) {
+    <div class="error">
+      {{ errorMessage() }}
+    </div>
+  }
+
+  @if (dashboardStatistics()) {
+    <div class="dashboard-cards">
+      <div class="card users">
+        <h3>Total Users</h3>
+
+        <h1>
+          {{ dashboardStatistics()?.total_users }}
+        </h1>
+      </div>
+
+      <div class="card books">
+        <h3>Total Books</h3>
+
+        <h1>
+          {{ dashboardStatistics()?.total_books }}
+        </h1>
+      </div>
+
+      <div class="card categories">
+        <h3>Total Categories</h3>
+
+        <h1>
+          {{ dashboardStatistics()?.total_categories }}
+        </h1>
+      </div>
+
+      <div class="card orders">
+        <h3>Total Orders</h3>
+
+        <h1>
+          {{ dashboardStatistics()?.total_orders }}
+        </h1>
+      </div>
+
+      <div class="card revenue">
+        <h3>Total Revenue</h3>
+
+        <h1>₹{{ dashboardStatistics()?.total_revenue }}</h1>
+      </div>
+    </div>
+  }
+
+  <div class="low-stock-section">
+    <h2>Low Stock Books</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+
+          <th>Book Title</th>
+
+          <th>Stock</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (book of lowStockBooks(); track book.id) {
+          <tr>
+            <td>
+              {{ book.id }}
+            </td>
+
+            <td>
+              {{ book.title }}
+            </td>
+
+            <td>
+              <span class="stock-badge">
+                {{ book.stock }}
+              </span>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>

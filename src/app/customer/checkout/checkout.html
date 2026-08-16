@@ -1,0 +1,491 @@
+<div class="checkout-page">
+  <div class="container py-4">
+    <!--  -->
+    <!-- PAGE HEADER -->
+    <!--  -->
+
+    <div class="checkout-header mb-4">
+      <h2>
+        <i class="bi bi-bag-check-fill me-2"></i>
+        Checkout
+      </h2>
+
+      <p class="text-muted">Review your order and complete your purchase.</p>
+    </div>
+
+    <!-- Success -->
+
+    <div *ngIf="successMessage" class="alert alert-success">
+      <i class="bi bi-check-circle-fill me-2"></i>
+
+      {{ successMessage }}
+    </div>
+
+    <!-- Error -->
+
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+
+      {{ errorMessage }}
+    </div>
+
+    <!-- Empty Cart -->
+
+    <div *ngIf="isCartEmpty" class="card shadow-sm">
+      <div class="card-body text-center py-5">
+        <i class="bi bi-cart-x display-3 text-secondary"> </i>
+
+        <h4 class="mt-3">Your cart is empty</h4>
+
+        <p class="text-muted">Add some books before checkout.</p>
+
+        <a routerLink="/books" class="btn btn-primary" style="height: fit-content">
+          Continue Shopping
+        </a>
+      </div>
+    </div>
+
+    <!--  -->
+    <!-- CHECKOUT CONTENT -->
+    <!--  -->
+
+    <div *ngIf="!isCartEmpty" class="row g-4">
+      <!-- LEFT SIDE -->
+
+      <div class="col-lg-8">
+        <!-- DELIVERY ADDRESS -->
+
+        <div class="checkout-card mb-4">
+          <div class="card-header-custom">
+            <h5>
+              <i class="bi bi-geo-alt-fill me-2"></i>
+
+              Delivery Address
+            </h5>
+
+            <button class="btn btn-primary btn-sm" (click)="openAddAddressModal()">
+              <i class="bi bi-plus-lg"></i>
+
+              Add Address
+            </button>
+          </div>
+
+          <div class="card-body">
+            <div *ngIf="loadingAddresses" class="text-center py-5">
+              <div class="spinner-border text-primary"></div>
+            </div>
+
+            <div *ngIf="!loadingAddresses">
+              <div
+                *ngFor="let address of addresses; trackBy: trackByAddress"
+                class="address-card"
+                [class.active]="selectedAddressId === address.id"
+                (click)="selectAddress(address)"
+              >
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <div class="d-flex align-items-center">
+                      <input
+                        type="radio"
+                        class="form-check-input me-3"
+                        [checked]="selectedAddressId === address.id"
+                      />
+
+                      <h6 class="mb-0">
+                        {{ address.full_name }}
+                      </h6>
+
+                      <span *ngIf="address.is_default" class="badge bg-success ms-2">
+                        Default
+                      </span>
+                    </div>
+
+                    <p class="mb-1 mt-2">
+                      {{ address.house_no }}
+
+                      {{ address.street }}
+                    </p>
+
+                    <p class="mb-1">
+                      {{ address.area }}
+                    </p>
+
+                    <p class="mb-1">
+                      {{ address.village_city }}
+
+                      {{ address.district }}
+                    </p>
+
+                    <p class="mb-1">
+                      {{ address.state }}
+
+                      -
+
+                      {{ address.pincode }}
+                    </p>
+
+                    <small>
+                      <strong> Mobile : </strong>
+
+                      {{ address.mobile }}
+                    </small>
+                  </div>
+
+                  <div class="address-actions">
+                    <button
+                      class="btn btn-light btn-sm mb-2"
+                      (click)="openEditAddressModal(address); $event.stopPropagation()"
+                    >
+                      <i class="bi bi-pencil"></i>
+                    </button>
+
+                    <button
+                      class="btn btn-light btn-sm"
+                      (click)="deleteAddress(address); $event.stopPropagation()"
+                    >
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SHOPPING CART -->
+
+        <div class="checkout-card">
+          <div class="card-header-custom">
+            <h5>
+              <i class="bi bi-cart3 me-2"></i>
+
+              Shopping Cart
+
+              <span class="badge bg-primary ms-2">
+                {{ totalItems }}
+              </span>
+            </h5>
+          </div>
+
+          <div class="card-body">
+            <div *ngIf="loadingCart" class="text-center py-5">
+              <div class="spinner-border"></div>
+            </div>
+
+            <div *ngFor="let item of cartItems; trackBy: trackByCart" class="cart-item">
+              <img
+                [src]="item.image || 'assets/images/no-book.png'"
+                class="book-image"
+                [alt]="item.title"
+              />
+
+              <div class="book-info">
+                <h5>
+                  {{ item.title }}
+                </h5>
+
+                <p>
+                  {{ item.author }}
+                </p>
+
+                <span class="badge bg-light text-dark">
+                  {{ item.category_name }}
+                </span>
+              </div>
+
+              <div class="quantity-box">
+                Qty
+
+                <strong>
+                  {{ item.quantity }}
+                </strong>
+              </div>
+
+              <div class="price-box">
+                <div>
+                  {{ formatCurrency(item.price) }}
+                </div>
+
+                <strong>
+                  {{ formatCurrency(item.price * item.quantity) }}
+                </strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--  -->
+      <!-- RIGHT SIDE -->
+      <!--  -->
+
+      <div class="col-lg-4">
+        <div class="order-summary sticky-top">
+          <!-- PAYMENT METHODS -->
+
+          <div class="checkout-card mb-4">
+            <div class="card-header-custom">
+              <h5>
+                <i class="bi bi-credit-card-fill me-2"></i>
+
+                Payment Method
+              </h5>
+            </div>
+
+            <div class="card-body">
+              <div
+                *ngFor="let method of paymentMethods"
+                class="payment-card"
+                [class.active]="isPaymentSelected(method.value)"
+                (click)="selectPayment(method.value)"
+              >
+                <div class="payment-left">
+                  <i class="bi" [ngClass]="method.icon"> </i>
+
+                  <div>
+                    <h6 class="mb-1">
+                      {{ method.title }}
+                    </h6>
+
+                    <small class="text-muted"> Pay using {{ method.title }} </small>
+                  </div>
+                </div>
+
+                <input
+                  type="radio"
+                  class="form-check-input"
+                  [checked]="isPaymentSelected(method.value)"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- ORDER SUMMARY -->
+
+          <div class="checkout-card">
+            <div class="card-header-custom">
+              <h5>
+                <i class="bi bi-receipt-cutoff me-2"></i>
+
+                Order Summary
+              </h5>
+            </div>
+
+            <div class="card-body">
+              <div class="summary-row">
+                <span> Items </span>
+
+                <strong>
+                  {{ totalItems }}
+                </strong>
+              </div>
+
+              <div class="summary-row">
+                <span> Subtotal </span>
+
+                <strong>
+                  {{ formatCurrency(subtotal) }}
+                </strong>
+              </div>
+
+              <div class="summary-row">
+                <span> Shipping </span>
+
+                <strong>
+                  {{ formatCurrency(shipping) }}
+                </strong>
+              </div>
+
+              <hr />
+
+              <div class="summary-total">
+                <span> Grand Total </span>
+
+                <strong>
+                  {{ formatCurrency(grandTotal) }}
+                </strong>
+              </div>
+
+              <button
+                class="btn btn-primary btn-lg w-100 mt-4 place-order-btn"
+                [disabled]="!canPlaceOrder()"
+                (click)="placeOrder()"
+              >
+                <span *ngIf="!placingOrder">
+                  <i class="bi bi-bag-check-fill me-2"></i>
+
+                  Place Order
+                </span>
+
+                <span *ngIf="placingOrder">
+                  <span class="spinner-border spinner-border-sm me-2"> </span>
+
+                  Placing Order...
+                </span>
+              </button>
+
+              <div class="secure-checkout mt-4">
+                <i class="bi bi-shield-lock-fill text-success me-2"></i>
+
+                <small class="text-muted">
+                  Secure checkout. Your order information is protected.
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--  -->
+      <!-- ADDRESS MODAL -->
+      <!--  -->
+
+      <div *ngIf="showAddressModal" class="modal-backdrop-custom">
+        <div class="address-modal">
+          <!-- Header -->
+
+          <div class="modal-header-custom">
+            <h4>
+              <i class="bi bi-geo-alt-fill me-2"></i>
+
+              {{ editingAddress ? 'Edit Address' : 'Add New Address' }}
+            </h4>
+
+            <button type="button" class="btn-close" (click)="cancelAddress()"></button>
+          </div>
+
+          <!-- Body -->
+
+          <div class="modal-body-custom">
+            <div class="row">
+              <!-- Full Name -->
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label"> Full Name </label>
+
+                <input type="text" class="form-control" [(ngModel)]="addressForm.full_name" />
+              </div>
+
+              <!-- Mobile -->
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label"> Mobile Number </label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  maxlength="10"
+                  [(ngModel)]="addressForm.mobile"
+                />
+              </div>
+
+              <!-- House -->
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label"> House / Flat No. </label>
+
+                <input type="text" class="form-control" [(ngModel)]="addressForm.house_no" />
+              </div>
+
+              <!-- Street -->
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label"> Street </label>
+
+                <input type="text" class="form-control" [(ngModel)]="addressForm.street" />
+              </div>
+
+              <!-- Area -->
+
+              <div class="col-12 mb-3">
+                <label class="form-label"> Area / Locality </label>
+
+                <input type="text" class="form-control" [(ngModel)]="addressForm.area" />
+              </div>
+
+              <!-- City -->
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label"> Village / City </label>
+
+                <input type="text" class="form-control" [(ngModel)]="addressForm.village_city" />
+              </div>
+
+              <!-- District -->
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label"> District </label>
+
+                <input type="text" class="form-control" [(ngModel)]="addressForm.district" />
+              </div>
+
+              <!-- State -->
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label"> State </label>
+
+                <input type="text" class="form-control" [(ngModel)]="addressForm.state" />
+              </div>
+
+              <!-- Pincode -->
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label"> Pincode </label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  maxlength="6"
+                  [(ngModel)]="addressForm.pincode"
+                />
+              </div>
+
+              <!-- Landmark -->
+
+              <div class="col-12 mb-3">
+                <label class="form-label"> Landmark </label>
+
+                <input type="text" class="form-control" [(ngModel)]="addressForm.landmark" />
+              </div>
+
+              <!-- Default -->
+
+              <div class="col-12">
+                <div class="form-check">
+                  <input
+                    id="defaultAddress"
+                    type="checkbox"
+                    class="form-check-input"
+                    [(ngModel)]="addressForm.is_default"
+                  />
+
+                  <label class="form-check-label" for="defaultAddress">
+                    Set as Default Address
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer -->
+
+          <div class="modal-footer-custom">
+            <button class="btn btn-outline-secondary" (click)="cancelAddress()">Cancel</button>
+
+            <button class="btn btn-primary" [disabled]="savingAddress" (click)="saveAddress()">
+              <span *ngIf="!savingAddress">
+                <i class="bi bi-check-circle-fill me-2"></i>
+
+                {{ editingAddress ? 'Update Address' : 'Save Address' }}
+              </span>
+
+              <span *ngIf="savingAddress">
+                <span class="spinner-border spinner-border-sm me-2"> </span>
+
+                Saving...
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

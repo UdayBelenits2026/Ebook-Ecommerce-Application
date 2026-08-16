@@ -1,0 +1,590 @@
+<section class="main-book">
+  <!--
+    LOADING
+-->
+
+  <div class="loading-wrapper" *ngIf="loading">
+    <div class="loader"></div>
+
+    <p>Loading Book...</p>
+  </div>
+
+  <!--
+    ERROR
+-->
+
+  <div class="error-wrapper" *ngIf="!loading && error">
+    <h2>Oops!</h2>
+
+    <p>{{ error }}</p>
+
+    <button class="back-btn" (click)="goBack()">Go Back</button>
+  </div>
+
+  <!--
+    BOOK DETAILS
+-->
+
+  <div class="details-page" *ngIf="!loading && !error && book">
+    <!--
+        PRODUCT WRAPPER
+    =-->
+
+    <section class="product-wrapper">
+      <!--=============
+            LEFT SIDE
+        ==============-->
+
+      <div class="left-column">
+        <!--=========
+                MAIN IMAGE
+            ==========-->
+
+        <div class="image-preview">
+          <img
+            [src]="selectedImage || imageUrl"
+            [alt]="book.title"
+            (error)="onImageError($event)"
+          />
+        </div>
+        <div class="delivery-box">
+          <div class="delivery-item">
+            <div class="delivery-icon">🚚</div>
+
+            <div>
+              <h4>Free Delivery</h4>
+
+              <p>Delivery available within 3–5 business days.</p>
+            </div>
+          </div>
+
+          <div class="delivery-item">
+            <div class="delivery-icon">🔒</div>
+
+            <div>
+              <h4>Secure Payment</h4>
+
+              <p>Your payment information is securely protected.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--=============
+            RIGHT SIDE
+        ==============-->
+
+      <div class="right-column">
+        <!--=========
+                AUTHOR
+            ==========-->
+
+        <p class="book-author">
+          {{ book.author }}
+        </p>
+
+        <!--=========
+                TITLE
+            ==========-->
+
+        <h1 class="book-title">
+          {{ book.title }}
+        </h1>
+
+        <!--=========
+                RATING
+            ==========-->
+
+        <div class="rating-section">
+          <div class="stars">
+            <span *ngFor="let filled of getStars(book.rating)">
+              {{ filled ? '★' : '☆' }}
+            </span>
+          </div>
+
+          <span class="rating-value">
+            {{ formatRating(book.rating) }}
+          </span>
+
+          <span class="reviews"> ({{ book.review_count }} Reviews) </span>
+        </div>
+
+        <!--=========
+                PRICE
+            ==========-->
+
+        <div class="price-section">
+          <span class="price">
+            {{ formatPrice(book.price) }}
+          </span>
+        </div>
+
+        <hr class="divider" />
+        <!--=========
+                BOOK INFORMATION
+            ==========-->
+
+        <div class="book-meta">
+          <div class="meta-item">
+            <span class="label"> Publisher </span>
+
+            <span class="value">
+              {{ book.publisher || '-' }}
+            </span>
+          </div>
+
+          <div class="meta-item">
+            <span class="label"> Category </span>
+
+            <span class="value">
+              {{ categoryName }}
+            </span>
+          </div>
+
+          <div class="meta-item">
+            <span class="label"> ISBN </span>
+
+            <span class="value">
+              {{ book.isbn || '-' }}
+            </span>
+          </div>
+
+          <div class="meta-item">
+            <span class="label"> Language </span>
+
+            <span class="value">
+              {{ book.language || '-' }}
+            </span>
+          </div>
+
+          <div class="meta-item">
+            <span class="label"> Pages </span>
+
+            <span class="value">
+              {{ book.pages || '-' }}
+            </span>
+          </div>
+
+          <div class="meta-item">
+            <span class="label"> Availability </span>
+
+            <span class="value stock" [class.out]="book.stock == 0">
+              {{ stockStatus }}
+            </span>
+          </div>
+        </div>
+
+        <hr class="divider" />
+
+        <!--=========
+                QUANTITY
+            ==========-->
+
+        <div class="purchase-row">
+          <div class="quantity-wrapper">
+            <span class="qty-title"> Quantity </span>
+
+            <div class="quantity-box">
+              <button type="button" (click)="decreaseQuantity()" [disabled]="quantity <= 1">
+                −
+              </button>
+
+              <input type="text" [value]="quantity" readonly />
+
+              <button
+                type="button"
+                (click)="increaseQuantity()"
+                [disabled]="!canIncreaseQuantity()"
+              >
+                +
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <hr class="divider" />
+
+        <!--=========
+                ACTIONS
+            ==========-->
+
+        <div class="action-grid">
+          <button class="outline-btn" (click)="toggleWishlist()">
+            <span *ngIf="book.in_wishlist"> ❤ Remove Wishlist </span>
+
+            <span *ngIf="!book.in_wishlist"> ♡ Add Wishlist </span>
+          </button>
+
+          <button class="outline-btn" (click)="shareBook()">⤴ Share</button>
+        </div>
+
+        <!--=========
+                ADD TO CART
+            ==========-->
+
+        <button class="cart-button" (click)="addToCart()" [disabled]="isOutOfStock()">
+          🛒 Add To Cart
+        </button>
+
+        <!--=========
+                DELIVERY
+            ==========-->
+
+        <!-- <div class="delivery-box">
+
+                <div class="delivery-item">
+
+                    <div class="delivery-icon">
+
+                        🚚
+
+                    </div>
+
+                    <div>
+
+                        <h4>
+
+                            Free Delivery
+
+                        </h4>
+
+                        <p>
+
+                            Delivery available within 3–5 business days.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="delivery-item">
+
+                    <div class="delivery-icon">
+
+                        🔒
+
+                    </div>
+
+                    <div>
+
+                        <h4>
+
+                            Secure Payment
+
+                        </h4>
+
+                        <p>
+
+                            Your payment information is securely protected.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div> -->
+      </div>
+    </section>
+    <!--
+    PRODUCT INFORMATION
+-->
+
+    <section class="details-section">
+      <!--==============
+        TAB HEADER
+    ===============-->
+
+      <div class="tab-menu">
+        <button [class.active]="selectedTab === 'description'" (click)="changeTab('description')">
+          Description
+        </button>
+
+        <button
+          [class.active]="selectedTab === 'specifications'"
+          (click)="changeTab('specifications')"
+        >
+          Specifications
+        </button>
+
+        <button [class.active]="selectedTab === 'reviews'" (click)="changeTab('reviews')">
+          Ratings & Reviews
+        </button>
+      </div>
+
+      <!--==============
+        DESCRIPTION
+    ===============-->
+
+      <div class="tab-panel" *ngIf="selectedTab === 'description'">
+        <div class="content-grid">
+          <!-- LEFT -->
+
+          <div class="description-box">
+            <h2>Description</h2>
+
+            <p>
+              {{ book.description || 'No description available.' }}
+            </p>
+          </div>
+
+          <!-- RIGHT -->
+
+          <div class="rating-box">
+            <h2>Customer Rating</h2>
+
+            <div class="rating-score">
+              {{ formatRating(book.rating) }}
+            </div>
+
+            <div class="rating-stars">
+              <span *ngFor="let filled of getStars(book.rating)">
+                {{ filled ? '★' : '☆' }}
+              </span>
+            </div>
+
+            <p>
+              {{ book.review_count }}
+
+              Reviews
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!--==============
+        SPECIFICATIONS
+    ===============-->
+
+      <div class="tab-panel" *ngIf="selectedTab === 'specifications'">
+        <table class="book-table">
+          <tr>
+            <th>Book Name</th>
+
+            <td>{{ book.title }}</td>
+          </tr>
+
+          <tr>
+            <th>Author</th>
+
+            <td>{{ book.author }}</td>
+          </tr>
+
+          <tr>
+            <th>Category</th>
+
+            <td>{{ categoryName }}</td>
+          </tr>
+
+          <tr>
+            <th>Publisher</th>
+
+            <td>{{ book.publisher || '-' }}</td>
+          </tr>
+
+          <tr>
+            <th>ISBN</th>
+
+            <td>{{ book.isbn || '-' }}</td>
+          </tr>
+
+          <tr>
+            <th>Language</th>
+
+            <td>{{ book.language || '-' }}</td>
+          </tr>
+
+          <tr>
+            <th>Pages</th>
+
+            <td>{{ book.pages || '-' }}</td>
+          </tr>
+
+          <tr>
+            <th>Price</th>
+
+            <td>{{ formatPrice(book.price) }}</td>
+          </tr>
+
+          <tr>
+            <th>Stock</th>
+
+            <td>{{ book.stock }}</td>
+          </tr>
+        </table>
+      </div>
+
+      <!--==============
+        REVIEWS
+    ===============-->
+
+      <div class="tab-panel" *ngIf="selectedTab === 'reviews'">
+        <div class="review-layout">
+          <div class="review-summary">
+            <div class="big-rating">
+              {{ formatRating(book.rating) }}
+            </div>
+
+            <div class="review-stars">
+              <span *ngFor="let filled of getStars(book.rating)">
+                {{ filled ? '★' : '☆' }}
+              </span>
+            </div>
+
+            <p>
+              Based on
+              {{ book.review_count }}
+              customer reviews
+            </p>
+          </div>
+          <app-book-reviews [bookId]="book.id"></app-book-reviews>
+        </div>
+      </div>
+    </section>
+    <!--
+    YOU MAY ALSO LIKE
+-->
+
+    <!-- 
+     RELATED BOOKS
+= -->
+
+    <section class="related-section" *ngIf="relatedBooks.length">
+      <!-- SECTION HEADER -->
+
+      <div class="section-header">
+        <h2>You May Also Like</h2>
+
+        <a routerLink="/books" class="view-all"> View All </a>
+      </div>
+
+      <!-- =
+         RELATED BOOK CAROUSEL
+    == -->
+
+      <div class="related-carousel">
+        <!-- LEFT ARROW -->
+
+        <button
+          type="button"
+          class="related-arrow related-arrow-left"
+          (click)="scrollRelatedBooks('left')"
+          aria-label="Previous books"
+        >
+          <i class="bi bi-chevron-left"></i>
+        </button>
+
+        <!-- 
+             BOOK SCROLLER
+        = -->
+
+        <div class="related-products" #relatedBooksScroller>
+          <div class="product-card" *ngFor="let item of relatedBooks; trackBy: trackByBookId">
+            <!-- 
+                     IMAGE
+                = -->
+
+            <div class="product-image" (click)="openBook(item.id)">
+              <img [src]="getBookImage(item)" [alt]="item.title" (error)="onImageError($event)" />
+            </div>
+
+            <!-- 
+                     BODY
+                = -->
+
+            <div class="product-body">
+              <!-- AUTHOR -->
+
+              <p class="product-author">
+                {{ item.author }}
+              </p>
+
+              <!-- TITLE -->
+
+              <h3 class="product-title" (click)="openBook(item.id)">
+                {{ item.title }}
+              </h3>
+
+              <!-- RATING -->
+
+              <div class="card-rating">
+                <span> ⭐ </span>
+
+                <span>
+                  {{ formatRating(item.rating) }}
+                </span>
+
+                <span class="review-text"> ({{ item.review_count }}) </span>
+              </div>
+
+              <!-- PRICE -->
+
+              <div class="card-price">
+                {{ formatPrice(item.price) }}
+              </div>
+
+              <!-- ACTIONS -->
+
+              <div class="card-actions">
+                <!-- WISHLIST -->
+
+                <button
+                  type="button"
+                  class="wishlist-icon"
+                  (click)="toggleRelatedWishlist(item)"
+                  aria-label="Add to wishlist"
+                >
+                  <span *ngIf="item.in_wishlist"> ❤️ </span>
+
+                  <span *ngIf="!item.in_wishlist"> 🤍 </span>
+                </button>
+
+                <!-- CART -->
+
+                <button type="button" class="card-cart" (click)="addRelatedBookToCart(item)">
+                  Add to Cart
+                </button>
+              </div>
+
+              <!-- DETAILS -->
+
+              <button type="button" class="details-btn" (click)="openBook(item.id)">
+                View Details
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT ARROW -->
+
+        <button
+          type="button"
+          class="related-arrow related-arrow-right"
+          (click)="scrollRelatedBooks('right')"
+          aria-label="Next books"
+        >
+          <i class="bi bi-chevron-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <!--
+    NEWSLETTER
+-->
+
+    <section class="newsletter">
+      <div class="newsletter-content">
+        <h2>Stay Updated</h2>
+
+        <p>Get updates about newly released books, exclusive offers and bestseller collections.</p>
+
+        <div class="newsletter-box">
+          <input type="email" placeholder="Enter your email" />
+
+          <button>Subscribe</button>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>

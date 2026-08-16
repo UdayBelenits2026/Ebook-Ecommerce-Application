@@ -1,0 +1,103 @@
+/* Typography & General Styling */
+.font-serif {
+  font-family: 'Georgia', 'Playfair Display', serif;
+}
+.contact-fo{
+  
+  background:
+    radial-gradient(
+      circle at 0 0,
+      rgba(255, 190, 120, 0.15),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 100% 10%,
+      rgba(255, 140, 120, 0.12),
+      transparent 25%
+    ),
+    #f7f7f5;
+}
+.contact-section {
+   background:
+    radial-gradient(
+      circle at 0 0,
+      rgba(255, 190, 120, 0.15),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 100% 10%,
+      rgba(255, 140, 120, 0.12),
+      transparent 25%
+    ),
+    #f7f7f5;
+  min-height: 85vh;
+}
+
+/* Custom Input Field Styling (Black outlines matching Mailchimp design) */
+.custom-input {
+  border: 1px solid #222222;
+  border-radius: 6px;
+  padding: 0.7rem 0.9rem;
+  font-size: 0.95rem;
+  background-color: #ffffff;
+  color: #111111;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.custom-input:focus {
+  border-color: #000000;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15);
+  outline: none;
+}
+
+.custom-input.is-invalid {
+  border-color: #dc3545;
+}
+
+/* Yellow Action Button (Mailchimp Style) */
+.btn-yellow-pill {
+  background-color: #ffe800;
+  border: 1px solid #111111;
+  color: #000000;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-yellow-pill:hover,
+.btn-yellow-pill:focus {
+  background-color: #ebd600;
+  color: #000000;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn-yellow-pill:disabled {
+  background-color: #fff480;
+  border-color: #999999;
+  opacity: 0.7;
+}
+
+/* Dark Support Box */
+.support-card {
+  background-color: #2b2b2b;
+  border-radius: 8px;
+  line-height: 1.6;
+}
+
+/* Information List Spacing */
+.info-list p {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: #444444;
+}
+
+/* Invalid Feedback Tweaks */
+.invalid-feedback {
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+  .contact-section {
+    padding-top: 2rem;
+  }
+}
