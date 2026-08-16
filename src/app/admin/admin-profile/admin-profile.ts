@@ -56,7 +56,7 @@ export class AdminProfileComponent implements OnInit {
         this.phone.set(response.data.phone ?? '');
 
         this.profileImage.set(
-          response.data.profile_image ? `http://127.0.0.1:8000${response.data.profile_image}` : '',
+          response.data.profile_image ? `https://ebook-ecommerce-backend.onrender.com${response.data.profile_image}` : '',
         );
 
         this.isLoading.set(false);

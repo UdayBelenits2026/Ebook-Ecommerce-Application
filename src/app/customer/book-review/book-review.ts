@@ -398,7 +398,7 @@ export class BookReviews implements OnChanges {
       return image;
     }
 
-    return `http://127.0.0.1:8000${image}`;
+    return `https://ebook-ecommerce-backend.onrender.com${image}`;
   }
 
   // IMAGE ERROR

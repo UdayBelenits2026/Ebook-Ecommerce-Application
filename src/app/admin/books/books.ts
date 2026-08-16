@@ -134,7 +134,7 @@ export class AdminBooksComponent implements OnInit {
 
   defaultCoverImage = 'assets/images/no-book.png';
 
-  private readonly apiRoot = 'http://127.0.0.1:8000';
+  private readonly apiRoot = 'https://ebook-ecommerce-backend.onrender.com';
 
   /* 
      ACTIVE TAB
